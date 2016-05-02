@@ -8,6 +8,7 @@ import me.aribon.labywhere.backend.webservice.response.UserResponse;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -25,6 +26,9 @@ public interface AuthApi {
     @POST("register")
     Observable<Response> registration();
 
+//    @GET("account")
+//    Observable<UserResponse> getAccount();
+
     @GET("account")
-    Observable<UserResponse> getAccount();
+    Observable<UserResponse> getAccount(@Header("Authorization") String token);
 }

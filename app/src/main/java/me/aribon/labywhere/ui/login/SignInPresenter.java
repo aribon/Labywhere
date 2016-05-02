@@ -61,7 +61,8 @@ public class SignInPresenter extends BasePresenter<SignInActivity> {
 
     private void startLogin(Map<String, String> credentials) {
 
-        AuthService.createService().login(credentials)
+//        AuthService.createService().login(credentials)
+        AuthService.getInstance().getApi().login(credentials)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<AuthResponse>() {
@@ -89,7 +90,9 @@ public class SignInPresenter extends BasePresenter<SignInActivity> {
     }
 
     private void loadAccount(String token) {
-        AuthService.createService(token).getAccount()
+        token = "Bearer " + token;
+        Log.d(TAG, "loadAccount: token: " + token);
+        AuthService.getInstance().getApi().getAccount(token)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<UserResponse>() {
