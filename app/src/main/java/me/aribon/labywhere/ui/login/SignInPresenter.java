@@ -16,8 +16,6 @@ import me.aribon.labywhere.backend.webservice.response.UserResponse;
 import me.aribon.labywhere.backend.webservice.service.AuthService;
 import me.aribon.labywhere.ui.home.HomeActivity;
 import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created on 24/04/2016
@@ -60,65 +58,55 @@ public class SignInPresenter extends BasePresenter<SignInActivity> {
     }
 
     private void startLogin(Map<String, String> credentials) {
+        AuthService.login(credentials, new Observer<AuthResponse>() {
+            @Override
+            public void onCompleted() {
+                Log.d(TAG, "startLogin onCompleted");
+            }
 
-//        AuthService.createService().login(credentials)
-        AuthService.getInstance().getApi().login(credentials)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<AuthResponse>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "startLogin onCompleted");
-                    }
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "startLogin onError: " + e.getMessage());
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, "startLogin onError: " + e.getMessage());
-                    }
+            @Override
+            public void onNext(AuthResponse authResponse) {
 
-                    @Override
-                    public void onNext(AuthResponse authResponse) {
-
-                        if (authResponse.isError()) {
-                            //TODO set error
-                        } else {
-                            AuthPreferences.setAuthToken(authResponse.getToken()); //Save token in preference
-                            loadAccount(authResponse.getToken()); //Load user data
-                        }
-                    }
-                });
+                if (authResponse.isError()) {
+                    //TODO set error
+                } else {
+                    AuthPreferences.setAuthToken(authResponse.getToken()); //Save token in preference
+                    loadAccount(authResponse.getToken()); //Load user data
+                }
+            }
+        });
     }
 
     private void loadAccount(String token) {
-        token = "Bearer " + token;
-        Log.d(TAG, "loadAccount: token: " + token);
-        AuthService.getInstance().getApi().getAccount(token)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<UserResponse>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "loadAccount onCompleted");
-                    }
+       AuthService.getAccount(token, new Observer<UserResponse>() {
+           @Override
+           public void onCompleted() {
+               Log.d(TAG, "loadAccount onCompleted");
+           }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, "loadAccount onError: " + e.getMessage());
-                    }
+           @Override
+           public void onError(Throwable e) {
+               Log.d(TAG, "loadAccount onError: " + e.getMessage());
+           }
 
-                    @Override
-                    public void onNext(UserResponse userResponse) {
+           @Override
+           public void onNext(UserResponse userResponse) {
 
-                        if (userResponse.isError()) {
-                            //TODO set error
-                        } else {
-                            saveAccount(userResponse.getUser());
-                            Log.d(TAG, "loadAccount onNext: " + userResponse.getUser().toString());
-                            Log.d(TAG, "loadAccount onNext: " + userResponse.getUser().getProfile().toString());
-                            startHomeActivity();
-                        }
-                    }
-                });
+               if (userResponse.isError()) {
+                   //TODO set error
+               } else {
+                   saveAccount(userResponse.getUser());
+                   Log.d(TAG, "loadAccount onNext: " + userResponse.getUser().toString());
+                   Log.d(TAG, "loadAccount onNext: " + userResponse.getUser().getProfile().toString());
+                   startHomeActivity();
+               }
+           }
+       });
     }
 
     private void saveAccount(User user) {
