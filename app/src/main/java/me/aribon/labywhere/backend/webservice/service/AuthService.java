@@ -33,4 +33,11 @@ public class AuthService {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);
     }
+
+    public static void registration(Map<String, String> body, Observer<AuthResponse> observer) {
+        WebServiceManager.createService(AuthApi.class).login(body)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
 }

@@ -24,7 +24,7 @@ public class SignUpActivity extends BaseActivity<SignUpPresenter> {
         ButterKnife.bind(this);
     }
 
-    public String getUsername() { return editSignupEmail.getText().toString(); }
+    public String getEmail() { return editSignupEmail.getText().toString(); }
 
     public String getPassword() { return editSignupPassword.getText().toString(); }
 

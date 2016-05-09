@@ -110,21 +110,7 @@ public class SignInPresenter extends BasePresenter<SignInActivity> {
     }
 
     private void saveAccount(User user) {
-        UserPreferences.setUserId(user.getId());
-        UserPreferences.setUserType(user.getType());
-        UserPreferences.setUserEmail(user.getEmail());
-        UserPreferences.setUserCreatedAt(user.getCreatedAt());
-        UserPreferences.setUserChangedAt(user.getChangedAt());
-
-        UserPreferences.setUserProfileId(user.getProfile().getId());
-        UserPreferences.setUserProfileFirstname(user.getProfile().getFirstname());
-        UserPreferences.setUserProfileLastname(user.getProfile().getLastname());
-        UserPreferences.setUserProfileGender(user.getProfile().getGender());
-        UserPreferences.setUserProfileCity(user.getProfile().getCity());
-        UserPreferences.setUserProfileCountry(user.getProfile().getCountry());
-        UserPreferences.setUserProfileBirthdate(user.getProfile().getBirthdate());
-        UserPreferences.setUserProfileCreatedAt(user.getProfile().getCreatedAt());
-        UserPreferences.setUserProfileChangedAt(user.getProfile().getChangedAt());
+        UserPreferences.setUser(user);
     }
 
     private void startHomeActivity() {

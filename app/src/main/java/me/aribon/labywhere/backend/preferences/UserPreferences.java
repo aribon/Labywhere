@@ -1,5 +1,9 @@
 package me.aribon.labywhere.backend.preferences;
 
+import android.support.annotation.NonNull;
+
+import me.aribon.labywhere.backend.model.User;
+
 /**
  * Created on 26/04/2016
  *
@@ -160,5 +164,23 @@ public class UserPreferences {
 
     public static String getUserProfileChangedAt() {
         return PreferencesManager.getInstance().getSharedPreferences().getString(KEY_PROFILE_CHANGED_AT, null);
+    }
+
+    public static void setUser(@NonNull User user) {
+        setUserId(user.getId());
+        setUserType(user.getType());
+        setUserEmail(user.getEmail());
+        setUserCreatedAt(user.getCreatedAt());
+        setUserChangedAt(user.getChangedAt());
+
+        setUserProfileId(user.getProfile().getId());
+        setUserProfileFirstname(user.getProfile().getFirstname());
+        setUserProfileLastname(user.getProfile().getLastname());
+        setUserProfileGender(user.getProfile().getGender());
+        setUserProfileCity(user.getProfile().getCity());
+        setUserProfileCountry(user.getProfile().getCountry());
+        setUserProfileBirthdate(user.getProfile().getBirthdate());
+        setUserProfileCreatedAt(user.getProfile().getCreatedAt());
+        setUserProfileChangedAt(user.getProfile().getChangedAt());
     }
 }

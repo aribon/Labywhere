@@ -23,10 +23,7 @@ public interface AuthApi {
     Observable<AuthResponse> login(@FieldMap Map<String, String> credentials);
 
     @POST("register")
-    Observable<Response> registration();
-
-//    @GET("account")
-//    Observable<UserResponse> getAccount();
+    Observable<Response> registration(@FieldMap Map<String, String> credentials);
 
     @GET("account")
     Observable<UserResponse> getAccount();
