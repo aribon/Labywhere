@@ -22,16 +22,16 @@ import rx.Observer;
  *
  * @author Anthony
  */
-public class SignInPresenter extends BasePresenter<SignInActivity> {
+public class LoginPresenter extends BasePresenter<LoginActivity> {
 
-    public static final String TAG = SignInPresenter.class.getSimpleName();
+    public static final String TAG = LoginPresenter.class.getSimpleName();
 
     @Override
     public void onResume() {
         super.onResume();
     }
 
-    public void login() {
+    public void prepareLogin() {
 
         Log.d(TAG, "login");
 
@@ -54,10 +54,10 @@ public class SignInPresenter extends BasePresenter<SignInActivity> {
         credentials.put("email", email);
         credentials.put("password", password);
 
-        startLogin(credentials);
+        login(credentials);
     }
 
-    private void startLogin(Map<String, String> credentials) {
+    private void login(Map<String, String> credentials) {
         AuthService.login(credentials, new Observer<AuthResponse>() {
             @Override
             public void onCompleted() {
@@ -116,5 +116,6 @@ public class SignInPresenter extends BasePresenter<SignInActivity> {
     private void startHomeActivity() {
         Intent intent = new Intent(mView, HomeActivity.class);
         mView.startActivity(intent);
+        mView.finish();
     }
 }

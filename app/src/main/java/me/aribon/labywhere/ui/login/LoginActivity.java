@@ -9,9 +9,9 @@ import butterknife.OnClick;
 import me.aribon.basemvp.view.BaseActivity;
 import me.aribon.labywhere.R;
 
-public class SignInActivity extends BaseActivity<SignInPresenter> {
+public class LoginActivity extends BaseActivity<LoginPresenter> {
 
-    public static final String TAG = SignInActivity.class.getSimpleName();
+    public static final String TAG = LoginActivity.class.getSimpleName();
 
     @Bind(R.id.edit_signin_username) EditText editSignInEmail;
     @Bind(R.id.edit_signin_password) EditText editSignInPassword;
@@ -25,7 +25,7 @@ public class SignInActivity extends BaseActivity<SignInPresenter> {
 
     @OnClick(R.id.btn_signin_login)
     public void signinClick() {
-        mPresenter.login();
+        mPresenter.prepareLogin();
     }
 
     public String getEmail() { return editSignInEmail.getText().toString(); }
@@ -41,7 +41,7 @@ public class SignInActivity extends BaseActivity<SignInPresenter> {
     }
 
     @Override
-    protected SignInPresenter initPresenter() {
-        return new SignInPresenter();
+    protected LoginPresenter initPresenter() {
+        return new LoginPresenter();
     }
 }

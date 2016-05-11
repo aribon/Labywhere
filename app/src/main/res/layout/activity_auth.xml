@@ -22,7 +22,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/button_bg_selector"
-            android:text="@string/sign_in"
+            android:text="@string/login"
             style="@style/CustomButton"/>
 
         <Button
@@ -32,7 +32,7 @@
             android:layout_weight="0.5"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:text="@string/sign_up"
+            android:text="@string/register"
             android:background="@drawable/button_bg_selector"
             style="@style/CustomButton"/>
 

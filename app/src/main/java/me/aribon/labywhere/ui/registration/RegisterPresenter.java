@@ -22,16 +22,18 @@ import rx.Observer;
  *
  * @author Anthony
  */
-public class SignUpPresenter extends BasePresenter<SignUpActivity> {
+public class RegisterPresenter extends BasePresenter<RegisterActivity> {
 
-    public static final String TAG = SignUpPresenter.class.getSimpleName();
+    public static final String TAG = RegisterPresenter.class.getSimpleName();
+
+    Map<String, String> credentials;
 
     @Override
     public void onResume() {
         super.onResume();
     }
 
-    public void login() {
+    public void prepareRegister() {
 
         Log.d(TAG, "login");
 
@@ -64,17 +66,44 @@ public class SignUpPresenter extends BasePresenter<SignUpActivity> {
             return;
         }
 
+        credentials = new HashMap<>();
+        credentials.put("email", email);
+        credentials.put("password", password);
+
         Map<String, String> body = new HashMap<>();
-        body.put("email", email);
-        body.put("password", password);
+        body.putAll(credentials);
         body.put("firstname", firstname);
         body.put("lastname", lastname);
 
-        startRegistration(body);
+        register(body);
     }
 
-    private void startRegistration(Map<String, String> body) {
+    private void register(Map<String, String> body) {
         AuthService.registration(body, new Observer<AuthResponse>() {
+            @Override
+            public void onCompleted() {
+                Log.d(TAG, "startLogin onCompleted");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.d(TAG, "startLogin onError: " + e.getMessage());
+            }
+
+            @Override
+            public void onNext(AuthResponse authResponse) {
+
+                if (authResponse.isError()) {
+                    //TODO set error
+                } else {
+                    login(credentials);
+                }
+            }
+        });
+    }
+
+    private void login(Map<String, String> credentials) {
+        AuthService.login(credentials, new Observer<AuthResponse>() {
             @Override
             public void onCompleted() {
                 Log.d(TAG, "startLogin onCompleted");
@@ -132,5 +161,6 @@ public class SignUpPresenter extends BasePresenter<SignUpActivity> {
     private void startHomeActivity() {
         Intent intent = new Intent(mView, HomeActivity.class);
         mView.startActivity(intent);
+        mView.finish();
     }
 }

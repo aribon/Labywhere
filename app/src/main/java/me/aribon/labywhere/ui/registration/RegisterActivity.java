@@ -5,12 +5,13 @@ import android.widget.EditText;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.aribon.basemvp.view.BaseActivity;
 import me.aribon.labywhere.R;
 
-public class SignUpActivity extends BaseActivity<SignUpPresenter> {
+public class RegisterActivity extends BaseActivity<RegisterPresenter> {
 
-    public static final String TAG = SignUpActivity.class.getSimpleName();
+    public static final String TAG = RegisterActivity.class.getSimpleName();
 
     @Bind(R.id.edit_signup_email) EditText editSignupEmail;
     @Bind(R.id.edit_signup_password) EditText editSignupPassword;
@@ -22,6 +23,11 @@ public class SignUpActivity extends BaseActivity<SignUpPresenter> {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.btn_signup_login)
+    public void signinClick() {
+        mPresenter.prepareRegister();
     }
 
     public String getEmail() { return editSignupEmail.getText().toString(); }
@@ -49,7 +55,7 @@ public class SignUpActivity extends BaseActivity<SignUpPresenter> {
     }
 
     @Override
-    protected SignUpPresenter initPresenter() {
-        return new SignUpPresenter();
+    protected RegisterPresenter initPresenter() {
+        return new RegisterPresenter();
     }
 }

@@ -5,6 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
+        multiDexEnabled true
         applicationId "me.aribon.labywhere"
         minSdkVersion 19
         targetSdkVersion 23

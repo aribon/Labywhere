@@ -1,8 +1,8 @@
 <resources>
     <string name="auth_key">"Bearer "</string>
     <string name="app_name">Labywhere</string>
-    <string name="sign_up">Sign up</string>
-    <string name="sign_in">Sign in</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="lastname">Lastname</string>

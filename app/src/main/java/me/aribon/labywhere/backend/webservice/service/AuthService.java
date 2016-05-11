@@ -35,7 +35,7 @@ public class AuthService {
     }
 
     public static void registration(Map<String, String> body, Observer<AuthResponse> observer) {
-        WebServiceManager.createService(AuthApi.class).login(body)
+        WebServiceManager.createService(AuthApi.class).registration(body)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);

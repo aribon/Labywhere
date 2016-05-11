@@ -8,6 +8,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -71,7 +72,9 @@ public class WebServiceManager {
             });
         }
 
-        OkHttpClient client = httpClient.build();
+        OkHttpClient client = httpClient
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build();
         Retrofit retrofit = builder.client(client).build();
         return retrofit.create(serviceClass);
     }
