@@ -1,17 +1,28 @@
 package me.aribon.labywhere.backend.model;
 
+import io.realm.RealmModel;
+import io.realm.annotations.RealmClass;
+import io.realm.annotations.Required;
+
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
-public class User {
+@RealmClass
+public class User implements RealmModel {
 
+    @Required
     private int id;
+    @Required
     private int type;
+    @Required
     private String email;
+    @Required
     private Profile profile;
+    @Required
     private String createdAt;
+    @Required
     private String changedAt;
 
     /**

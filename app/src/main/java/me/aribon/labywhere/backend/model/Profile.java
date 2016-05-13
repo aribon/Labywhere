@@ -1,5 +1,7 @@
 package me.aribon.labywhere.backend.model;
 
+import io.realm.annotations.Required;
+
 /**
  * Created on 24/04/2016
  *
@@ -7,14 +9,19 @@ package me.aribon.labywhere.backend.model;
  */
 public class Profile {
 
+    @Required
     private int id;
+    @Required
     private String firstname;
+    @Required
     private String lastname;
     private String gender;
     private String country;
     private String city;
     private String birthdate;
+    @Required
     private String createdAt;
+    @Required
     private String changedAt;
 
     /**

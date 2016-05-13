@@ -16,6 +16,7 @@ import me.aribon.labywhere.backend.webservice.response.UserResponse;
 import me.aribon.labywhere.backend.webservice.service.AuthService;
 import me.aribon.labywhere.ui.home.HomeActivity;
 import rx.Observer;
+import rx.Subscription;
 
 /**
  * Created on 24/04/2016
@@ -26,7 +27,9 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
 
     public static final String TAG = RegisterPresenter.class.getSimpleName();
 
-    Map<String, String> credentials;
+    private Subscription subscription;
+
+    private Map<String, String> credentials; //TODO ???????
 
     @Override
     public void onResume() {
@@ -79,7 +82,7 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
     }
 
     private void register(Map<String, String> body) {
-        AuthService.registration(body, new Observer<AuthResponse>() {
+        subscription = AuthService.register(body, new Observer<AuthResponse>() {
             @Override
             public void onCompleted() {
                 Log.d(TAG, "startLogin onCompleted");
@@ -103,7 +106,7 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
     }
 
     private void login(Map<String, String> credentials) {
-        AuthService.login(credentials, new Observer<AuthResponse>() {
+        subscription = AuthService.login(credentials, new Observer<AuthResponse>() {
             @Override
             public void onCompleted() {
                 Log.d(TAG, "startLogin onCompleted");
@@ -128,7 +131,7 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
     }
 
     private void loadAccount(String token) {
-        AuthService.getAccount(token, new Observer<UserResponse>() {
+        subscription = AuthService.getAccount(token, new Observer<UserResponse>() {
             @Override
             public void onCompleted() {
                 Log.d(TAG, "loadAccount onCompleted");
