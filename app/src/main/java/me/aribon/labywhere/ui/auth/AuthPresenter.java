@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import me.aribon.basemvp.presenter.BasePresenter;
 import me.aribon.labywhere.ui.login.LoginActivity;
-import me.aribon.labywhere.ui.registration.RegisterActivity;
+import me.aribon.labywhere.ui.register.RegisterActivity;
 
 /**
  * Created on 24/04/2016

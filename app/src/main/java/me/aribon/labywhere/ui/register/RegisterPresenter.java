@@ -1,4 +1,4 @@
-package me.aribon.labywhere.ui.registration;
+package me.aribon.labywhere.ui.register;
 
 import android.content.Intent;
 import android.text.TextUtils;

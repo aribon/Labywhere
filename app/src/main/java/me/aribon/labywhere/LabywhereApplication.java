@@ -2,6 +2,8 @@ package me.aribon.labywhere;
 
 import android.app.Application;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import me.aribon.labywhere.backend.preferences.PreferencesManager;
 
 /**
@@ -15,11 +17,20 @@ public class LabywhereApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initPrefs();
+        initDB();
         initWebServices();
     }
 
     private void initPrefs() {
         PreferencesManager.initializeInstance(this);
+    }
+
+    private void initDB() {
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+
+        Realm.setDefaultConfiguration(realmConfig);
     }
 
     private void initWebServices() {

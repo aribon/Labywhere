@@ -1,8 +1,8 @@
 package me.aribon.labywhere.backend.model;
 
 import io.realm.RealmModel;
+import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
-import io.realm.annotations.Required;
 
 /**
  * Created on 24/04/2016
@@ -12,17 +12,11 @@ import io.realm.annotations.Required;
 @RealmClass
 public class User implements RealmModel {
 
-    @Required
-    private int id;
-    @Required
+    @PrimaryKey private int id;
     private int type;
-    @Required
     private String email;
-    @Required
     private Profile profile;
-    @Required
     private String createdAt;
-    @Required
     private String changedAt;
 
     /**
@@ -48,6 +42,14 @@ public class User implements RealmModel {
         this.profile = profile;
         this.createdAt = createdAt;
         this.changedAt = changedAt;
+    }
+
+    /**
+     *
+     * @param user
+     */
+    public User(User user) {
+        this(user.id, user.type, user.email, user.profile, user.createdAt, user.changedAt);
     }
 
     /**

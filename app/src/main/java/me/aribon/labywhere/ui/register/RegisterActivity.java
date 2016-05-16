@@ -1,4 +1,4 @@
-package me.aribon.labywhere.ui.registration;
+package me.aribon.labywhere.ui.register;
 
 import android.os.Bundle;
 import android.widget.EditText;
