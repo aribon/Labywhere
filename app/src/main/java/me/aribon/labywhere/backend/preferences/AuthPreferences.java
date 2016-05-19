@@ -7,6 +7,8 @@ package me.aribon.labywhere.backend.preferences;
  */
 public class AuthPreferences {
 
+    public static final String TAG = AuthPreferences.class.getSimpleName();
+
     private static final String KEY_AUTH_TOKEN = "auth_token";
 
     public static void setAuthToken(String authToken) {
