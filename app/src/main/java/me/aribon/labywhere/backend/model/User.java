@@ -12,6 +12,8 @@ import io.realm.annotations.RealmClass;
 @RealmClass
 public class User implements RealmModel {
 
+    public final static String KEY_ID = "id";
+
     @PrimaryKey private int id;
     private int type;
     private String email;

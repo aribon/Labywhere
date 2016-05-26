@@ -23,7 +23,7 @@ public class FileUtils {
      *
      * @param file The file to write to Disk.
      */
-    public void writeToFile(File file, String fileContent) {
+    public static void writeToFile(File file, String fileContent) {
         if (!file.exists()) {
             try {
                 FileWriter writer = new FileWriter(file);
@@ -47,7 +47,7 @@ public class FileUtils {
      * @param file The file to read from.
      * @return A string with the content of the file.
      */
-    public String readFileContent(File file) {
+    public static String readFileContent(File file) {
         StringBuilder fileContentBuilder = new StringBuilder();
         if (file.exists()) {
             String stringLine;
@@ -75,7 +75,7 @@ public class FileUtils {
      * @param file The file to check existence.
      * @return true if this file exists, false otherwise.
      */
-    public boolean exists(File file) {
+    public static boolean exists(File file) {
         return file.exists();
     }
 
@@ -92,5 +92,13 @@ public class FileUtils {
                 file.delete();
             }
         }
+    }
+
+    public static File buildFile(Object ...path) {
+        StringBuilder fileNameBuilder = new StringBuilder();
+        for (Object part: path) {
+            fileNameBuilder.append(part);
+        }
+        return new File(fileNameBuilder.toString());
     }
 }

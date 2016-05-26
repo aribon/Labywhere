@@ -8,6 +8,7 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import me.aribon.basemvp.presenter.BasePresenter;
+import me.aribon.labywhere.backend.cache.UserCacheStorage;
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.webservice.response.UserListResponse;
@@ -51,16 +52,18 @@ public class HomePresenter extends BasePresenter<HomeActivity> {
                 if (userListResponse.isError()) {
                     //TODO set error
                 } else {
-                    //TODO Save on a db storage
                     Log.d(TAG, "onNext: " + userListResponse.getUsers().toString());
+                    //TODO Save on a db storage
                     saveUsersOnDB(userListResponse.getUsers());
+                    //TODO Save on a cache storage
+                    saveUsersOnCache(userListResponse.getUsers());
                 }
             }
         });
     }
 
 
-    //TODO TEST
+    //TODO DB TEST
     private void saveUsersOnDB(final List<User> users) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
@@ -71,7 +74,11 @@ public class HomePresenter extends BasePresenter<HomeActivity> {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "saveOnDB onSuccess");
-                loadUsersFromDB();
+//                if (!UserCacheStorage.getInstance().isExpired()) {
+//                    User user = loadUserFromCache(12);
+//                    Log.d(TAG, "loadUserFromCache : " + user.toString());
+//                } else
+                    loadUserFromDB(12);
             }
         }, new Realm.Transaction.OnError() {
             @Override
@@ -82,9 +89,15 @@ public class HomePresenter extends BasePresenter<HomeActivity> {
         });
     }
 
-    private void loadUsersFromDB() {
+    private void loadAllUserFromDB() {
         Log.d(TAG, "loadUsersFromDB");
         RealmResults<User> usersResults = realm.where(User.class).findAllAsync();
+        usersResults.addChangeListener(onLoadUsersCompleted);
+    }
+
+    private void loadUserFromDB(int id) {
+        Log.d(TAG, "loadUsersFromDB");
+        RealmResults<User> usersResults = realm.where(User.class).equalTo(User.KEY_ID, id).findAllAsync();
         usersResults.addChangeListener(onLoadUsersCompleted);
     }
 
@@ -93,10 +106,28 @@ public class HomePresenter extends BasePresenter<HomeActivity> {
         public void onChange(RealmResults<User> usersResults) {
             Log.d(TAG, "onLoadUsersCompleted onComplete");
             for (User user : usersResults) {
-                Log.d(TAG, "loadUsersFromDB : " + user.toString());
+                Log.d(TAG, "loadUserFromDB : " + user.toString());
             }
         }
     };
+
+    //TODO CACHE TEST
+    private void saveUsersOnCache(final List<User> users) {
+        Log.d(TAG, "saveUsersOnCache");
+        for (User user : users) {
+            UserCacheStorage.getInstance().put(String.valueOf(user.getId()), user);
+        }
+    }
+
+    private User loadAllUserFromCache() {
+        Log.d(TAG, "loadUserFromCache");
+        return UserCacheStorage.getInstance().getAll();
+    }
+
+    private User loadUserFromCache(final int id) {
+        Log.d(TAG, "loadUserFromCache");
+        return UserCacheStorage.getInstance().get(String.valueOf(id));
+    }
 
     public void cancelRequest() {
         if (subscription != null && !subscription.isUnsubscribed())

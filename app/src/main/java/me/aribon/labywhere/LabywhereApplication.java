@@ -1,6 +1,7 @@
 package me.aribon.labywhere;
 
 import android.app.Application;
+import android.content.Context;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -13,9 +14,12 @@ import me.aribon.labywhere.backend.preferences.PreferencesManager;
  */
 public class LabywhereApplication extends Application {
 
+    private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
         initPrefs();
         initDB();
         initWebServices();
@@ -34,5 +38,9 @@ public class LabywhereApplication extends Application {
     }
 
     private void initWebServices() {
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }
