@@ -82,7 +82,7 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
     }
 
     private void register(Map<String, String> body) {
-        subscription = AuthService.register(body, new Observer<AuthResponse>() {
+        subscription = AuthService.register(body).subscribe(new Observer<AuthResponse>() {
             @Override
             public void onCompleted() {
                 Log.d(TAG, "startLogin onCompleted");
@@ -106,7 +106,7 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
     }
 
     private void login(Map<String, String> credentials) {
-        subscription = AuthService.login(credentials, new Observer<AuthResponse>() {
+        subscription = AuthService.login(credentials).subscribe(new Observer<AuthResponse>() {
             @Override
             public void onCompleted() {
                 Log.d(TAG, "startLogin onCompleted");
@@ -131,7 +131,7 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
     }
 
     private void loadAccount(String token) {
-        subscription = AuthService.getAccount(token, new Observer<UserResponse>() {
+        subscription = AuthService.getAccount(token).subscribe(new Observer<UserResponse>() {
             @Override
             public void onCompleted() {
                 Log.d(TAG, "loadAccount onCompleted");

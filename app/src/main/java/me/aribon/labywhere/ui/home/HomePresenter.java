@@ -34,32 +34,41 @@ public class HomePresenter extends BasePresenter<HomeActivity> {
         getAllUsers(AuthPreferences.getAuthToken());
     }
 
+    public void loadData() {
+        if (!UserCacheStorage.getInstance().isExpired()) {
+            User user = loadUserFromCache(12);
+            Log.d(TAG, "loadUserFromCache : " + user.toString());
+        } else
+            loadUserFromDB(12);
+    }
+
     private void getAllUsers(String token) {
-        subscription = UserService.getAllUsers(token, new Observer<UserListResponse>() {
-            @Override
-            public void onCompleted() {
-                Log.d(TAG, "getAllUsers onCompleted");
-            }
+        subscription =  UserService.getAllUsers(token)
+                .subscribe(new Observer<UserListResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "getAllUsers onCompleted");
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.d(TAG, "getAllUsers onError: " + e.getMessage());
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "getAllUsers onError: " + e.getMessage());
+                    }
 
-            @Override
-            public void onNext(UserListResponse userListResponse) {
+                    @Override
+                    public void onNext(UserListResponse userListResponse) {
 
-                if (userListResponse.isError()) {
-                    //TODO set error
-                } else {
-                    Log.d(TAG, "onNext: " + userListResponse.getUsers().toString());
-                    //TODO Save on a db storage
-                    saveUsersOnDB(userListResponse.getUsers());
-                    //TODO Save on a cache storage
-                    saveUsersOnCache(userListResponse.getUsers());
-                }
-            }
-        });
+                        if (userListResponse.isError()) {
+                            //TODO set error
+                        } else {
+                            Log.d(TAG, "onNext: " + userListResponse.getUsers().toString());
+                            //TODO Save on a cache storage
+                            saveUsersOnCache(userListResponse.getUsers());
+                            //TODO Save on a db storage
+                            saveUsersOnDB(userListResponse.getUsers());
+                        }
+                    }
+                });
     }
 
 
@@ -74,11 +83,7 @@ public class HomePresenter extends BasePresenter<HomeActivity> {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "saveOnDB onSuccess");
-//                if (!UserCacheStorage.getInstance().isExpired()) {
-//                    User user = loadUserFromCache(12);
-//                    Log.d(TAG, "loadUserFromCache : " + user.toString());
-//                } else
-                    loadUserFromDB(12);
+                //TODO set code
             }
         }, new Realm.Transaction.OnError() {
             @Override

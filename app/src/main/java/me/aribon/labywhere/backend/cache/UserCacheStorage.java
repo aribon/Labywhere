@@ -76,8 +76,25 @@ public class UserCacheStorage extends AbsCacheStorage<String, User> {
 
             boolean expired = ((currentTime - lastUpdateTime) > EXPIRATION_TIME_MILLIS);
 
-            if (expired)
+            if (expired) {
                 deleteAll();
+                return true;
+            }
+
+            return false;
+        }
+
+        @Override
+        public boolean isExpired(@NonNull String key) {
+            long currentTime = System.currentTimeMillis();
+            long lastUpdateTime = this.getLastCacheUpdateTimeMillis();
+
+            boolean expired = ((currentTime - lastUpdateTime) > EXPIRATION_TIME_MILLIS);
+
+            if (expired) {
+                delete(key);
+                return true;
+            }
 
             return false;
         }

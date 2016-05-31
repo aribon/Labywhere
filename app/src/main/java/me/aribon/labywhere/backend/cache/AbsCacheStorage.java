@@ -1,5 +1,7 @@
 package me.aribon.labywhere.backend.cache;
 
+import android.support.annotation.NonNull;
+
 import me.aribon.labywhere.backend.preferences.SettingsPreferences;
 
 /**
@@ -9,7 +11,7 @@ import me.aribon.labywhere.backend.preferences.SettingsPreferences;
  */
 public abstract class AbsCacheStorage<K, V> {
 
-    protected static final long EXPIRATION_TIME_MILLIS = /*60 * 10 * 1000*/ 0;
+    protected static final long EXPIRATION_TIME_MILLIS = /*60 * 10 * 1000*/ 10 * 1000;
 
     public static final String TAG = AbsCacheStorage.class.getSimpleName();
 
@@ -22,6 +24,8 @@ public abstract class AbsCacheStorage<K, V> {
     public abstract boolean isCached(K key);
 
     public abstract boolean isExpired();
+
+    public abstract boolean isExpired(@NonNull K key);
 
     public abstract boolean delete(K key);
 

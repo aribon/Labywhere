@@ -6,8 +6,7 @@ import me.aribon.labywhere.backend.webservice.WebServiceManager;
 import me.aribon.labywhere.backend.webservice.api.AuthApi;
 import me.aribon.labywhere.backend.webservice.response.AuthResponse;
 import me.aribon.labywhere.backend.webservice.response.UserResponse;
-import rx.Observer;
-import rx.Subscription;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -21,24 +20,21 @@ public class AuthService {
 
     public static final String TAG = AuthService.class.getSimpleName();
 
-    public static Subscription getAccount(String token, Observer<UserResponse> observer) {
+    public static Observable<UserResponse> getAccount(String token) {
         return WebServiceManager.createService(AuthApi.class, token).getAccount()
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Subscription login(Map<String, String> credentials, Observer<AuthResponse> observer) {
+    public static Observable<AuthResponse> login(Map<String, String> credentials) {
         return WebServiceManager.createService(AuthApi.class).login(credentials)
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Subscription register(Map<String, String> body, Observer<AuthResponse> observer) {
+    public static Observable<AuthResponse> register(Map<String, String> body) {
         return WebServiceManager.createService(AuthApi.class).registration(body)
                 .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

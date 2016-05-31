@@ -16,6 +16,7 @@ import me.aribon.labywhere.backend.webservice.response.UserResponse;
 import me.aribon.labywhere.backend.webservice.service.AuthService;
 import me.aribon.labywhere.ui.home.HomeActivity;
 import rx.Observer;
+import rx.Subscription;
 
 /**
  * Created on 24/04/2016
@@ -25,6 +26,8 @@ import rx.Observer;
 public class LoginPresenter extends BasePresenter<LoginActivity> {
 
     public static final String TAG = LoginPresenter.class.getSimpleName();
+
+    private Subscription subscription;
 
     @Override
     public void onResume() {
@@ -58,7 +61,7 @@ public class LoginPresenter extends BasePresenter<LoginActivity> {
     }
 
     private void login(Map<String, String> credentials) {
-        AuthService.login(credentials, new Observer<AuthResponse>() {
+        subscription = AuthService.login(credentials).subscribe(new Observer<AuthResponse>() {
             @Override
             public void onCompleted() {
                 Log.d(TAG, "startLogin onCompleted");
@@ -83,7 +86,7 @@ public class LoginPresenter extends BasePresenter<LoginActivity> {
     }
 
     private void loadAccount(String token) {
-       AuthService.getAccount(token, new Observer<UserResponse>() {
+        subscription = AuthService.getAccount(token).subscribe(new Observer<UserResponse>() {
            @Override
            public void onCompleted() {
                Log.d(TAG, "loadAccount onCompleted");
