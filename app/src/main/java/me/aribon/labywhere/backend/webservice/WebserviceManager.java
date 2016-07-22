@@ -18,25 +18,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
  *
  * @author Anthony
  */
-public class WebServiceManager {
+public class WebserviceManager {
 
-    public static final String TAG = WebServiceManager.class.getSimpleName();
+    public static final String TAG = WebserviceManager.class.getSimpleName();
 
     private static final String API_BASE_URL = "http://dev.aribon.me/api/labywhere/v1/";
     private static final String API_TOKEN_TYPE = "Bearer ";
 
-    private static WebServiceManager instance;
+    private static WebserviceManager instance;
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     public static synchronized void initializeInstance() {
         if (instance == null)
-            instance = new WebServiceManager();
+            instance = new WebserviceManager();
     }
 
-    public static synchronized WebServiceManager getInstance() {
+    public static synchronized WebserviceManager getInstance() {
         if (instance == null) {
-            throw new IllegalStateException(WebServiceManager.class.getSimpleName() +
+            throw new IllegalStateException(WebserviceManager.class.getSimpleName() +
                     " is not initialized, call initializeInstance(..) method first.");
         }
         return instance;
