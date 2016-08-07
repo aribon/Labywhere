@@ -26,6 +26,7 @@ public class User implements RealmModel {
      *
      */
     public User() {
+        this.profile = new Profile();
     }
 
     /**
@@ -198,7 +199,7 @@ public class User implements RealmModel {
                 "id=" + id +
                 ", type=" + type +
                 ", email='" + email + '\'' +
-                ", profile=" + profile +
+                ", profile=" + profile.toString() +
                 ", createdAt='" + createdAt + '\'' +
                 ", changedAt='" + changedAt + '\'' +
                 '}';

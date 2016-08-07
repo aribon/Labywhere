@@ -1,9 +1,24 @@
 package me.aribon.labywhere.ui.register;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +45,32 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
     private Subscription subscription;
 
     private Map<String, String> credentials; //TODO ???????
+
+    CallbackManager callbackManager;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d(TAG, "Facebook user_id: " + loginResult.getAccessToken().getUserId());
+                Log.d(TAG, "Facebook token: " + loginResult.getAccessToken().getToken());
+                getFacebookUser(loginResult);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
+    }
 
     @Override
     public void onResume() {
@@ -130,6 +171,10 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
         });
     }
 
+    public void facebookRegisterClick() {
+        LoginManager.getInstance().logInWithReadPermissions(mView, Arrays.asList("public_profile"));
+    }
+
     private void loadAccount(String token) {
         subscription = AuthService.getAccount(token).subscribe(new Observer<UserResponse>() {
             @Override
@@ -161,9 +206,69 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
         UserPreferences.setUser(user);
     }
 
+    private void getFacebookUser(LoginResult loginResult) {
+        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                Log.i("LoginActivity", response.toString());
+                // Get facebook data from login
+//                Bundle bFacebookData = getFacebookData(object);
+                parseFacebookData(object);
+
+            }
+        });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id, first_name, last_name, email, gender, birthday, location");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    private User parseFacebookData(JSONObject object) {
+
+        try {
+            User user = new User();
+            String id = object.getString("id");
+
+            try {
+                URL profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=150");
+                Log.i("profile_pic", profile_pic + "");
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+            if (object.has("first_name"))
+                user.getProfile().setFirstname(object.getString("first_name"));
+            if (object.has("last_name"))
+                user.getProfile().setLastname(object.getString("last_name"));
+            if (object.has("email"))
+                user.setEmail(object.getString("email"));
+            if (object.has("gender"))
+                user.getProfile().setGender(object.getString("gender"));
+            if (object.has("birthday"))
+                user.getProfile().setBirthdate(object.getString("birthday"));
+            if (object.has("location"))
+                user.getProfile().setCity(object.getJSONObject("location").getString("name"));
+
+            Log.d(TAG, "parseFacebookData: " + user.toString());
+            return user;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private void startHomeActivity() {
         Intent intent = new Intent(mView, HomeActivity.class);
         mView.startActivity(intent);
         mView.finish();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

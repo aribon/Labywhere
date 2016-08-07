@@ -3,6 +3,9 @@ package me.aribon.labywhere;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import me.aribon.labywhere.backend.preferences.PreferencesManager;
@@ -20,9 +23,17 @@ public class LabywhereApplication extends Application {
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+
+        initFacebook();
+        
         initPrefs();
         initDB();
         initWebServices();
+    }
+
+    private void initFacebook() {
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
     }
 
     private void initPrefs() {

@@ -1,5 +1,7 @@
 package me.aribon.basemvp.presenter;
 
+import android.content.Intent;
+
 import me.aribon.basemvp.view.BaseView;
 
 /**
@@ -33,5 +35,9 @@ public class BasePresenter<V extends BaseView> {
 
     public void onDestroy() {
         onDetachView();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
     }
 }
