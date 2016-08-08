@@ -1,5 +1,6 @@
 package me.aribon.basemvp.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -18,8 +19,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = initPresenter();
-        mPresenter.onCreate();
         mPresenter.onAttachView(this);
+        mPresenter.onCreate();
     }
 
     @Override
@@ -50,6 +51,18 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         this.mPresenter.onDetachView();
         this.mPresenter = presenter;
         this.mPresenter.onAttachView(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        mPresenter.onBackPressed();
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
     protected abstract P initPresenter();

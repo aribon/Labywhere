@@ -18,8 +18,8 @@ public abstract class BaseSupportFragment<P extends BasePresenter> extends Fragm
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = initPresenter();
-        mPresenter.onCreate();
         mPresenter.onAttachView(this);
+        mPresenter.onCreate();
     }
 
     @Override

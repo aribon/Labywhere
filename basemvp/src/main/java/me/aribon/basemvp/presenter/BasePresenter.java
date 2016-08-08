@@ -37,6 +37,9 @@ public class BasePresenter<V extends BaseView> {
         onDetachView();
     }
 
+    public void onBackPressed() {
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }

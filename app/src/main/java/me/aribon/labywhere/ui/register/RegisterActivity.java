@@ -1,6 +1,5 @@
 package me.aribon.labywhere.ui.register;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 
@@ -36,6 +35,11 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> {
         mPresenter.facebookRegisterClick();
     }
 
+    @OnClick(R.id.btn_google_login)
+    public void googleRegisterClick() {
+        mPresenter.googleRegisterClick();
+    }
+
     public String getEmail() { return editSignupEmail.getText().toString(); }
 
     public String getPassword() { return editSignupPassword.getText().toString(); }
@@ -63,11 +67,5 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter> {
     @Override
     protected RegisterPresenter initPresenter() {
         return new RegisterPresenter();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        mPresenter.onActivityResult(requestCode, resultCode, data);
     }
 }

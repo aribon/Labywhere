@@ -18,8 +18,8 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = initPresenter();
-        mPresenter.onCreate();
         mPresenter.onAttachView(this);
+        mPresenter.onCreate();
     }
 
     @Override
