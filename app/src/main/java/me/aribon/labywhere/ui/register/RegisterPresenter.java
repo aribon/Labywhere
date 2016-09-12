@@ -224,5 +224,23 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
         public void onGoogleLoginSuccess(GoogleManager.GoogleUser googleUser) {
             Log.d(TAG, "onSuccess: " + googleUser.toString());
         }
+
+        @Override
+        public void onGoogleLoginSuccess(String token, GoogleManager.GoogleUser googleUser) {
+            super.onGoogleLoginSuccess(token, googleUser);
+            Log.d(TAG, "onSuccess: " + "apiToken:" + token + ", user:" + googleUser.toString());
+        }
+
+        @Override
+        public void onGoogleLoginFailed(String message) {
+            super.onGoogleLoginFailed(message);
+            Log.e(TAG, "onGoogleLoginFailed: " + message);
+        }
+
+        @Override
+        public void onGoogleLoginFailed() {
+            super.onGoogleLoginFailed();
+            Log.e(TAG, "onGoogleLoginFailed");
+        }
     };
 }

@@ -39,7 +39,7 @@ public class UserCacheStorage extends AbsCacheStorage<String, User> {
             String fileContent = FileUtils.readFileContent(userFile);
             Gson gson = new Gson();
             User user = gson.fromJson(fileContent, User.class);
-            return user;
+            return user != null ? user : null;
         }
 
         @Override

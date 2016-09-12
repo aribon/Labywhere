@@ -79,18 +79,15 @@ public class FacebookManager {
         LoginManager.getInstance().logOut();
     }
 
-    private void getFacebookUser(LoginResult loginResult) {
+    private void getFacebookUser(final LoginResult loginResult) {
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
 
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
                 Log.i("LoginActivity", response.toString());
                 FacebookUser facebookUser = parseFacebookData(object);
-
-                if (facebookUser != null)
-                    listener.onFacebookLoginSuccess(facebookUser);
-                else
-                    listener.onFacebookLoginFailed();
+                facebookUser.token = loginResult.getAccessToken().getToken();
+                listener.onFacebookLoginSuccess(facebookUser);
 
             }
         });
@@ -133,6 +130,7 @@ public class FacebookManager {
 
     public class FacebookUser {
         String id;
+        String token;
         String firstname;
         String lastname;
         String gender;
@@ -145,7 +143,9 @@ public class FacebookManager {
         @Override
         public String toString() {
             return "FacebookUser{" +
-                    "firstname='" + firstname + '\'' +
+                    "id='" + id + '\'' +
+                    ", token='" + token + '\'' +
+                    ", firstname='" + firstname + '\'' +
                     ", lastname='" + lastname + '\'' +
                     ", gender='" + gender + '\'' +
                     ", birthdate='" + birthdate + '\'' +
@@ -158,14 +158,26 @@ public class FacebookManager {
     }
 
     public interface OnFacebookManagerListener {
+        void onFacebookLoginSuccess(String token, FacebookUser facebookUser);
         void onFacebookLoginSuccess(FacebookUser facebookUser);
+        void onFacebookLoginFailed(String message);
         void onFacebookLoginFailed();
     }
 
     public static class OnFacebookManagerListenerAdapter implements OnFacebookManagerListener {
 
         @Override
+        public void onFacebookLoginSuccess(String token, FacebookUser facebookUser) {
+
+        }
+
+        @Override
         public void onFacebookLoginSuccess(FacebookUser facebookUser) {
+
+        }
+
+        @Override
+        public void onFacebookLoginFailed(String message) {
 
         }
 

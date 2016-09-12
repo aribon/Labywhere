@@ -1,20 +1,15 @@
 package me.aribon.labywhere.backend.model;
 
-import io.realm.RealmModel;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.RealmClass;
-
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
-@RealmClass
-public class User implements RealmModel {
+public class User extends Data {
 
     public final static String KEY_ID = "id";
 
-    @PrimaryKey private int id;
+    private int id;
     private int type;
     private String email;
     private Profile profile;

@@ -19,6 +19,10 @@
             "package_name": "me.aribon.labywhere",
             "certificate_hash": "2F3084B3C16659766377FD7A894C70CB93361EEC"
           }
+        },
+        {
+          "client_id": "872864541953-rn5vd3tn7a3rjhj4lqo53mhqvdpqi9uu.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [

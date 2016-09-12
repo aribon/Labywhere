@@ -2,7 +2,6 @@ package me.aribon.labywhere.backend;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -14,6 +13,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 import me.aribon.basemvp.view.BaseActivity;
+import me.aribon.labywhere.R;
 
 /**
  * Created by aribon from Insign Mobility
@@ -38,8 +38,11 @@ public class GoogleManager implements GoogleApiClient.OnConnectionFailedListener
     }
 
     private void initializeGoogleClient() {
+        String serverClientId = activity.getString(R.string.google_server_client_id);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestIdToken(serverClientId)
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(activity)
@@ -70,37 +73,61 @@ public class GoogleManager implements GoogleApiClient.OnConnectionFailedListener
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+//        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            //TODO success authentication
-            if (acct != null) {
-                GoogleUser googleUser = parseGoogleData(acct);
+
+            GoogleSignInAccount account = result.getSignInAccount();
+
+            if (account != null) {
+//                String token = account.getIdToken();
+                GoogleUser googleUser = parseGoogleData(account);
                 listener.onGoogleLoginSuccess(googleUser);
             } else {
-                listener.onGoogleLoginFailed();
+                listener.onGoogleLoginFailed("account is empty");
             }
 
         } else {
-            listener.onGoogleLoginFailed();
-            // Signed out, show unauthenticated UI.
-            //TODO error authentication
+            listener.onGoogleLoginFailed("No result: " + result.getStatus());
         }
     }
 
-    private GoogleUser parseGoogleData(@NonNull GoogleSignInAccount acc) {
+    private GoogleUser parseGoogleData(@NonNull GoogleSignInAccount account) {
 
         GoogleUser googleUser = new GoogleUser();
 
-        if (acc.getPhotoUrl() != null)
-            googleUser.urlPicture = acc.getPhotoUrl().toString();
-        googleUser.firstname = acc.getDisplayName();
-        googleUser.lastname = acc.getFamilyName();
-        googleUser.email = acc.getEmail();
+        googleUser.id = account.getId();
+        googleUser.token = account.getIdToken();
+        googleUser.firstname = account.getDisplayName();
+        googleUser.lastname = account.getFamilyName();
+        googleUser.email = account.getEmail();
+        if (account.getPhotoUrl() != null)
+            googleUser.urlPicture = account.getPhotoUrl().toString();
 
         return googleUser;
     }
+
+//    private String getToken() {
+//        String token;
+//        try {
+//            token = GoogleAuthUtil.getToken(activity, accountName, scope);
+//            return token;
+//        } catch (GooglePlayServicesAvailabilityException playEx) {
+//            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(
+//                    playEx.getConnectionStatusCode(),
+//                    activity,
+//                    RC_SIGN_IN);
+//            // Use the dialog to present to the user.
+//        } catch (UserRecoverableAutException recoverableException) {
+//            Intent recoveryIntent = recoverableException.getIntent();
+//            // Use the intent in a custom dialog or just startActivityForResult.
+//        } catch (GoogleAuthException authEx) {
+//            // This is likely unrecoverable.
+//            Log.e(TAG, "Unrecoverable authentication exception: " + authEx.getMesssage(), authEx);
+//        } catch (IOException ioEx) {
+//            Log.i(TAG, "transient error encountered: " + ioEx.getMessage());
+//            doExponentialBackoff();
+//        }
+//    }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -109,10 +136,11 @@ public class GoogleManager implements GoogleApiClient.OnConnectionFailedListener
 
     public class GoogleUser {
         String id;
+        String token;
         String firstname;
         String lastname;
-        String gender;
-        String birthdate;
+//        String gender;
+//        String birthdate;
         String email;
         String city;
         String country;
@@ -121,27 +149,41 @@ public class GoogleManager implements GoogleApiClient.OnConnectionFailedListener
         @Override
         public String toString() {
             return "GoogleUser{" +
-                    "firstname='" + firstname + '\'' +
+                    "id='" + id + '\'' +
+                    ", token='" + token + '\'' +
+                    ", firstname='" + firstname + '\'' +
                     ", lastname='" + lastname + '\'' +
-                    ", gender='" + gender + '\'' +
-                    ", birthdate='" + birthdate + '\'' +
+//                    ", gender='" + gender + '\'' +
+//                    ", birthdate='" + birthdate + '\'' +
                     ", email='" + email + '\'' +
                     ", urlPicture='" + urlPicture + '\'' +
-                    ", city='" + city + '\'' +
-                    ", country='" + country + '\'' +
+//                    ", city='" + city + '\'' +
+//                    ", country='" + country + '\'' +
                     '}';
         }
     }
 
     public interface OnGoogleManagerListener {
+        void onGoogleLoginSuccess(String token, GoogleUser googleUser);
         void onGoogleLoginSuccess(GoogleUser googleUser);
+        void onGoogleLoginFailed(String message);
         void onGoogleLoginFailed();
     }
 
     public static class OnGoogleManagerListenerAdapter implements OnGoogleManagerListener {
 
         @Override
+        public void onGoogleLoginSuccess(String token, GoogleUser googleUser) {
+
+        }
+
+        @Override
         public void onGoogleLoginSuccess(GoogleUser googleUser) {
+
+        }
+
+        @Override
+        public void onGoogleLoginFailed(String message) {
 
         }
 
