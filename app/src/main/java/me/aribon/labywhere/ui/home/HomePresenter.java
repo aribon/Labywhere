@@ -1,17 +1,14 @@
 package me.aribon.labywhere.ui.home;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import io.realm.Realm;
 import me.aribon.basemvp.presenter.BasePresenter;
-import me.aribon.labywhere.backend.cache.UserCacheStorage;
+import me.aribon.labywhere.backend.SubscriptionCollector;
+import me.aribon.labywhere.backend.UserDataProvider;
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.preferences.AuthPreferences;
-import me.aribon.labywhere.backend.webservice.service.UserService;
-import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
-import rx.functions.Action1;
 
 /**
  * Created on 24/04/2016
@@ -40,13 +37,24 @@ public class HomePresenter extends BasePresenter<HomeActivity> {
 
         int userIdThatIwant = 12;
 
-        subscription = getUserFromSources(userIdThatIwant)
-        .subscribe(new Action1<User>() {
+        subscription = UserDataProvider.getInstance().getUser(userIdThatIwant)
+        .subscribe(new Subscriber<User>() {
             @Override
-            public void call(User user) {
+            public void onCompleted() {
+                SubscriptionCollector.getInstance().update();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                SubscriptionCollector.getInstance().update();
+            }
+
+            @Override
+            public void onNext(User user) {
                 Log.d(TAG, "result: " + user.toString());
             }
         });
+        SubscriptionCollector.getInstance().addSubscription(subscription);
     }
 
 //    private void getAllUsers(String token) {
@@ -153,63 +161,63 @@ public class HomePresenter extends BasePresenter<HomeActivity> {
     /*****************************/
 
     // Simple logging to let us know what each source is returning
-    Observable.Transformer<User, User> logSource(final String source) {
-        return userObservable -> userObservable.doOnNext(
-                user -> {
-                    if (user == null) {
-                        Log.e(TAG, "logSource: " + source + " does not have any data.");
-                    } else if (!user.isUpToDate()) {
-                        Log.e(TAG, "logSource: " + source + " has stale data.");
-                    } else {
-                        Log.e(TAG, "logSource: " + source + " has the data you are looking for!");
-                    }
-                });
-    }
+//    Observable.Transformer<User, User> logSource(final String source) {
+//        return userObservable -> userObservable.doOnNext(
+//                user -> {
+//                    if (user == null) {
+//                        Log.e(TAG, "logSource: " + source + " does not have any data.");
+//                    } else if (!user.isUpToDate()) {
+//                        Log.e(TAG, "logSource: " + source + " has stale data.");
+//                    } else {
+//                        Log.e(TAG, "logSource: " + source + " has the data you are looking for!");
+//                    }
+//                });
+//    }
+//
+//    Observable.Transformer<User, User> clearDataIfStale(int id) {
+//        return userObservable -> userObservable.doOnNext(user -> {
+//            if (user != null && !user.isUpToDate()) {
+//                UserCacheStorage.getInstance().delete(String.valueOf(id));
+//            }
+//        });
+//    }
 
-    Observable.Transformer<User, User> clearDataIfStale(int id) {
-        return userObservable -> userObservable.doOnNext(user -> {
-            if (user != null && !user.isUpToDate()) {
-                UserCacheStorage.getInstance().delete(String.valueOf(id));
-            }
-        });
-    }
+//    //Observable from Cache
+//    private Observable<User> getUserFromCache(int id) {
+//        return Observable
+//                .just(UserCacheStorage.getInstance().get(String.valueOf(id)))
+//                .compose(logSource("CACHE"))
+//                .compose(clearDataIfStale(id));
+//    }
+//
+//    //Observable from Network
+//    private Observable<User> getUserFromNetwork(int id) {
+//        return UserService.getUser(id, AuthPreferences.getAuthToken()).flatMap(
+//                userResponse -> Observable.just(userResponse.getUser()))
+//                .compose(logSource("NETWORK"));
+//    }
+//
+//    //Observable from Network with save on Cache
+//    private Observable<User> getUserFromNetworkWithSave(int id) {
+//        return UserService.getUser(id, AuthPreferences.getAuthToken()).flatMap(
+//                userResponse -> Observable.just(userResponse.getUser()))
+//                .doOnNext(this::saveUserOnCache)
+//                .compose(logSource("NETWORK"));
+//    }
+//
+//    //Save on Cache
+//    private void saveUserOnCache(final User user) {
+//        Log.d(TAG, "saveUsersOnCache");
+//        if (user != null)
+//            UserCacheStorage.getInstance().put(String.valueOf(user.getId()), user);
+//    }
 
-    //Observable from Cache
-    private Observable<User> getUserFromCache(int id) {
-        return Observable
-                .just(UserCacheStorage.getInstance().get(String.valueOf(id)))
-                .compose(logSource("CACHE"))
-                .compose(clearDataIfStale(id));
-    }
-
-    //Observable from Network
-    private Observable<User> getUserFromNetwork(int id) {
-        return UserService.getUser(id, AuthPreferences.getAuthToken()).flatMap(
-                userResponse -> Observable.just(userResponse.getUser()))
-                .compose(logSource("NETWORK"));
-    }
-
-    //Observable from Network with save on Cache
-    private Observable<User> getUserFromNetworkWithSave(int id) {
-        return UserService.getUser(id, AuthPreferences.getAuthToken()).flatMap(
-                userResponse -> Observable.just(userResponse.getUser()))
-                .doOnNext(this::saveUserOnCache)
-                .compose(logSource("NETWORK"));
-    }
-
-    //Save on Cache
-    private void saveUserOnCache(final User user) {
-        Log.d(TAG, "saveUsersOnCache");
-        if (user != null)
-            UserCacheStorage.getInstance().put(String.valueOf(user.getId()), user);
-    }
-
-    //Final observable
-    @NonNull
-    private Observable<User> getUserFromSources(int id) {
-        return Observable
-                .concat(getUserFromCache(id), getUserFromNetworkWithSave(id))
-                .takeFirst(user -> user != null && user.isUpToDate());
-    }
+//    //Final observable
+//    @NonNull
+//    private Observable<User> getUserFromSources(int id) {
+//        return Observable
+//                .concat(getUserFromCache(id), getUserFromNetworkWithSave(id))
+//                .takeFirst(user -> user != null && user.isUpToDate());
+//    }
 
 }

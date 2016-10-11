@@ -23,12 +23,9 @@ public class SplashPresenter extends BasePresenter<SplashActivity> {
 
     private void startLoading() {
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //TODO start loading
-                mView.startAuthActivity();
-            }
+        handler.postDelayed(() -> {
+            //TODO start loading
+            mView.startAuthActivity();
         }, SPLASH_MIN_TIME_DISPLAY);
     }
 

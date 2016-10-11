@@ -8,6 +8,7 @@ import com.facebook.appevents.AppEventsLogger;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import me.aribon.labywhere.backend.SubscriptionCollector;
 import me.aribon.labywhere.backend.preferences.PreferencesManager;
 
 /**
@@ -25,7 +26,9 @@ public class LabywhereApplication extends Application {
         context = getApplicationContext();
 
         initFacebook();
-        
+
+        SubscriptionCollector.initialize();
+
         initPrefs();
         initDB();
         initWebServices();
@@ -53,5 +56,11 @@ public class LabywhereApplication extends Application {
 
     public static Context getContext() {
         return context;
+    }
+
+    @Override
+    public void onTerminate() {
+        SubscriptionCollector.getInstance().clear();
+        super.onTerminate();
     }
 }
