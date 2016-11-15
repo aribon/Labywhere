@@ -8,9 +8,9 @@ public class Data {
 
     private static final long STALE_MS = 20 * 1000; // Data is stale after 10 seconds
 
-    long timestamp;
+    private long timestamp;
 
-    public Data() {
+    Data() {
         this.timestamp = System.currentTimeMillis();
     }
 

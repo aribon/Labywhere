@@ -1,4 +1,4 @@
-package me.aribon.labywhere.backend;
+package me.aribon.labywhere.backend.utils;
 
 import android.support.annotation.Nullable;
 import android.telephony.SubscriptionManager;

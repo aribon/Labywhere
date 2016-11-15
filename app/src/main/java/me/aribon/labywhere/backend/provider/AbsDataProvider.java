@@ -1,4 +1,4 @@
-package me.aribon.labywhere.backend;
+package me.aribon.labywhere.backend.provider;
 
 import android.util.Log;
 
@@ -10,11 +10,11 @@ import rx.functions.Action1;
  * Created by aribon from Insign Mobility
  * on 11/10/2016
  */
-public abstract class DataProvider {
+public abstract class AbsDataProvider {
 
-    private static final String TAG = DataProvider.class.getSimpleName();
+    private static final String TAG = AbsDataProvider.class.getSimpleName();
 
-    DataProvider() {
+    AbsDataProvider() {
     }
 
     <T extends Data> Observable.Transformer<T, T> logSource(final String source) {

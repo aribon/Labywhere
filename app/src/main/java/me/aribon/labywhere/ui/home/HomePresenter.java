@@ -3,24 +3,22 @@ package me.aribon.labywhere.ui.home;
 import android.util.Log;
 
 import io.realm.Realm;
-import me.aribon.basemvp.presenter.BasePresenter;
-import me.aribon.labywhere.backend.SubscriptionCollector;
-import me.aribon.labywhere.backend.UserDataProvider;
+import me.aribon.labywhere.LabywhereBasePresenter;
 import me.aribon.labywhere.backend.model.User;
-import rx.Subscriber;
-import rx.Subscription;
+import me.aribon.labywhere.backend.provider.UserDataProvider;
+import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
 
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
-public class HomePresenter extends BasePresenter<HomeActivity> {
+public class HomePresenter extends LabywhereBasePresenter<HomeActivity> {
 
     private static final String TAG = HomePresenter.class.getSimpleName();
 
     private final Realm realm = Realm.getDefaultInstance();
-    private Subscription subscription = null;
+//    private Subscription subscription = null;
 
     @Override
     public void onResume() {
@@ -37,24 +35,40 @@ public class HomePresenter extends BasePresenter<HomeActivity> {
 
         int userIdThatIwant = 12;
 
-        subscription = UserDataProvider.getInstance().getUser(userIdThatIwant)
-        .subscribe(new Subscriber<User>() {
-            @Override
-            public void onCompleted() {
-                SubscriptionCollector.getInstance().update();
-            }
+//        UserDataProvider.getInstance().getUser(userIdThatIwant)
+//        .subscribe(new Subscriber<User>() {
+//            @Override
+//            public void onCompleted() {
+//                SubscriptionCollector.getInstance().update();
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                SubscriptionCollector.getInstance().update();
+//            }
+//
+//            @Override
+//            public void onNext(User user) {
+//                Log.d(TAG, "result: " + user.toString());
+//            }
+//        });
+//        SubscriptionCollector.getInstance().addSubscription(subscription);
 
-            @Override
-            public void onError(Throwable e) {
-                SubscriptionCollector.getInstance().update();
-            }
+        subscribeTo(
+                UserDataProvider.getInstance().getUser(userIdThatIwant),
+                new AutoPurgeSubscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                    }
 
-            @Override
-            public void onNext(User user) {
-                Log.d(TAG, "result: " + user.toString());
-            }
-        });
-        SubscriptionCollector.getInstance().addSubscription(subscription);
+                    @Override
+                    public void onNext(User user) {
+                        super.onNext(user);
+                        Log.d(TAG, "result: " + user.toString());
+                    }
+                }
+        );
     }
 
 //    private void getAllUsers(String token) {

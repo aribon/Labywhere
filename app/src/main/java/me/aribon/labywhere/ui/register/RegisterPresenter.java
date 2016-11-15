@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.aribon.basemvp.presenter.BasePresenter;
-import me.aribon.labywhere.backend.FacebookManager;
-import me.aribon.labywhere.backend.GoogleManager;
+import me.aribon.labywhere.backend.manager.FacebookManager;
+import me.aribon.labywhere.backend.manager.GoogleManager;
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.preferences.UserPreferences;

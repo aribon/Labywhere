@@ -1,4 +1,4 @@
-package me.aribon.labywhere.backend;
+package me.aribon.labywhere.backend.provider;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -24,7 +24,6 @@ public class UserDataProvider extends DataProvider {
             ourInstance = new UserDataProvider();
         return ourInstance;
     }
-
 
     private UserDataProvider() {
         super();

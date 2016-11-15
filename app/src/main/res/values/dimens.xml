@@ -23,4 +23,19 @@
 
     <dimen name="button_text_size">16sp</dimen>
     <dimen name="edit_text_size">15sp</dimen>
+
+
+    <!--increment by 8dp-->
+    <dimen name="sizing_1">8dp</dimen>
+    <dimen name="sizing_2">16dp</dimen>
+    <dimen name="sizing_3">24dp</dimen>
+    <dimen name="sizing_4">32dp</dimen>
+    <dimen name="sizing_5">40dp</dimen>
+    <dimen name="sizing_6">48dp</dimen>
+    <dimen name="sizing_7">56dp</dimen>
+    <dimen name="sizing_8">64dp</dimen>
+    <dimen name="sizing_9">72dp</dimen>
+    <dimen name="sizing_10">80dp</dimen>
+    <dimen name="sizing_11">88dp</dimen>
+    <dimen name="sizing_12">96dp</dimen>
 </resources>
