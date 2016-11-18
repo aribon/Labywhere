@@ -2,14 +2,14 @@ package me.aribon.labywhere.ui.splash;
 
 import android.os.Handler;
 
-import me.aribon.basemvp.presenter.BasePresenter;
+import me.aribon.labywhere.LabywhereBasePresenter;
 
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
-public class SplashPresenter extends BasePresenter<SplashActivity> {
+public class SplashPresenter extends LabywhereBasePresenter<SplashActivity> {
 
     public static final String TAG = SplashPresenter.class.getSimpleName();
 

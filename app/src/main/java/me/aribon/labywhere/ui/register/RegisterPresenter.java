@@ -7,7 +7,7 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.aribon.basemvp.presenter.BasePresenter;
+import me.aribon.labywhere.LabywhereBasePresenter;
 import me.aribon.labywhere.backend.interactor.UserInteractor;
 import me.aribon.labywhere.backend.manager.FacebookManager;
 import me.aribon.labywhere.backend.manager.GoogleManager;
@@ -16,6 +16,7 @@ import me.aribon.labywhere.backend.network.response.AuthResponse;
 import me.aribon.labywhere.backend.network.storage.AuthNetworkStorage;
 import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
+import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
 import me.aribon.labywhere.ui.home.HomeActivity;
 import rx.Observer;
 import rx.Subscription;
@@ -25,7 +26,7 @@ import rx.Subscription;
  *
  * @author Anthony
  */
-public class RegisterPresenter extends BasePresenter<RegisterActivity> {
+public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> {
 
     public static final String TAG = RegisterPresenter.class.getSimpleName();
 
@@ -95,54 +96,38 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
     }
 
     private void register(Map<String, String> body) {
-        subscription = AuthNetworkStorage.getInstance().register(body)
-                .subscribe(new Observer<AuthResponse>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "startLogin onCompleted");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, "startLogin onError: " + e.getMessage());
-                    }
-
+        subscribeTo(
+                AuthNetworkStorage.getInstance().register(body),
+                new AutoPurgeSubscriber<AuthResponse>() {
                     @Override
                     public void onNext(AuthResponse authResponse) {
-
+                        super.onNext(authResponse);
                         if (authResponse.isError()) {
                             //TODO set error
                         } else {
                             login(credentials);
                         }
                     }
-                });
+                }
+        );
     }
 
     private void login(Map<String, String> credentials) {
-        subscription = AuthNetworkStorage.getInstance().login(credentials)
-                .subscribe(new Observer<AuthResponse>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "startLogin onCompleted");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, "startLogin onError: " + e.getMessage());
-                    }
-
+        subscribeTo(
+                AuthNetworkStorage.getInstance().login(credentials),
+                new AutoPurgeSubscriber<AuthResponse>() {
                     @Override
                     public void onNext(AuthResponse authResponse) {
-
+                        super.onNext(authResponse);
                         if (authResponse.isError()) {
                             //TODO set error
                         } else {
                             AuthPreferences.setAuthToken(authResponse.getToken()); //Save token in preference
-                            loadAccount(authResponse.getToken()); //Load user data
+                            loadAccount(); //Load user data
                         }
                     }
-                });
+                }
+        );
     }
 
     public void facebookRegisterClick() {
@@ -153,7 +138,7 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
         googleManager.login();
     }
 
-    private void loadAccount(String token) {
+    private void loadAccount() {
         subscription = UserInteractor.getInstance().retrieveAccount()
                 .subscribe(new Observer<User>() {
                     @Override

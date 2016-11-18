@@ -7,7 +7,7 @@ import android.util.Log;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.aribon.basemvp.view.BaseActivity;
+import me.aribon.labywhere.LabywhereBaseActivity;
 import me.aribon.labywhere.R;
 
 /**
@@ -15,7 +15,7 @@ import me.aribon.labywhere.R;
  *
  * @author Anthony
  */
-public class AuthActivity extends BaseActivity<AuthPresenter> {
+public class AuthActivity extends LabywhereBaseActivity<AuthPresenter> {
 
     private static final String TAG = AuthActivity.class.getSimpleName();
 

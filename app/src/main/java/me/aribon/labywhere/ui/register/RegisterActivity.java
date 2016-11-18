@@ -6,10 +6,10 @@ import android.widget.EditText;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.aribon.basemvp.view.BaseActivity;
+import me.aribon.labywhere.LabywhereBaseActivity;
 import me.aribon.labywhere.R;
 
-public class RegisterActivity extends BaseActivity<RegisterPresenter> {
+public class RegisterActivity extends LabywhereBaseActivity<RegisterPresenter> {
 
     public static final String TAG = RegisterActivity.class.getSimpleName();
 
