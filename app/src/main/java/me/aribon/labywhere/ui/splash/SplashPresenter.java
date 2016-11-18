@@ -28,5 +28,4 @@ public class SplashPresenter extends BasePresenter<SplashActivity> {
             mView.startAuthActivity();
         }, SPLASH_MIN_TIME_DISPLAY);
     }
-
 }

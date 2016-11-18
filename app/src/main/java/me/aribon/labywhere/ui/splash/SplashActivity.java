@@ -1,6 +1,5 @@
 package me.aribon.labywhere.ui.splash;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import me.aribon.basemvp.view.BaseActivity;
@@ -21,8 +20,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter> {
     }
 
     public void startAuthActivity() {
-        Intent intent = new Intent(this, AuthActivity.class);
-        startActivity(intent);
+        AuthActivity.startActivity(this);
         finish();
     }
 }

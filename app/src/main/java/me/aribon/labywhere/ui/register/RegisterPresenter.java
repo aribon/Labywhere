@@ -8,14 +8,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.aribon.basemvp.presenter.BasePresenter;
+import me.aribon.labywhere.backend.interactor.UserInteractor;
 import me.aribon.labywhere.backend.manager.FacebookManager;
 import me.aribon.labywhere.backend.manager.GoogleManager;
 import me.aribon.labywhere.backend.model.User;
+import me.aribon.labywhere.backend.network.response.AuthResponse;
+import me.aribon.labywhere.backend.network.storage.AuthNetworkStorage;
+import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
-import me.aribon.labywhere.backend.preferences.UserPreferences;
-import me.aribon.labywhere.backend.webservice.response.AuthResponse;
-import me.aribon.labywhere.backend.webservice.response.UserResponse;
-import me.aribon.labywhere.backend.webservice.service.AuthService;
 import me.aribon.labywhere.ui.home.HomeActivity;
 import rx.Observer;
 import rx.Subscription;
@@ -95,52 +95,54 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
     }
 
     private void register(Map<String, String> body) {
-        subscription = AuthService.register(body).subscribe(new Observer<AuthResponse>() {
-            @Override
-            public void onCompleted() {
-                Log.d(TAG, "startLogin onCompleted");
-            }
+        subscription = AuthNetworkStorage.getInstance().register(body)
+                .subscribe(new Observer<AuthResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "startLogin onCompleted");
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.d(TAG, "startLogin onError: " + e.getMessage());
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "startLogin onError: " + e.getMessage());
+                    }
 
-            @Override
-            public void onNext(AuthResponse authResponse) {
+                    @Override
+                    public void onNext(AuthResponse authResponse) {
 
-                if (authResponse.isError()) {
-                    //TODO set error
-                } else {
-                    login(credentials);
-                }
-            }
-        });
+                        if (authResponse.isError()) {
+                            //TODO set error
+                        } else {
+                            login(credentials);
+                        }
+                    }
+                });
     }
 
     private void login(Map<String, String> credentials) {
-        subscription = AuthService.login(credentials).subscribe(new Observer<AuthResponse>() {
-            @Override
-            public void onCompleted() {
-                Log.d(TAG, "startLogin onCompleted");
-            }
+        subscription = AuthNetworkStorage.getInstance().login(credentials)
+                .subscribe(new Observer<AuthResponse>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "startLogin onCompleted");
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.d(TAG, "startLogin onError: " + e.getMessage());
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "startLogin onError: " + e.getMessage());
+                    }
 
-            @Override
-            public void onNext(AuthResponse authResponse) {
+                    @Override
+                    public void onNext(AuthResponse authResponse) {
 
-                if (authResponse.isError()) {
-                    //TODO set error
-                } else {
-                    AuthPreferences.setAuthToken(authResponse.getToken()); //Save token in preference
-                    loadAccount(authResponse.getToken()); //Load user data
-                }
-            }
-        });
+                        if (authResponse.isError()) {
+                            //TODO set error
+                        } else {
+                            AuthPreferences.setAuthToken(authResponse.getToken()); //Save token in preference
+                            loadAccount(authResponse.getToken()); //Load user data
+                        }
+                    }
+                });
     }
 
     public void facebookRegisterClick() {
@@ -152,34 +154,30 @@ public class RegisterPresenter extends BasePresenter<RegisterActivity> {
     }
 
     private void loadAccount(String token) {
-        subscription = AuthService.getAccount(token).subscribe(new Observer<UserResponse>() {
-            @Override
-            public void onCompleted() {
-                Log.d(TAG, "loadAccount onCompleted");
-            }
+        subscription = UserInteractor.getInstance().retrieveAccount()
+                .subscribe(new Observer<User>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "loadAccount onCompleted");
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.d(TAG, "loadAccount onError: " + e.getMessage());
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "loadAccount onError: " + e.getMessage());
+                    }
 
-            @Override
-            public void onNext(UserResponse userResponse) {
-
-                if (userResponse.isError()) {
-                    //TODO set error
-                } else {
-                    saveAccount(userResponse.getUser());
-                    Log.d(TAG, "loadAccount onNext: " + userResponse.getUser().toString());
-                    Log.d(TAG, "loadAccount onNext: " + userResponse.getUser().getProfile().toString());
-                    startHomeActivity();
-                }
-            }
-        });
+                    @Override
+                    public void onNext(User user) {
+                        saveAccount(user);
+                        Log.d(TAG, "loadAccount onNext: " + user.toString());
+                        Log.d(TAG, "loadAccount onNext: " + user.getProfile().toString());
+                        startHomeActivity();
+                    }
+                });
     }
 
     private void saveAccount(User user) {
-        UserPreferences.setUser(user);
+        AccountPreferences.setAccount(user);
     }
 
     private void startHomeActivity() {

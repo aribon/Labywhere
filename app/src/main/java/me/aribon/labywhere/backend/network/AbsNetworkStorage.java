@@ -2,6 +2,7 @@ package me.aribon.labywhere.backend.network;
 
 import android.util.Log;
 
+import me.aribon.labywhere.backend.AbsStorage;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -14,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  *
  * @author Anthony
  */
-public class AbsNetworkStorage {
+public abstract class AbsNetworkStorage<V, K> extends AbsStorage<V, K> {
 
     public static final String TAG = AbsNetworkStorage.class.getSimpleName();
 

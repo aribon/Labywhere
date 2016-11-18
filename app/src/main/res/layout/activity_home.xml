@@ -8,23 +8,37 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/white"
     tools:context=".ui.home.HomeActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Home"
-        android:textSize="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:text="Click to load data"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/secondary_dark"
         android:id="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/textViewResult"
+        android:textColor="@color/flat_blue"
+        android:text="[NONE]"/>
 
     <Button
         android:id="@+id/home_load_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Load"
-        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="92dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="92dp"
+        android:background="@color/primary"
+        android:elevation="5dp"/>
 
 </RelativeLayout>

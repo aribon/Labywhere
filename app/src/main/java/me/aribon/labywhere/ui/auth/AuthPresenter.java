@@ -2,7 +2,7 @@ package me.aribon.labywhere.ui.auth;
 
 import android.content.Intent;
 
-import me.aribon.basemvp.presenter.BasePresenter;
+import me.aribon.labywhere.LabywhereBasePresenter;
 import me.aribon.labywhere.ui.login.LoginActivity;
 import me.aribon.labywhere.ui.register.RegisterActivity;
 
@@ -11,7 +11,7 @@ import me.aribon.labywhere.ui.register.RegisterActivity;
  *
  * @author Anthony
  */
-public class AuthPresenter extends BasePresenter<AuthActivity> {
+public class AuthPresenter extends LabywhereBasePresenter<AuthActivity> {
 
     public void startSignInActivity() {
         Intent intent = new Intent(mView, LoginActivity.class);
@@ -21,5 +21,14 @@ public class AuthPresenter extends BasePresenter<AuthActivity> {
     public void startSignUpActivity() {
         Intent intent = new Intent(mView, RegisterActivity.class);
         mView.startActivity(intent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+//        if (resultCode == Activity.RESULT_CANCELED) {
+//            mView.finish();
+//        }
     }
 }

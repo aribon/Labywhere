@@ -190,13 +190,13 @@ public class User extends Data {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", type=" + type +
-                ", email='" + email + '\'' +
-                ", profile=" + profile.toString() +
-                ", createdAt='" + createdAt + '\'' +
-                ", changedAt='" + changedAt + '\'' +
-                '}';
+        return "User {" + "\n" +
+                "\tid=" + id +
+                ",\n\t type=" + type +
+                ",\n\t email=" + email +
+                ",\n\t\t profile=" + profile.toString() +
+                ",\n\t createdAt=" + createdAt +
+                ",\n\t changedAt=" + changedAt +
+                "\n}";
     }
 }

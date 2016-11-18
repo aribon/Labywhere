@@ -5,15 +5,15 @@ import android.util.Log;
 
 import me.aribon.labywhere.backend.cache.UserCacheStorage;
 import me.aribon.labywhere.backend.model.User;
+import me.aribon.labywhere.backend.network.storage.UserNetworkStorage;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
-import me.aribon.labywhere.backend.webservice.service.UserService;
 import rx.Observable;
 
 /**
  * Created by aribon from Insign Mobility
  * on 11/10/2016
  */
-public class UserDataProvider extends DataProvider {
+public class UserDataProvider extends AbsDataProvider {
 
     private static final String TAG = UserDataProvider.class.getSimpleName();
 
@@ -40,23 +40,20 @@ public class UserDataProvider extends DataProvider {
 
     //Observable from Cache
     private Observable<User> getUserFromCache(int id) {
-        return Observable
-                .just(UserCacheStorage.getInstance().get(String.valueOf(id)))
+        return UserCacheStorage.getInstance().get(String.valueOf(id))
                 .compose(logSource("CACHE"))
                 .compose(clearDataIfStale(id));
     }
 
     //Observable from Network
     private Observable<User> getUserFromNetwork(int id) {
-        return UserService.getUser(id, AuthPreferences.getAuthToken()).flatMap(
-                userResponse -> Observable.just(userResponse.getUser()))
+        return UserNetworkStorage.getInstance(AuthPreferences.getAuthToken()).get(id)
                 .compose(logSource("NETWORK"));
     }
 
     //Observable from Network with save on Cache
     private Observable<User> getUserFromNetworkWithSave(int id) {
-        return UserService.getUser(id, AuthPreferences.getAuthToken()).flatMap(
-                userResponse -> Observable.just(userResponse.getUser()))
+        return UserNetworkStorage.getInstance(AuthPreferences.getAuthToken()).get(id)
                 .doOnNext(this::saveUserOnCache)
                 .compose(logSource("NETWORK"));
     }
@@ -74,5 +71,9 @@ public class UserDataProvider extends DataProvider {
         return Observable
                 .concat(getUserFromCache(id), getUserFromNetworkWithSave(id))
                 .takeFirst(user -> user != null && user.isUpToDate());
+    }
+
+    public Observable<User> getAccount() {
+        return UserNetworkStorage.getInstance(AuthPreferences.getAuthToken()).getAccount();
     }
 }

@@ -262,16 +262,16 @@ public class Profile implements RealmModel {
 
     @Override
     public String toString() {
-        return "Profile{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", gender='" + gender + '\'' +
-                ", country='" + country + '\'' +
-                ", city='" + city + '\'' +
-                ", birthdate='" + birthdate + '\'' +
-                ", createdAt='" + createdAt + '\'' +
-                ", changedAt='" + changedAt + '\'' +
-                '}';
+        return "Profile {" + "\n" +
+                "\tid=" + id +
+                ",\n\t firstname=" + firstname +
+                ",\n\t lastname=" + lastname +
+                ",\n\t gender=" + gender +
+                ",\n\t country=" + country +
+                ",\n\t city=" + city +
+                ",\n\t birthdate=" + birthdate +
+                ",\n\t createdAt=" + createdAt +
+                ",\n\t changedAt=" + changedAt +
+                "\n}";
     }
 }

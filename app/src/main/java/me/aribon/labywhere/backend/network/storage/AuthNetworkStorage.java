@@ -1,10 +1,10 @@
 package me.aribon.labywhere.backend.network.storage;
 
+import java.util.List;
 import java.util.Map;
 
-import me.aribon.labywhere.backend.network.NetworkManager;
+import me.aribon.labywhere.backend.network.AbsNetworkStorage;
 import me.aribon.labywhere.backend.network.response.AuthResponse;
-import me.aribon.labywhere.backend.network.response.UserResponse;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -15,25 +15,40 @@ import rx.schedulers.Schedulers;
  *
  * @author Anthony
  */
-public class AuthNetworkStorage {
+public class AuthNetworkStorage extends AbsNetworkStorage<AuthResponse, String> {
 
     public static final String TAG = AuthNetworkStorage.class.getSimpleName();
 
-    public static Observable<UserResponse> getAccount(String token) {
-        return NetworkManager.createService(me.aribon.labywhere.backend.network.service.AuthService.class, token).getAccount()
+    private static AuthNetworkStorage instance;
+
+    public static AuthNetworkStorage getInstance() {
+        if (instance == null)
+            instance = new AuthNetworkStorage();
+        return instance;
+    }
+
+    private AuthNetworkStorage() {
+    }
+
+    public Observable<AuthResponse> login(Map<String, String> credentials) {
+        return createService(me.aribon.labywhere.backend.network.service.AuthService.class).login(credentials)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Observable<AuthResponse> login(Map<String, String> credentials) {
-        return NetworkManager.createService(me.aribon.labywhere.backend.network.service.AuthService.class).login(credentials)
+    public Observable<AuthResponse> register(Map<String, String> body) {
+        return createService(me.aribon.labywhere.backend.network.service.AuthService.class).registration(body)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Observable<AuthResponse> register(Map<String, String> body) {
-        return NetworkManager.createService(me.aribon.labywhere.backend.network.service.AuthService.class).registration(body)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+    @Override
+    public Observable<AuthResponse> get(String id) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<AuthResponse>> getAll() {
+        return null;
     }
 }

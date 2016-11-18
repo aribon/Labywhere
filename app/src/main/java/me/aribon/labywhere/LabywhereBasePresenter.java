@@ -12,7 +12,7 @@ import rx.Subscription;
  * Created by aribon from Insign Mobility
  * on 15/11/2016
  */
-abstract public class LabywhereBasePresenter<V extends BaseView> extends BasePresenter {
+abstract public class LabywhereBasePresenter<V extends BaseView> extends BasePresenter<V> {
 
     public <T> long subscribeTo(Observable<T> observable, Subscriber subscriber) {
         Subscription subscription = observable.subscribe(subscriber);

@@ -1,5 +1,6 @@
 package me.aribon.labywhere.ui.login;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
@@ -7,31 +8,35 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.aribon.basemvp.presenter.BasePresenter;
+import me.aribon.labywhere.LabywhereBasePresenter;
+import me.aribon.labywhere.backend.interactor.UserInteractor;
 import me.aribon.labywhere.backend.model.User;
+import me.aribon.labywhere.backend.network.response.AuthResponse;
+import me.aribon.labywhere.backend.network.storage.AuthNetworkStorage;
+import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
-import me.aribon.labywhere.backend.preferences.UserPreferences;
-import me.aribon.labywhere.backend.webservice.response.AuthResponse;
-import me.aribon.labywhere.backend.webservice.response.UserResponse;
-import me.aribon.labywhere.backend.webservice.service.AuthService;
+import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
+import me.aribon.labywhere.ui.auth.AuthActivity;
 import me.aribon.labywhere.ui.home.HomeActivity;
-import rx.Observer;
-import rx.Subscription;
 
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
-public class LoginPresenter extends BasePresenter<LoginActivity> {
+public class LoginPresenter extends LabywhereBasePresenter<LoginActivity> {
 
     public static final String TAG = LoginPresenter.class.getSimpleName();
-
-    private Subscription subscription;
 
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        mView.setResult(Activity.RESULT_CANCELED);
+        super.onDestroy();
     }
 
     public void prepareLogin() {
@@ -61,64 +66,46 @@ public class LoginPresenter extends BasePresenter<LoginActivity> {
     }
 
     private void login(Map<String, String> credentials) {
-        subscription = AuthService.login(credentials).subscribe(new Observer<AuthResponse>() {
-            @Override
-            public void onCompleted() {
-                Log.d(TAG, "startLogin onCompleted");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.d(TAG, "startLogin onError: " + e.getMessage());
-            }
-
-            @Override
-            public void onNext(AuthResponse authResponse) {
-
-                if (authResponse.isError()) {
-                    //TODO set error
-                } else {
-                    AuthPreferences.setAuthToken(authResponse.getToken()); //Save token in preference
-                    loadAccount(authResponse.getToken()); //Load user data
+        subscribeTo(
+                AuthNetworkStorage.getInstance().login(credentials),
+                new AutoPurgeSubscriber<AuthResponse>() {
+                    @Override
+                    public void onNext(AuthResponse authResponse) {
+                        if (authResponse.isError()) {
+                            //TODO set error
+                        } else {
+                            AuthPreferences.setAuthToken(authResponse.getToken()); //Save token in preference
+                            loadAccount(); //Load user data
+                        }
+                    }
                 }
-            }
-        });
+        );
     }
 
-    private void loadAccount(String token) {
-        subscription = AuthService.getAccount(token).subscribe(new Observer<UserResponse>() {
-           @Override
-           public void onCompleted() {
-               Log.d(TAG, "loadAccount onCompleted");
-           }
-
-           @Override
-           public void onError(Throwable e) {
-               Log.d(TAG, "loadAccount onError: " + e.getMessage());
-           }
-
-           @Override
-           public void onNext(UserResponse userResponse) {
-
-               if (userResponse.isError()) {
-                   //TODO set error
-               } else {
-                   saveAccount(userResponse.getUser());
-                   Log.d(TAG, "loadAccount onNext: " + userResponse.getUser().toString());
-                   Log.d(TAG, "loadAccount onNext: " + userResponse.getUser().getProfile().toString());
-                   startHomeActivity();
-               }
-           }
-       });
+    private void loadAccount() {
+        subscribeTo(
+                UserInteractor.getInstance().retrieveAccount(),
+                new AutoPurgeSubscriber<User>() {
+                    @Override
+                    public void onNext(User user) {
+                        saveAccount(user);
+                        Log.d(TAG, "loadAccount onNext: " + user.toString());
+                        Log.d(TAG, "loadAccount onNext: " + user.getProfile().toString());
+                        startHomeActivity();
+                    }
+                }
+        );
     }
 
     private void saveAccount(User user) {
-        UserPreferences.setUser(user);
+        AccountPreferences.setAccount(user);
     }
 
     private void startHomeActivity() {
         Intent intent = new Intent(mView, HomeActivity.class);
         mView.startActivity(intent);
+        AuthActivity.stopActivity();
+//        mView.setResult(Activity.RESULT_CANCELED);
         mView.finish();
     }
 }

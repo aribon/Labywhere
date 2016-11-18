@@ -3,17 +3,22 @@ package me.aribon.labywhere.backend.cache;
 import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import me.aribon.labywhere.LabywhereApplication;
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.utils.FileUtils;
+import rx.Observable;
 
 /**
  * Created by aribon on 26/05/2016.
  */
-public class UserCacheStorage extends AbsCacheStorage<String, User> {
+public class UserCacheStorage extends AbsCacheStorage<User, String> {
 
         private static final String TAG = UserCacheStorage.class.getSimpleName();
 
@@ -34,21 +39,22 @@ public class UserCacheStorage extends AbsCacheStorage<String, User> {
         }
 
         @Override
-        public User get(@NonNull String key) {
+        public Observable<User> get(@NonNull String key) {
             File userFile = buildFile(key);
             String fileContent = FileUtils.readFileContent(userFile);
             Gson gson = new Gson();
             User user = gson.fromJson(fileContent, User.class);
-            return user != null ? user : null;
+            return Observable.just(user);
         }
 
         @Override
-        public User getAll() {
+        public Observable<List<User>> getAll() {
             File userFile = buildFile();
             String fileContent = FileUtils.readFileContent(userFile);
             Gson gson = new Gson();
-            User user = gson.fromJson(fileContent, User.class);
-            return user;
+            Type listType = new TypeToken<ArrayList<User>>(){}.getType();
+            List<User> users = gson.fromJson(fileContent, listType);
+            return Observable.just(users);
         }
 
         @Override

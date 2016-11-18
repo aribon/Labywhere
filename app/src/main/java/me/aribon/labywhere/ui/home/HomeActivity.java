@@ -1,13 +1,17 @@
 package me.aribon.labywhere.ui.home;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.aribon.basemvp.view.BaseActivity;
+import me.aribon.labywhere.LabywhereBaseActivity;
 import me.aribon.labywhere.R;
 
-public class HomeActivity extends BaseActivity<HomePresenter> {
+public class HomeActivity extends LabywhereBaseActivity<HomePresenter> {
+
+    @Bind(R.id.textViewResult) TextView result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +23,10 @@ public class HomeActivity extends BaseActivity<HomePresenter> {
     @OnClick(R.id.home_load_btn)
     public void loadClick() {
         getPresenter().loadData();
+    }
+
+    public void setResultText(String text) {
+        result.setText(text);
     }
 
     @Override

@@ -30,7 +30,7 @@ public class AccountPreferences {
     public static void setUserId(int userId) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putInt(KEY_ID, userId)
-                .commit();
+                .apply();
     }
 
     public static int getUserId() {
@@ -40,7 +40,7 @@ public class AccountPreferences {
     public static void setUserType(int userType) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putInt(KEY_TYPE, userType)
-                .commit();
+                .apply();
     }
 
     public static int getUserType() {
@@ -50,7 +50,7 @@ public class AccountPreferences {
     public static void setUserEmail(String userEmail) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putString(KEY_EMAIL, userEmail)
-                .commit();
+                .apply();
     }
 
     public static String getUserEmail() {
@@ -60,7 +60,7 @@ public class AccountPreferences {
     public static void setUserCreatedAt(String userCreatedAt) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putString(KEY_CREATED_AT, userCreatedAt)
-                .commit();
+                .apply();
     }
 
     public static String getUserCreatedAt() {
@@ -70,7 +70,7 @@ public class AccountPreferences {
     public static void setUserChangedAt(String userChangedAt) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putString(KEY_CHANGED_AT, userChangedAt)
-                .commit();
+                .apply();
     }
 
     public static String getUserChangedAt() {
@@ -80,7 +80,7 @@ public class AccountPreferences {
     public static void setUserProfileId(int userProfileId) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putInt(KEY_PROFILE_ID, userProfileId)
-                .commit();
+                .apply();
     }
 
     public static int getUserProfileId() {
@@ -90,7 +90,7 @@ public class AccountPreferences {
     public static void setUserProfileFirstname(String userProfileFirstname) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putString(KEY_PROFILE_FIRSTNAME, userProfileFirstname)
-                .commit();
+                .apply();
     }
 
     public static String getUserProfileFirstname() {
@@ -100,7 +100,7 @@ public class AccountPreferences {
     public static void setUserProfileLastname(String userProfileLastname) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putString(KEY_PROFILE_LASTNAME, userProfileLastname)
-                .commit();
+                .apply();
     }
 
     public static String getUserProfileLastname() {
@@ -110,7 +110,7 @@ public class AccountPreferences {
     public static void setUserProfileGender(String userProfileGender) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putString(KEY_PROFILE_GENDER, userProfileGender)
-                .commit();
+                .apply();
     }
 
     public static String getUserProfileGender() {
@@ -120,7 +120,7 @@ public class AccountPreferences {
     public static void setUserProfileCity(String userProfileCity) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putString(KEY_PROFILE_CITY, userProfileCity)
-                .commit();
+                .apply();
     }
 
     public static String getUserProfileCity() {
@@ -130,7 +130,7 @@ public class AccountPreferences {
     public static void setUserProfileCountry(String userProfileCountry) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putString(KEY_PROFILE_COUNTRY, userProfileCountry)
-                .commit();
+                .apply();
     }
 
     public static String getUserProfileCountry() {
@@ -140,7 +140,7 @@ public class AccountPreferences {
     public static void setUserProfileBirthdate(String userProfileBirthdate) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putString(KEY_PROFILE_BIRTHDATE, userProfileBirthdate)
-                .commit();
+                .apply();
     }
 
     public static String getUserProfileBirthdate() {
@@ -150,7 +150,7 @@ public class AccountPreferences {
     public static void setUserProfileCreatedAt(String userProfileCreatedAt) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putString(KEY_PROFILE_CREATED_AT, userProfileCreatedAt)
-                .commit();
+                .apply();
     }
 
     public static String getUserProfileCreatedAt() {
@@ -160,14 +160,14 @@ public class AccountPreferences {
     public static void setUserProfileChangedAt(String userProfileChangedAt) {
         PreferencesManager.getInstance().getSharedPreferences().edit()
                 .putString(KEY_PROFILE_CHANGED_AT, userProfileChangedAt)
-                .commit();
+                .apply();
     }
 
     public static String getUserProfileChangedAt() {
         return PreferencesManager.getInstance().getSharedPreferences().getString(KEY_PROFILE_CHANGED_AT, null);
     }
 
-    public static void setUser(@NonNull User user) {
+    public static void setAccount(@NonNull User user) {
         setUserId(user.getId());
         setUserType(user.getType());
         setUserEmail(user.getEmail());
