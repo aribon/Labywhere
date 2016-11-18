@@ -2,6 +2,7 @@ package me.aribon.labywhere.backend.preferences;
 
 import android.support.annotation.NonNull;
 
+import me.aribon.labywhere.backend.model.Profile;
 import me.aribon.labywhere.backend.model.User;
 
 /**
@@ -9,7 +10,7 @@ import me.aribon.labywhere.backend.model.User;
  *
  * @author Anthony
  */
-public class UserPreferences {
+public class AccountPreferences {
 
     private static final String KEY_ID = "users.id";
     private static final String KEY_TYPE = "users.type";
@@ -182,5 +183,31 @@ public class UserPreferences {
         setUserProfileBirthdate(user.getProfile().getBirthdate());
         setUserProfileCreatedAt(user.getProfile().getCreatedAt());
         setUserProfileChangedAt(user.getProfile().getChangedAt());
+    }
+
+    public static User getAccount() {
+        User user = new User();
+
+        user.setId(getUserId());
+        user.setEmail(getUserEmail());
+        user.setType(getUserType());
+        user.setCreatedAt(getUserCreatedAt());
+        user.setChangedAt(getUserChangedAt());
+
+        Profile profile = new Profile();
+
+        profile.setId(getUserProfileId());
+        profile.setFirstname(getUserProfileFirstname());
+        profile.setLastname(getUserProfileLastname());
+        profile.setGender(getUserProfileGender());
+        profile.setCity(getUserProfileCity());
+        profile.setCountry(getUserProfileCountry());
+        profile.setBirthdate(getUserProfileBirthdate());
+        profile.setCreatedAt(getUserCreatedAt());
+        profile.setChangedAt(getUserChangedAt());
+
+        user.setProfile(profile);
+
+        return user;
     }
 }

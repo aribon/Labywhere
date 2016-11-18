@@ -1,4 +1,4 @@
-package me.aribon.labywhere.backend.webservice.response;
+package me.aribon.labywhere.backend.network.response;
 
 import me.aribon.labywhere.backend.model.User;
 

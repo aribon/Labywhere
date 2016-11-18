@@ -1,9 +1,9 @@
-package me.aribon.labywhere.backend.webservice.api;
+package me.aribon.labywhere.backend.network.service;
 
 import java.util.Map;
 
-import me.aribon.labywhere.backend.webservice.response.AuthResponse;
-import me.aribon.labywhere.backend.webservice.response.UserResponse;
+import me.aribon.labywhere.backend.network.response.AuthResponse;
+import me.aribon.labywhere.backend.network.response.UserResponse;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -15,7 +15,7 @@ import rx.Observable;
  *
  * @author Anthony
  */
-public interface AuthApi {
+public interface AuthService {
 
     @FormUrlEncoded
     @POST("login")

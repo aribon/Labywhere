@@ -1,4 +1,4 @@
-package me.aribon.labywhere.backend.webservice.response;
+package me.aribon.labywhere.backend.network.response;
 
 /**
  * Created on 24/04/2016
