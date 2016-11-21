@@ -5,18 +5,16 @@ import java.util.List;
 import rx.Observable;
 
 /**
- * Created by aribon from Insign Mobility
+ * Created by aribon
  * on 18/11/2016
  */
-public abstract class AbsStorage<V, K> {
+public abstract class AbsStorage<V> {
 
-    public abstract Observable<V> get(K id);
+    public abstract Observable<V> get(int id);
 
     public abstract Observable<List<V>> getAll();
 
-//    public abstract void put(V value);
+    public abstract void put(V value);
 
-//    public abstract boolean delete(K key);
-
-//    public abstract boolean deleteAll();
+    public abstract void delete(int key);
 }

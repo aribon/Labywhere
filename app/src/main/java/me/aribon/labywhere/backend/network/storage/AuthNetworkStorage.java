@@ -3,7 +3,6 @@ package me.aribon.labywhere.backend.network.storage;
 import java.util.List;
 import java.util.Map;
 
-import me.aribon.labywhere.backend.network.AbsNetworkStorage;
 import me.aribon.labywhere.backend.network.response.AuthResponse;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -15,7 +14,7 @@ import rx.schedulers.Schedulers;
  *
  * @author Anthony
  */
-public class AuthNetworkStorage extends AbsNetworkStorage<AuthResponse, String> {
+public class AuthNetworkStorage extends AbsNetworkStorage<AuthResponse> {
 
     public static final String TAG = AuthNetworkStorage.class.getSimpleName();
 
@@ -43,12 +42,22 @@ public class AuthNetworkStorage extends AbsNetworkStorage<AuthResponse, String> 
     }
 
     @Override
-    public Observable<AuthResponse> get(String id) {
+    public Observable<AuthResponse> get(int id) {
         return null;
     }
 
     @Override
     public Observable<List<AuthResponse>> getAll() {
         return null;
+    }
+
+    @Override
+    public void put(AuthResponse value) {
+
+    }
+
+    @Override
+    public void delete(int key) {
+
     }
 }

@@ -11,7 +11,11 @@ import me.aribon.basemvp.view.BaseView;
  */
 public class BasePresenter<V extends BaseView> {
 
-    public V mView;
+    private V mView;
+
+    public V getView() {
+        return mView;
+    }
 
     public void onCreate() {
 

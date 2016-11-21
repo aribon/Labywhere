@@ -3,6 +3,7 @@ package me.aribon.labywhere.ui.home;
 import android.util.Log;
 
 import me.aribon.labywhere.LabywhereBasePresenter;
+import me.aribon.labywhere.backend.interactor.InteractorResponse;
 import me.aribon.labywhere.backend.interactor.UserInteractor;
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
@@ -27,9 +28,9 @@ public class HomePresenter extends LabywhereBasePresenter<HomeActivity> {
         int userIdThatIwant = 12;
 
         subscribeTo(
-                UserInteractor.getInstance().retrieveUser(userIdThatIwant)
+                UserInteractor.getInstance().retrieve(userIdThatIwant)
                         .observeOn(AndroidSchedulers.mainThread()),
-                new AutoPurgeSubscriber<User>() {
+                new AutoPurgeSubscriber<InteractorResponse<User>>() {
 
                     @Override
                     public void onCompleted() {
@@ -44,10 +45,13 @@ public class HomePresenter extends LabywhereBasePresenter<HomeActivity> {
                     }
 
                     @Override
-                    public void onNext(User user) {
-                        super.onNext(user);
-                        Log.i(TAG, "loadData -> onNext: " + user.toString());
-                        mView.setResultText(user.toString());
+                    public void onNext(InteractorResponse<User> response) {
+                        super.onNext(response);
+                        if (response != null) {
+                            User user = response.getObject();
+                            Log.i(TAG, "loadData -> onNext: " + user.toString());
+                            getView().setResultText(user.toString());
+                        }
                     }
                 }
         );

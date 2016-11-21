@@ -6,10 +6,8 @@ import android.content.Context;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
-import me.aribon.labywhere.backend.utils.SubscriptionCollector;
 import me.aribon.labywhere.backend.preferences.PreferencesManager;
+import me.aribon.labywhere.backend.utils.SubscriptionCollector;
 
 /**
  * Created on 25/04/2016
@@ -44,11 +42,13 @@ public class LabywhereApplication extends Application {
     }
 
     private void initDB() {
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this)
-                .deleteRealmIfMigrationNeeded()
-                .build();
+//        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this)
+//                .deleteRealmIfMigrationNeeded()
+//                .build();
+//
+//        Realm.setDefaultConfiguration(realmConfig);
 
-        Realm.setDefaultConfiguration(realmConfig);
+//        Realm.init(context);
     }
 
     private void initWebServices() {

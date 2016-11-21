@@ -14,7 +14,7 @@ import rx.Subscription;
  */
 abstract public class LabywhereBasePresenter<V extends BaseView> extends BasePresenter<V> {
 
-    public <T> long subscribeTo(Observable<T> observable, Subscriber subscriber) {
+    public <T> long subscribeTo(Observable<T> observable, Subscriber<T> subscriber) {
         Subscription subscription = observable.subscribe(subscriber);
         return SubscriptionCollector.getInstance().addSubscription(subscription);
     }

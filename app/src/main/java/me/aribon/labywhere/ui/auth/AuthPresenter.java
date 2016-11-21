@@ -14,21 +14,12 @@ import me.aribon.labywhere.ui.register.RegisterActivity;
 public class AuthPresenter extends LabywhereBasePresenter<AuthActivity> {
 
     public void startSignInActivity() {
-        Intent intent = new Intent(mView, LoginActivity.class);
-        mView.startActivity(intent);
+        Intent intent = new Intent(getView(), LoginActivity.class);
+        getView().startActivity(intent);
     }
 
     public void startSignUpActivity() {
-        Intent intent = new Intent(mView, RegisterActivity.class);
-        mView.startActivity(intent);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-//        if (resultCode == Activity.RESULT_CANCELED) {
-//            mView.finish();
-//        }
+        Intent intent = new Intent(getView(), RegisterActivity.class);
+        getView().startActivity(intent);
     }
 }

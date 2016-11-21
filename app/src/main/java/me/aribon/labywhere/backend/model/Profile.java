@@ -1,18 +1,15 @@
 package me.aribon.labywhere.backend.model;
 
-import io.realm.RealmModel;
-import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.RealmClass;
-
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
-@RealmClass
-public class Profile implements RealmModel {
+public class Profile extends Data {
 
-    @PrimaryKey private int id;
+    private static final String TAG = Profile.class.getSimpleName();
+
+    private int id;
     private String firstname;
     private String lastname;
     private String gender;

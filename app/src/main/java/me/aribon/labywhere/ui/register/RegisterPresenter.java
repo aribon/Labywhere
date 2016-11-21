@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.aribon.labywhere.LabywhereBasePresenter;
-import me.aribon.labywhere.backend.interactor.UserInteractor;
 import me.aribon.labywhere.backend.manager.FacebookManager;
 import me.aribon.labywhere.backend.manager.GoogleManager;
+import me.aribon.labywhere.backend.manager.ProfileManager;
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.backend.network.response.AuthResponse;
 import me.aribon.labywhere.backend.network.storage.AuthNetworkStorage;
@@ -18,7 +18,6 @@ import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
 import me.aribon.labywhere.ui.home.HomeActivity;
-import rx.Observer;
 import rx.Subscription;
 
 /**
@@ -41,8 +40,8 @@ public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> 
     public void onCreate() {
         super.onCreate();
 
-        googleManager = new GoogleManager(mView, onGoogleManagerListenerAdapter);
-        facebookManager = new FacebookManager(mView, onFacebookManagerListenerAdapter);
+        googleManager = new GoogleManager(getView(), onGoogleManagerListenerAdapter);
+        facebookManager = new FacebookManager(getView(), onFacebookManagerListenerAdapter);
     }
 
     @Override
@@ -54,31 +53,31 @@ public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> 
 
         Log.d(TAG, "login");
 
-        String email = mView.getEmail();
-        String password = mView.getPassword();
-        String firstname = mView.getFirstnmee();
-        String lastname = mView.getLastname();
+        String email = getView().getEmail();
+        String password = getView().getPassword();
+        String firstname = getView().getFirstnmee();
+        String lastname = getView().getLastname();
 
         if (TextUtils.isEmpty(email)) {
-            mView.setEmailError(""); //TODO
+            getView().setEmailError(""); //TODO
             Log.e(TAG, "onNext: email empty");
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            mView.setPasswordError(""); //TODO
+            getView().setPasswordError(""); //TODO
             Log.e(TAG, "onNext: password empty");
             return;
         }
 
         if (TextUtils.isEmpty(firstname)) {
-            mView.setFirstnameError(""); //TODO
+            getView().setFirstnameError(""); //TODO
             Log.e(TAG, "onNext: firstname empty");
             return;
         }
 
         if (TextUtils.isEmpty(lastname)) {
-            mView.setLastnameError(""); //TODO
+            getView().setLastnameError(""); //TODO
             Log.e(TAG, "onNext: lastname empty");
             return;
         }
@@ -139,8 +138,11 @@ public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> 
     }
 
     private void loadAccount() {
-        subscription = UserInteractor.getInstance().retrieveAccount()
-                .subscribe(new Observer<User>() {
+
+        subscribeTo(
+                ProfileManager.getInstance().loadAccount(),
+                new AutoPurgeSubscriber<User>() {
+
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "loadAccount onCompleted");
@@ -158,7 +160,8 @@ public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> 
                         Log.d(TAG, "loadAccount onNext: " + user.getProfile().toString());
                         startHomeActivity();
                     }
-                });
+                }
+        );
     }
 
     private void saveAccount(User user) {
@@ -166,9 +169,9 @@ public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> 
     }
 
     private void startHomeActivity() {
-        Intent intent = new Intent(mView, HomeActivity.class);
-        mView.startActivity(intent);
-        mView.finish();
+        Intent intent = new Intent(getView(), HomeActivity.class);
+        getView().startActivity(intent);
+        getView().finish();
     }
 
     @Override

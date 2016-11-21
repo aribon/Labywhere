@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import me.aribon.labywhere.LabywhereBaseActivity;
 import me.aribon.labywhere.R;
-import me.aribon.labywhere.ui.auth.AuthActivity;
 
 public class SplashActivity extends LabywhereBaseActivity<SplashPresenter> {
 
@@ -17,10 +16,5 @@ public class SplashActivity extends LabywhereBaseActivity<SplashPresenter> {
     @Override
     protected SplashPresenter initPresenter() {
         return new SplashPresenter();
-    }
-
-    public void startAuthActivity() {
-        AuthActivity.startActivity(this);
-        finish();
     }
 }

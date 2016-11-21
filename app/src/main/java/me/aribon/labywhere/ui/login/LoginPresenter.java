@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.aribon.labywhere.LabywhereBasePresenter;
-import me.aribon.labywhere.backend.interactor.UserInteractor;
+import me.aribon.labywhere.backend.manager.ProfileManager;
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.backend.network.response.AuthResponse;
 import me.aribon.labywhere.backend.network.storage.AuthNetworkStorage;
@@ -35,7 +35,7 @@ public class LoginPresenter extends LabywhereBasePresenter<LoginActivity> {
 
     @Override
     public void onDestroy() {
-        mView.setResult(Activity.RESULT_CANCELED);
+        getView().setResult(Activity.RESULT_CANCELED);
         super.onDestroy();
     }
 
@@ -43,17 +43,17 @@ public class LoginPresenter extends LabywhereBasePresenter<LoginActivity> {
 
         Log.d(TAG, "login");
 
-        String email = mView.getEmail();
-        String password = mView.getPassword();
+        String email = getView().getEmail();
+        String password = getView().getPassword();
 
         if (TextUtils.isEmpty(email)) {
-            //mView.setEmailError();
+            //getView().setEmailError();
             Log.e(TAG, "onNext: Email empty");
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            //mView.setPasswordError();
+            //getView().setPasswordError();
             Log.e(TAG, "onNext: Password empty");
             return;
         }
@@ -84,10 +84,11 @@ public class LoginPresenter extends LabywhereBasePresenter<LoginActivity> {
 
     private void loadAccount() {
         subscribeTo(
-                UserInteractor.getInstance().retrieveAccount(),
+                ProfileManager.getInstance().loadAccount(),
                 new AutoPurgeSubscriber<User>() {
                     @Override
                     public void onNext(User user) {
+                        super.onNext(user);
                         saveAccount(user);
                         Log.d(TAG, "loadAccount onNext: " + user.toString());
                         Log.d(TAG, "loadAccount onNext: " + user.getProfile().toString());
@@ -102,10 +103,10 @@ public class LoginPresenter extends LabywhereBasePresenter<LoginActivity> {
     }
 
     private void startHomeActivity() {
-        Intent intent = new Intent(mView, HomeActivity.class);
-        mView.startActivity(intent);
+        Intent intent = new Intent(getView(), HomeActivity.class);
+        getView().startActivity(intent);
         AuthActivity.stopActivity();
-//        mView.setResult(Activity.RESULT_CANCELED);
-        mView.finish();
+//        getView().setResult(Activity.RESULT_CANCELED);
+        getView().finish();
     }
 }
