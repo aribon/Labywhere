@@ -7,9 +7,6 @@ package me.aribon.labywhere.backend.model;
  */
 public class Profile extends Data {
 
-    private static final String TAG = Profile.class.getSimpleName();
-
-    private int id;
     private String firstname;
     private String lastname;
     private String gender;

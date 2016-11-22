@@ -1,13 +1,14 @@
 package me.aribon.labywhere.backend.interactor;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
-import me.aribon.labywhere.backend.cache.UserCacheStorage;
+import me.aribon.labywhere.backend.storage.cache.UserCacheStorage;
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.network.storage.UserNetworkStorage;
+import me.aribon.labywhere.backend.storage.network.storage.UserNetworkStorage;
 import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
-import retrofit2.Response;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -15,7 +16,7 @@ import rx.functions.Func1;
  * Created by aribon
  * on 18/11/2016
  */
-public class UserInteractor extends Interactor<User> {
+public class UserInteractor extends AbsInteractor<User> {
 
     private static final String TAG = UserInteractor.class.getSimpleName();
 
@@ -28,6 +29,11 @@ public class UserInteractor extends Interactor<User> {
     }
 
     private UserInteractor() {
+
+    }
+
+    @Override
+    public void create(@NonNull User value) {
 
     }
 
@@ -55,7 +61,7 @@ public class UserInteractor extends Interactor<User> {
                         .compose(logSource("NETWORK"))
                         .doOnNext((user) -> {
                             if (user != null)
-                                UserCacheStorage.getInstance().put(user.getId(), user);
+                                UserCacheStorage.getInstance().put(user);
                         })
                         .flatMap(
                                 new Func1<User, Observable<InteractorResponse<User>>>() {
@@ -68,7 +74,12 @@ public class UserInteractor extends Interactor<User> {
 
         return Observable
                 .concat(cacheObservable, networkObservable)
-                .takeFirst(this::ifStale);
+                .takeFirst(new Func1<InteractorResponse<User>, Boolean>() {
+                    @Override
+                    public Boolean call(InteractorResponse<User> response) {
+                        return UserInteractor.this.ifStale(response);
+                    }
+                });
     }
 
     @Override
@@ -77,7 +88,7 @@ public class UserInteractor extends Interactor<User> {
     }
 
     @Override
-    public void update(User value) {
+    public void update(@NonNull User value) {
 
     }
 

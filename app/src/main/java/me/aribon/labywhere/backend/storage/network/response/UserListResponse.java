@@ -1,4 +1,4 @@
-package me.aribon.labywhere.backend.network.response;
+package me.aribon.labywhere.backend.storage.network.response;
 
 import java.util.List;
 

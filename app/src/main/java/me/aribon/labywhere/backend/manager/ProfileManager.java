@@ -1,9 +1,9 @@
 package me.aribon.labywhere.backend.manager;
 
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.network.storage.UserNetworkStorage;
 import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
+import me.aribon.labywhere.backend.storage.network.storage.UserNetworkStorage;
 import rx.Observable;
 
 /**

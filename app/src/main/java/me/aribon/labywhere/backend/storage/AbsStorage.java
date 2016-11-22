@@ -1,4 +1,6 @@
-package me.aribon.labywhere.backend;
+package me.aribon.labywhere.backend.storage;
+
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -10,11 +12,13 @@ import rx.Observable;
  */
 public abstract class AbsStorage<V> {
 
+    public abstract void post(@NonNull V value);
+
     public abstract Observable<V> get(int id);
 
     public abstract Observable<List<V>> getAll();
 
-    public abstract void put(V value);
+    public abstract void put(@NonNull V value);
 
-    public abstract void delete(int key);
+    public abstract void delete(int id);
 }

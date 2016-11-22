@@ -8,6 +8,7 @@ import rx.Subscriber;
  * on 15/11/2016
  */
 public class AutoPurgeSubscriber<T> extends Subscriber<T> {
+
     @Override
     public void onCompleted() {
         SubscriptionCollector.getInstance().update();

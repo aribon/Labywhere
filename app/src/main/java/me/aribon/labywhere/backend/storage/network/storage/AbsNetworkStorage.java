@@ -1,14 +1,18 @@
-package me.aribon.labywhere.backend.network.storage;
+package me.aribon.labywhere.backend.storage.network.storage;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
-import me.aribon.labywhere.backend.AbsStorage;
+import java.util.List;
+
+import me.aribon.labywhere.backend.storage.AbsStorage;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
 
 /**
  * Created on 24/04/2016
@@ -56,5 +60,30 @@ public abstract class AbsNetworkStorage<V> extends AbsStorage<V> {
                 .build();
         Retrofit retrofit = builder.client(client).build();
         return retrofit.create(serviceClass);
+    }
+
+    @Override
+    public void post(@NonNull V value) {
+
+    }
+
+    @Override
+    public Observable<V> get(int id) {
+        return null;
+    }
+
+    @Override
+    public Observable<List<V>> getAll() {
+        return null;
+    }
+
+    @Override
+    public void put(@NonNull V value) {
+
+    }
+
+    @Override
+    public void delete(int key) {
+
     }
 }

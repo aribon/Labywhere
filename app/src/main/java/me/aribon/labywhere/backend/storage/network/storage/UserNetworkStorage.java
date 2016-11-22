@@ -1,10 +1,13 @@
-package me.aribon.labywhere.backend.network.storage;
+package me.aribon.labywhere.backend.storage.network.storage;
+
+import android.util.Log;
 
 import java.util.List;
 
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.network.response.UserListResponse;
-import me.aribon.labywhere.backend.network.response.UserResponse;
+import me.aribon.labywhere.backend.storage.network.response.UserListResponse;
+import me.aribon.labywhere.backend.storage.network.response.UserResponse;
+import me.aribon.labywhere.backend.storage.network.service.UserService;
 import rx.Observable;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -31,12 +34,14 @@ public class UserNetworkStorage extends AbsNetworkStorage<User> {
     }
 
     public Observable<User> getAccount() {
-        return createService(me.aribon.labywhere.backend.network.service.AuthService.class, token).getAccount()
+        return createService(UserService.class, token).getAccount()
                 .subscribeOn(Schedulers.io())
                 .flatMap(
                         new Func1<UserResponse, Observable<User>>() {
                             @Override
                             public Observable<User> call(UserResponse userResponse) {
+                                if (userResponse != null)
+                                    Log.d(TAG, "call: ");
                                 return Observable.just(userResponse.getUser());
                             }
                         }
@@ -45,7 +50,7 @@ public class UserNetworkStorage extends AbsNetworkStorage<User> {
 
     @Override
     public Observable<User> get(int id) {
-        return createService(me.aribon.labywhere.backend.network.service.UserService.class, token).getUser(id)
+        return createService(UserService.class, token).getUser(id)
                 .subscribeOn(Schedulers.io())
                 .flatMap(
                         new Func1<UserResponse, Observable<User>>() {
@@ -59,7 +64,7 @@ public class UserNetworkStorage extends AbsNetworkStorage<User> {
 
     @Override
     public Observable<List<User>> getAll() {
-        return createService(me.aribon.labywhere.backend.network.service.UserService.class, token).getAllUsers()
+        return createService(UserService.class, token).getAllUsers()
                 .subscribeOn(Schedulers.io())
                 .flatMap(
                         new Func1<UserListResponse, Observable<List<User>>>() {
@@ -69,15 +74,5 @@ public class UserNetworkStorage extends AbsNetworkStorage<User> {
                             }
                         }
                 );
-    }
-
-    @Override
-    public void put(User value) {
-
-    }
-
-    @Override
-    public void delete(int key) {
-
     }
 }

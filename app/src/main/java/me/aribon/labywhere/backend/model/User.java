@@ -9,7 +9,6 @@ public class User extends Data {
 
     public final static String KEY_ID = "id";
 
-    private int id;
     private int type;
     private String email;
     private Profile profile;
@@ -48,29 +47,6 @@ public class User extends Data {
      */
     public User(User user) {
         this(user.id, user.type, user.email, user.profile, user.createdAt, user.changedAt);
-    }
-
-    /**
-     *
-     * @return
-     * The id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     *
-     * @param id
-     * The id
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public User withId(int id) {
-        this.id = id;
-        return this;
     }
 
     /**

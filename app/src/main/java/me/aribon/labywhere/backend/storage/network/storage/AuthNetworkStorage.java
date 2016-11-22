@@ -1,9 +1,9 @@
-package me.aribon.labywhere.backend.network.storage;
+package me.aribon.labywhere.backend.storage.network.storage;
 
-import java.util.List;
 import java.util.Map;
 
-import me.aribon.labywhere.backend.network.response.AuthResponse;
+import me.aribon.labywhere.backend.storage.network.response.AuthResponse;
+import me.aribon.labywhere.backend.storage.network.service.AuthService;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -30,34 +30,14 @@ public class AuthNetworkStorage extends AbsNetworkStorage<AuthResponse> {
     }
 
     public Observable<AuthResponse> login(Map<String, String> credentials) {
-        return createService(me.aribon.labywhere.backend.network.service.AuthService.class).login(credentials)
-                .subscribeOn(Schedulers.newThread())
+        return createService(AuthService.class).login(credentials)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<AuthResponse> register(Map<String, String> body) {
-        return createService(me.aribon.labywhere.backend.network.service.AuthService.class).registration(body)
-                .subscribeOn(Schedulers.newThread())
+        return createService(AuthService.class).registration(body)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    @Override
-    public Observable<AuthResponse> get(int id) {
-        return null;
-    }
-
-    @Override
-    public Observable<List<AuthResponse>> getAll() {
-        return null;
-    }
-
-    @Override
-    public void put(AuthResponse value) {
-
-    }
-
-    @Override
-    public void delete(int key) {
-
     }
 }

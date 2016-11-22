@@ -11,20 +11,21 @@ import java.util.Map;
 import me.aribon.labywhere.LabywhereBasePresenter;
 import me.aribon.labywhere.backend.manager.ProfileManager;
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.network.response.AuthResponse;
-import me.aribon.labywhere.backend.network.storage.AuthNetworkStorage;
+import me.aribon.labywhere.backend.storage.network.response.AuthResponse;
+import me.aribon.labywhere.backend.storage.network.storage.AuthNetworkStorage;
 import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
 import me.aribon.labywhere.ui.auth.AuthActivity;
 import me.aribon.labywhere.ui.home.HomeActivity;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
-public class LoginPresenter extends LabywhereBasePresenter<LoginActivity> {
+class LoginPresenter extends LabywhereBasePresenter<LoginActivity> {
 
     public static final String TAG = LoginPresenter.class.getSimpleName();
 
@@ -39,7 +40,7 @@ public class LoginPresenter extends LabywhereBasePresenter<LoginActivity> {
         super.onDestroy();
     }
 
-    public void prepareLogin() {
+    void prepareLogin() {
 
         Log.d(TAG, "login");
 
@@ -84,17 +85,30 @@ public class LoginPresenter extends LabywhereBasePresenter<LoginActivity> {
 
     private void loadAccount() {
         subscribeTo(
-                ProfileManager.getInstance().loadAccount(),
-                new AutoPurgeSubscriber<User>() {
-                    @Override
-                    public void onNext(User user) {
-                        super.onNext(user);
-                        saveAccount(user);
-                        Log.d(TAG, "loadAccount onNext: " + user.toString());
-                        Log.d(TAG, "loadAccount onNext: " + user.getProfile().toString());
-                        startHomeActivity();
-                    }
+            ProfileManager.getInstance().loadAccount()
+                    .observeOn(AndroidSchedulers.mainThread()),
+            new AutoPurgeSubscriber<User>() {
+                @Override
+                public void onCompleted() {
+                    super.onCompleted();
+                    Log.d(TAG, "onCompleted");
                 }
+
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    Log.e(TAG, "onError: " + e.getMessage());
+                }
+
+                @Override
+                public void onNext(User user) {
+                    super.onNext(user);
+                    saveAccount(user);
+                    Log.d(TAG, "loadAccount onNext: " + user.toString());
+                    Log.d(TAG, "loadAccount onNext: " + user.getProfile().toString());
+                    startHomeActivity();
+                }
+            }
         );
     }
 

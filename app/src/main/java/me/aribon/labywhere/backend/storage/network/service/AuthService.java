@@ -1,12 +1,10 @@
-package me.aribon.labywhere.backend.network.service;
+package me.aribon.labywhere.backend.storage.network.service;
 
 import java.util.Map;
 
-import me.aribon.labywhere.backend.network.response.AuthResponse;
-import me.aribon.labywhere.backend.network.response.UserResponse;
+import me.aribon.labywhere.backend.storage.network.response.AuthResponse;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 import rx.Observable;
 
@@ -24,7 +22,4 @@ public interface AuthService {
     @FormUrlEncoded
     @POST("register")
     Observable<AuthResponse> registration(@FieldMap Map<String, String> credentials);
-
-    @GET("account")
-    Observable<UserResponse> getAccount();
 }
