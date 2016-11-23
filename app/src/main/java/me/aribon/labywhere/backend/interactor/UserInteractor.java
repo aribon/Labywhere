@@ -4,11 +4,12 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import me.aribon.labywhere.backend.storage.cache.UserCacheStorage;
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.storage.network.storage.UserNetworkStorage;
 import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
+import me.aribon.labywhere.backend.storage.cache.UserCacheStorage;
+import me.aribon.labywhere.backend.storage.database.UserDatabaseStorage;
+import me.aribon.labywhere.backend.storage.network.storage.UserNetworkStorage;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -43,7 +44,7 @@ public class UserInteractor extends AbsInteractor<User> {
             return Observable.error(new Exception("No Account logged, please log you and try again"));
         }
 
-        Observable<InteractorResponse<User>> cacheObservable =
+        Observable<InteractorResponse<User>> cacheObservable = /*Observable.empty();*/
                 UserCacheStorage.getInstance().get(id)
                         .compose(logSource("CACHE"))
                         .compose(clearCacheDataIfStale(id))
@@ -56,12 +57,26 @@ public class UserInteractor extends AbsInteractor<User> {
                             }
                         );
 
+        Observable<InteractorResponse<User>> databaseObservable =
+                UserDatabaseStorage.getInstance().get(id)
+                .compose(logSource("DATABASE"))
+                .flatMap(
+                        new Func1<User, Observable<InteractorResponse<User>>>() {
+                            @Override
+                            public Observable<InteractorResponse<User>> call(User user) {
+                                return Observable.just(InteractorResponse.createDatabaseResponse(user));
+                            }
+                        }
+                );
+
         Observable<InteractorResponse<User>> networkObservable =
                 UserNetworkStorage.getInstance(AuthPreferences.getAuthToken()).get(id)
                         .compose(logSource("NETWORK"))
                         .doOnNext((user) -> {
-                            if (user != null)
+                            if (user != null) {
+                                UserDatabaseStorage.getInstance().put(user);
                                 UserCacheStorage.getInstance().put(user);
+                            }
                         })
                         .flatMap(
                                 new Func1<User, Observable<InteractorResponse<User>>>() {
@@ -73,13 +88,8 @@ public class UserInteractor extends AbsInteractor<User> {
                         );
 
         return Observable
-                .concat(cacheObservable, networkObservable)
-                .takeFirst(new Func1<InteractorResponse<User>, Boolean>() {
-                    @Override
-                    public Boolean call(InteractorResponse<User> response) {
-                        return UserInteractor.this.ifStale(response);
-                    }
-                });
+                .concat(cacheObservable, databaseObservable, networkObservable)
+                .takeFirst(UserInteractor.this::ifStale);
     }
 
     @Override

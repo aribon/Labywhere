@@ -21,20 +21,20 @@ public class UserNetworkStorage extends AbsNetworkStorage<User> {
 
     private static UserNetworkStorage instance;
 
+    private static String sToken;
+
     public static UserNetworkStorage getInstance(String token) {
+        sToken = token;
         if (instance == null)
-            instance = new UserNetworkStorage(token);
+            instance = new UserNetworkStorage();
         return instance;
     }
 
-    private String token;
-
-    private UserNetworkStorage(String token) {
-        this.token = token;
+    private UserNetworkStorage() {
     }
 
     public Observable<User> getAccount() {
-        return createService(UserService.class, token).getAccount()
+        return createService(UserService.class, sToken).getAccount()
                 .subscribeOn(Schedulers.io())
                 .flatMap(
                         new Func1<UserResponse, Observable<User>>() {
@@ -50,7 +50,7 @@ public class UserNetworkStorage extends AbsNetworkStorage<User> {
 
     @Override
     public Observable<User> get(int id) {
-        return createService(UserService.class, token).getUser(id)
+        return createService(UserService.class, sToken).getUser(id)
                 .subscribeOn(Schedulers.io())
                 .flatMap(
                         new Func1<UserResponse, Observable<User>>() {
@@ -64,7 +64,7 @@ public class UserNetworkStorage extends AbsNetworkStorage<User> {
 
     @Override
     public Observable<List<User>> getAll() {
-        return createService(UserService.class, token).getAllUsers()
+        return createService(UserService.class, sToken).getAllUsers()
                 .subscribeOn(Schedulers.io())
                 .flatMap(
                         new Func1<UserListResponse, Observable<List<User>>>() {

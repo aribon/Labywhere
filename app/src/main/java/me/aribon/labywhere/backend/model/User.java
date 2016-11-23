@@ -1,25 +1,42 @@
 package me.aribon.labywhere.backend.model;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
-public class User extends Data {
+public class User extends RealmObject implements Data {
+
+    public final static String TABLE_NAME = User.class.getSimpleName();
+
+    public static final long STALE_MS = 20 * 1000; //20 seconds
 
     public final static String KEY_ID = "id";
+    public final static String KEY_TYPE = "type";
+    public final static String KEY_EMAIL = "email";
+    public final static String KEY_PROFILE = "profile";
+    public final static String KEY_CREATED_AT = "createdAt";
+    public final static String KEY_CHANGED_AT = "changedAt";
+    public final static String KEY_TIMESTAMP = "timestamp";
 
+    @PrimaryKey
+    private int id;
     private int type;
     private String email;
     private Profile profile;
     private String createdAt;
     private String changedAt;
+    private long timestamp;
 
     /**
      * No args constructor for use in serialization
      *
      */
     public User() {
+        this.timestamp = System.currentTimeMillis();
         this.profile = new Profile();
     }
 
@@ -39,6 +56,7 @@ public class User extends Data {
         this.profile = profile;
         this.createdAt = createdAt;
         this.changedAt = changedAt;
+        this.timestamp = System.currentTimeMillis();
     }
 
     /**
@@ -47,6 +65,29 @@ public class User extends Data {
      */
     public User(User user) {
         this(user.id, user.type, user.email, user.profile, user.createdAt, user.changedAt);
+    }
+
+    /**
+     *
+     * @return
+     * The id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     *
+     * @param id
+     * The id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public User withId(int id) {
+        this.id = id;
+        return this;
     }
 
     /**
@@ -174,5 +215,10 @@ public class User extends Data {
                 ",\n\t createdAt=" + createdAt +
                 ",\n\t changedAt=" + changedAt +
                 "\n}";
+    }
+
+    @Override
+    public boolean isUpToDate() {
+        return System.currentTimeMillis() - timestamp < STALE_MS;
     }
 }

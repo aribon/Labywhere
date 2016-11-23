@@ -1,12 +1,32 @@
 package me.aribon.labywhere.backend.model;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
-public class Profile extends Data {
+public class Profile extends RealmObject implements Data {
 
+    private static final String TAG = Profile.class.getSimpleName();
+
+    public static final long STALE_MS = 20 * 1000; //20 seconds
+
+    public final static String KEY_ID = "id";
+    public final static String KEY_FIRSTNAME = "firstname";
+    public final static String KEY_LASTNAME = "lastname";
+    public final static String KEY_GENDER = "gender";
+    public final static String KEY_COUNTRY = "country";
+    public final static String KEY_CITY = "city";
+    public final static String KEY_BIRTHDATE = "birthdate";
+    public final static String KEY_CREATEDAT = "createdAt";
+    public final static String KEY_CHANGEDAT = "changedAt";
+    public final static String KEY_TIMESTAMP = "timestamp";
+
+    @PrimaryKey
+    private int id;
     private String firstname;
     private String lastname;
     private String gender;
@@ -15,12 +35,14 @@ public class Profile extends Data {
     private String birthdate;
     private String createdAt;
     private String changedAt;
+    private long timestamp;
 
     /**
      * No args constructor for use in serialization
      *
      */
     public Profile() {
+        this.timestamp = System.currentTimeMillis();
     }
 
     /**
@@ -45,6 +67,7 @@ public class Profile extends Data {
         this.birthdate = birthdate;
         this.createdAt = createdAt;
         this.changedAt = changedAt;
+        this.timestamp = System.currentTimeMillis();
     }
 
     /**
@@ -267,5 +290,10 @@ public class Profile extends Data {
                 ",\n\t createdAt=" + createdAt +
                 ",\n\t changedAt=" + changedAt +
                 "\n}";
+    }
+
+    @Override
+    public boolean isUpToDate() {
+        return System.currentTimeMillis() - timestamp < STALE_MS;
     }
 }

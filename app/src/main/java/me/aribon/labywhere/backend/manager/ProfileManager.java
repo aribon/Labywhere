@@ -27,7 +27,8 @@ public class ProfileManager {
     }
 
     public Observable<User> loadAccount() {
-        return UserNetworkStorage.getInstance(AuthPreferences.getAuthToken()).getAccount();
+        String token = AuthPreferences.getAuthToken();
+        return UserNetworkStorage.getInstance(token).getAccount();
     }
 
     public boolean hasAccount() {
