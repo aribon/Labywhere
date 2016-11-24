@@ -2,12 +2,14 @@ package me.aribon.labywhere.backend.model;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
+@RealmClass
 public class User extends RealmObject implements Data {
 
     public final static String TABLE_NAME = User.class.getSimpleName();
