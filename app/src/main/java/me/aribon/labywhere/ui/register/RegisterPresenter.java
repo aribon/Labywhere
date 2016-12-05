@@ -12,8 +12,8 @@ import me.aribon.labywhere.backend.manager.FacebookManager;
 import me.aribon.labywhere.backend.manager.GoogleManager;
 import me.aribon.labywhere.backend.manager.ProfileManager;
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.storage.network.response.AuthResponse;
-import me.aribon.labywhere.backend.storage.network.storage.AuthNetworkStorage;
+import me.aribon.labywhere.backend.provider.network.response.AuthResponse;
+import me.aribon.labywhere.backend.provider.network.AuthNetworkProvider;
 import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
@@ -96,7 +96,7 @@ public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> 
 
     private void register(Map<String, String> body) {
         subscribeTo(
-                AuthNetworkStorage.getInstance().register(body),
+                AuthNetworkProvider.getInstance().register(body),
                 new AutoPurgeSubscriber<AuthResponse>() {
                     @Override
                     public void onNext(AuthResponse authResponse) {
@@ -113,7 +113,7 @@ public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> 
 
     private void login(Map<String, String> credentials) {
         subscribeTo(
-                AuthNetworkStorage.getInstance().login(credentials),
+                AuthNetworkProvider.getInstance().login(credentials),
                 new AutoPurgeSubscriber<AuthResponse>() {
                     @Override
                     public void onNext(AuthResponse authResponse) {

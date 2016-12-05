@@ -2,14 +2,12 @@ package me.aribon.labywhere.backend.model;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.RealmClass;
 
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
-@RealmClass
 public class Profile extends RealmObject implements Data {
 
     private static final String TAG = Profile.class.getSimpleName();

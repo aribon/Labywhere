@@ -11,8 +11,8 @@ import java.util.Map;
 import me.aribon.labywhere.LabywhereBasePresenter;
 import me.aribon.labywhere.backend.manager.ProfileManager;
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.storage.network.response.AuthResponse;
-import me.aribon.labywhere.backend.storage.network.storage.AuthNetworkStorage;
+import me.aribon.labywhere.backend.provider.network.response.AuthResponse;
+import me.aribon.labywhere.backend.provider.network.AuthNetworkProvider;
 import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
@@ -68,7 +68,7 @@ class LoginPresenter extends LabywhereBasePresenter<LoginActivity> {
 
     private void login(Map<String, String> credentials) {
         subscribeTo(
-                AuthNetworkStorage.getInstance().login(credentials),
+                AuthNetworkProvider.getInstance().login(credentials),
                 new AutoPurgeSubscriber<AuthResponse>() {
                     @Override
                     public void onNext(AuthResponse authResponse) {

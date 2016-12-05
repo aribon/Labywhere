@@ -30,20 +30,6 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-    productFlavors {
-        basic {
-            applicationId "me.aribon.labywhere"
-            versionName rootProject.ext.versionName + "-basic"
-        }
-        semiRx {
-            applicationId "me.aribon.labywhere"
-            versionName rootProject.ext.versionName + "-semi_rx"
-        }
-        fullRx {
-            applicationId "me.aribon.labywhere"
-            versionName rootProject.ext.versionName + "-full_rx"
-        }
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

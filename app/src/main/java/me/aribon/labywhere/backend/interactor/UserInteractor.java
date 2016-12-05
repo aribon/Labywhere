@@ -7,9 +7,9 @@ import java.util.List;
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
-import me.aribon.labywhere.backend.storage.cache.UserCacheStorage;
-import me.aribon.labywhere.backend.storage.database.UserDatabaseStorage;
-import me.aribon.labywhere.backend.storage.network.storage.UserNetworkStorage;
+import me.aribon.labywhere.backend.provider.cache.UserCacheProvider;
+import me.aribon.labywhere.backend.provider.database.UserDatabaseProvider;
+import me.aribon.labywhere.backend.provider.network.UserNetworkProvider;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -45,7 +45,7 @@ public class UserInteractor extends AbsInteractor<User> {
         }
 
         Observable<InteractorResponse<User>> cacheObservable = /*Observable.empty();*/
-                UserCacheStorage.getInstance().get(id)
+                UserCacheProvider.getInstance().get(id)
                         .compose(logSource("CACHE"))
                         .compose(clearCacheDataIfStale(id))
                         .flatMap(
@@ -58,7 +58,7 @@ public class UserInteractor extends AbsInteractor<User> {
                         );
 
         Observable<InteractorResponse<User>> databaseObservable =
-                UserDatabaseStorage.getInstance().get(id)
+                UserDatabaseProvider.getInstance().get(id)
                 .compose(logSource("DATABASE"))
                 .flatMap(
                         new Func1<User, Observable<InteractorResponse<User>>>() {
@@ -70,12 +70,12 @@ public class UserInteractor extends AbsInteractor<User> {
                 );
 
         Observable<InteractorResponse<User>> networkObservable =
-                UserNetworkStorage.getInstance(AuthPreferences.getAuthToken()).get(id)
+                UserNetworkProvider.getInstance(AuthPreferences.getAuthToken()).get(id)
                         .compose(logSource("NETWORK"))
                         .doOnNext((user) -> {
                             if (user != null) {
-                                UserDatabaseStorage.getInstance().put(user);
-                                UserCacheStorage.getInstance().put(user);
+                                UserDatabaseProvider.getInstance().put(user);
+                                UserCacheProvider.getInstance().put(user);
                             }
                         })
                         .flatMap(
@@ -111,7 +111,7 @@ public class UserInteractor extends AbsInteractor<User> {
     Observable.Transformer<User, User> clearCacheDataIfStale(int id) {
         return userObservable -> userObservable.doOnNext(user -> {
             if (user != null && !user.isUpToDate()) {
-                UserCacheStorage.getInstance().delete(id);
+                UserCacheProvider.getInstance().delete(user);
             }
         });
     }

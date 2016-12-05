@@ -8,4 +8,5 @@ import me.aribon.basemvp.view.BaseActivity;
  * on 15/11/2016
  */
 abstract public class LabywhereBaseActivity<P extends LabywhereBasePresenter> extends BaseActivity<P> {
+    //TODO implement specific process
 }

@@ -3,7 +3,7 @@ package me.aribon.labywhere.backend.manager;
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
-import me.aribon.labywhere.backend.storage.network.storage.UserNetworkStorage;
+import me.aribon.labywhere.backend.provider.network.UserNetworkProvider;
 import rx.Observable;
 
 /**
@@ -28,7 +28,7 @@ public class ProfileManager {
 
     public Observable<User> loadAccount() {
         String token = AuthPreferences.getAuthToken();
-        return UserNetworkStorage.getInstance(token).getAccount();
+        return UserNetworkProvider.getInstance(token).getAccount();
     }
 
     public boolean hasAccount() {
