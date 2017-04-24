@@ -1,28 +1,26 @@
-package me.aribon.labywhere.ui.splash;
+package me.aribon.labywhere.ui.screen.splash;
 
 import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
 
 import java.util.Map;
 
-import me.aribon.labywhere.LabywhereBasePresenter;
 import me.aribon.labywhere.backend.manager.ProfileManager;
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.provider.network.response.AuthResponse;
-import me.aribon.labywhere.backend.provider.network.AuthNetworkProvider;
 import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
+import me.aribon.labywhere.backend.provider.network.AuthNetworkProvider;
+import me.aribon.labywhere.backend.provider.network.response.AuthResponse;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
-import me.aribon.labywhere.ui.auth.AuthActivity;
-import me.aribon.labywhere.ui.home.HomeActivity;
+import me.aribon.labywhere.base.AppBasePresenter;
+import me.aribon.labywhere.ui.screen.home.HomeActivity;
 
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
-public class SplashPresenter extends LabywhereBasePresenter<SplashActivity> {
+public class SplashPresenter extends AppBasePresenter<SplashActivity> {
 
     public static final String TAG = SplashPresenter.class.getSimpleName();
 
@@ -42,7 +40,7 @@ public class SplashPresenter extends LabywhereBasePresenter<SplashActivity> {
 //        if (ProfileManager.getInstance().hasAccount()) {
 //            prepareLogin();
 //        } else {
-            startAuthActivityWithDelay();
+//            startAuthActivityWithDelay();
 //        }
     }
 
@@ -72,7 +70,7 @@ public class SplashPresenter extends LabywhereBasePresenter<SplashActivity> {
                         super.onNext(user);
                         Log.d(TAG, "onNext: Logged");
                         saveAccount(user);
-                        startHomeActivityWithDelay();
+//                        startHomeActivityWithDelay();
                     }
                 }
         );
@@ -82,10 +80,10 @@ public class SplashPresenter extends LabywhereBasePresenter<SplashActivity> {
         AccountPreferences.setAccount(user);
     }
 
-    private void startHomeActivityWithDelay() {
-        Handler handler = new Handler();
-        handler.postDelayed(this::startHomeActivity, SPLASH_MIN_TIME_DISPLAY);
-    }
+//    private void startHomeActivityWithDelay() {
+//        Handler handler = new Handler();
+//        handler.postDelayed(this::startHomeActivity, SPLASH_MIN_TIME_DISPLAY);
+//    }
 
     private void startHomeActivity() {
         Intent intent = new Intent(getView(), HomeActivity.class);
@@ -93,13 +91,5 @@ public class SplashPresenter extends LabywhereBasePresenter<SplashActivity> {
         getView().finish();
     }
 
-    private void startAuthActivityWithDelay() {
-        Handler handler = new Handler();
-        handler.postDelayed(this::startAuthActivity, SPLASH_MIN_TIME_DISPLAY);
-    }
 
-    private void startAuthActivity() {
-        AuthActivity.startActivity(getView());
-        getView().finish();
-    }
 }

@@ -1,11 +1,11 @@
-package me.aribon.labywhere.ui.splash;
+package me.aribon.labywhere.ui.screen.splash;
 
 import android.os.Bundle;
 
-import me.aribon.labywhere.LabywhereBaseActivity;
+import me.aribon.labywhere.base.AppBaseActivity;
 import me.aribon.labywhere.R;
 
-public class SplashActivity extends LabywhereBaseActivity<SplashPresenter> {
+public class SplashActivity extends AppBaseActivity<SplashPresenter> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

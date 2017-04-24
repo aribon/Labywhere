@@ -1,4 +1,4 @@
-package me.aribon.labywhere.ui.register;
+package me.aribon.labywhere.ui.screen.auth.register;
 
 import android.content.Intent;
 import android.text.TextUtils;
@@ -7,17 +7,17 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.aribon.labywhere.LabywhereBasePresenter;
 import me.aribon.labywhere.backend.manager.FacebookManager;
 import me.aribon.labywhere.backend.manager.GoogleManager;
 import me.aribon.labywhere.backend.manager.ProfileManager;
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.provider.network.response.AuthResponse;
-import me.aribon.labywhere.backend.provider.network.AuthNetworkProvider;
 import me.aribon.labywhere.backend.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.preferences.AuthPreferences;
+import me.aribon.labywhere.backend.provider.network.AuthNetworkProvider;
+import me.aribon.labywhere.backend.provider.network.response.AuthResponse;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
-import me.aribon.labywhere.ui.home.HomeActivity;
+import me.aribon.labywhere.base.AppBasePresenter;
+import me.aribon.labywhere.ui.module.RegisterModule;
 import rx.Subscription;
 
 /**
@@ -25,9 +25,9 @@ import rx.Subscription;
  *
  * @author Anthony
  */
-public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> {
+public class AuthRegisterPresenter extends AppBasePresenter<AuthRegisterFragment> implements RegisterModule.Presenter {
 
-    public static final String TAG = RegisterPresenter.class.getSimpleName();
+    public static final String TAG = AuthRegisterPresenter.class.getSimpleName();
 
     private Subscription subscription;
 
@@ -40,8 +40,8 @@ public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> 
     public void onCreate() {
         super.onCreate();
 
-        googleManager = new GoogleManager(getView(), onGoogleManagerListenerAdapter);
-        facebookManager = new FacebookManager(getView(), onFacebookManagerListenerAdapter);
+//        googleManager = new GoogleManager(getView(), onGoogleManagerListenerAdapter);
+//        facebookManager = new FacebookManager(getView(), onFacebookManagerListenerAdapter);
     }
 
     @Override
@@ -49,13 +49,14 @@ public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> 
         super.onResume();
     }
 
-    public void prepareRegister() {
+    @Override
+    public void checkRegister() {
 
         Log.d(TAG, "login");
 
         String email = getView().getEmail();
         String password = getView().getPassword();
-        String firstname = getView().getFirstnmee();
+        String firstname = getView().getFirstname();
         String lastname = getView().getLastname();
 
         if (TextUtils.isEmpty(email)) {
@@ -94,7 +95,7 @@ public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> 
         register(body);
     }
 
-    private void register(Map<String, String> body) {
+    public void register(Map<String, String> body) {
         subscribeTo(
                 AuthNetworkProvider.getInstance().register(body),
                 new AutoPurgeSubscriber<AuthResponse>() {
@@ -158,7 +159,7 @@ public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> 
                         saveAccount(user);
                         Log.d(TAG, "loadAccount onNext: " + user.toString());
                         Log.d(TAG, "loadAccount onNext: " + user.getProfile().toString());
-                        startHomeActivity();
+//                        AuthRouter.startHomeActivity(getActivity());
                     }
                 }
         );
@@ -166,12 +167,6 @@ public class RegisterPresenter extends LabywhereBasePresenter<RegisterActivity> 
 
     private void saveAccount(User user) {
         AccountPreferences.setAccount(user);
-    }
-
-    private void startHomeActivity() {
-        Intent intent = new Intent(getView(), HomeActivity.class);
-        getView().startActivity(intent);
-        getView().finish();
     }
 
     @Override

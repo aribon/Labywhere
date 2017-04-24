@@ -5,37 +5,74 @@
     tools:context="com.aribon.labywhere.views.LoginActivity"
     android:background="@color/primary">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btn_google_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="10dp"
-        android:layout_alignParentBottom="true"
+        android:text="Register with Google"
+        android:layout_margin="5dp"
+        android:minHeight="48dp"
+        style="@style/CustomButton"
+        android:background="#d34836"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/btn_facebook_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register with Facebook"
+        android:layout_margin="5dp"
+        android:minHeight="48dp"
+        style="@style/CustomButton"
+        android:background="#3b5998"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:id="@+id/auth_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <Button
-            android:id="@+id/btn_signin_login"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/button_bg_selector"
-            android:text="@string/login"
-            style="@style/CustomButton"/>
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:padding="8dp">
 
-        <Button
-            android:id="@+id/btn_signup_login"
+            <Button
+                android:id="@+id/btn_signin_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/button_bg_selector"
+                android:text="@string/login"
+                style="@style/CustomButton"/>
+
+            <Button
+                android:id="@+id/btn_signup_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:layout_marginRight="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="@string/register"
+                android:background="@drawable/button_bg_selector"
+                style="@style/CustomButton"/>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/auth_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="@string/register"
-            android:background="@drawable/button_bg_selector"
-            style="@style/CustomButton"/>
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

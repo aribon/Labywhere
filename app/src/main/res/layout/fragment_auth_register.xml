@@ -1,12 +1,10 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/primary"
-    tools:context="com.aribon.labywhere.views.SignupActivity">
+    tools:context="me.aribon.labywhere.ui.screen.auth.register.AuthRegisterFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,30 +12,14 @@
         android:layout_centerInParent="true"
         android:orientation="vertical"
         android:focusable="true"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
         android:focusableInTouchMode="true">
 
-        <Button
-            android:id="@+id/btn_google_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Register with Google"
-            android:layout_margin="5dp"
-            android:minHeight="48dp"
-            style="@style/CustomButton"
-            android:background="#d34836"/>
-
-        <Button
-            android:id="@+id/btn_facebook_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Register with Facebook"
-            android:layout_margin="5dp"
-            android:minHeight="48dp"
-            style="@style/CustomButton"
-            android:background="#3b5998"/>
-
         <EditText
-            android:id="@+id/edit_signup_email"
+            android:id="@+id/auth_register_edit_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
@@ -47,7 +29,7 @@
             style="@style/CustomEditText" />
 
         <EditText
-            android:id="@+id/edit_signup_password"
+            android:id="@+id/auth_register_edit_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -57,7 +39,7 @@
             style="@style/CustomEditText" />
 
         <EditText
-            android:id="@+id/edit_signup_firstname"
+            android:id="@+id/auth_register_edit_firstname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -65,7 +47,7 @@
             style="@style/CustomEditText" />
 
         <EditText
-            android:id="@+id/edit_signup_lastname"
+            android:id="@+id/auth_register_edit_lastname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -75,7 +57,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_signup_login"
+        android:id="@+id/auth_register_btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/register"

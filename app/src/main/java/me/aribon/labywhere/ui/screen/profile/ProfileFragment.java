@@ -1,4 +1,4 @@
-package me.aribon.labywhere.ui.profile;
+package me.aribon.labywhere.ui.screen.profile;
 
 import android.support.v4.app.Fragment;
 

@@ -1,8 +1,8 @@
-package me.aribon.labywhere.ui.home;
+package me.aribon.labywhere.ui.screen.home;
 
 import android.util.Log;
 
-import me.aribon.labywhere.LabywhereBasePresenter;
+import me.aribon.labywhere.base.AppBasePresenter;
 import me.aribon.labywhere.backend.interactor.InteractorResponse;
 import me.aribon.labywhere.backend.interactor.UserInteractor;
 import me.aribon.labywhere.backend.model.User;
@@ -14,7 +14,7 @@ import rx.android.schedulers.AndroidSchedulers;
  *
  * @author Anthony
  */
-public class HomePresenter extends LabywhereBasePresenter<HomeActivity> {
+public class HomePresenter extends AppBasePresenter<HomeActivity> {
 
     private static final String TAG = HomePresenter.class.getSimpleName();
 

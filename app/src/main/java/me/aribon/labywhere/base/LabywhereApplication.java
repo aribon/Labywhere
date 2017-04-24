@@ -1,4 +1,4 @@
-package me.aribon.labywhere;
+package me.aribon.labywhere.base;
 
 import android.app.Application;
 import android.content.Context;

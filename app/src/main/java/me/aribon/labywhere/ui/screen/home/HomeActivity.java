@@ -1,4 +1,4 @@
-package me.aribon.labywhere.ui.home;
+package me.aribon.labywhere.ui.screen.home;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -6,10 +6,10 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.aribon.labywhere.LabywhereBaseActivity;
+import me.aribon.labywhere.base.AppBaseActivity;
 import me.aribon.labywhere.R;
 
-public class HomeActivity extends LabywhereBaseActivity<HomePresenter> {
+public class HomeActivity extends AppBaseActivity<HomePresenter> {
 
     @Bind(R.id.textViewResult) TextView result;
 
