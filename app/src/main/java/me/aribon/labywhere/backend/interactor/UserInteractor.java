@@ -5,11 +5,13 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.preferences.AccountPreferences;
-import me.aribon.labywhere.backend.preferences.AuthPreferences;
+import me.aribon.labywhere.backend.provider.dummy.UserDummyProvider;
+import me.aribon.labywhere.backend.provider.preferences.AccountPreferences;
+import me.aribon.labywhere.backend.provider.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.provider.cache.UserCacheProvider;
 import me.aribon.labywhere.backend.provider.database.UserDatabaseProvider;
 import me.aribon.labywhere.backend.provider.network.UserNetworkProvider;
+import me.aribon.labywhere.base.LabywhereApplication;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -19,7 +21,7 @@ import rx.functions.Func1;
  */
 public class UserInteractor extends AbsInteractor<User> {
 
-    private static final String TAG = UserInteractor.class.getSimpleName();
+  private static final String TAG = UserInteractor.class.getSimpleName();
 
     private static UserInteractor instance;
 
@@ -70,8 +72,10 @@ public class UserInteractor extends AbsInteractor<User> {
                 );
 
         Observable<InteractorResponse<User>> networkObservable =
-                UserNetworkProvider.getInstance(AuthPreferences.getAuthToken()).get(id)
-                        .compose(logSource("NETWORK"))
+//                UserNetworkProvider.getInstance(AuthPreferences.getAuthToken()).get(id)
+      UserDummyProvider.getInstance(LabywhereApplication.getContext()).get(id)
+//                        .compose(logSource("NETWORK"))
+                        .compose(logSource("DUMMY"))
                         .doOnNext((user) -> {
                             if (user != null) {
                                 UserDatabaseProvider.getInstance().put(user);

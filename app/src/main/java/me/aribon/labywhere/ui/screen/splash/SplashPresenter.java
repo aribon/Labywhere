@@ -1,18 +1,18 @@
 package me.aribon.labywhere.ui.screen.splash;
 
 import android.content.Intent;
-import android.util.Log;
+import android.os.Handler;
 
 import java.util.Map;
 
-import me.aribon.labywhere.backend.manager.ProfileManager;
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.preferences.AccountPreferences;
-import me.aribon.labywhere.backend.preferences.AuthPreferences;
+import me.aribon.labywhere.backend.provider.preferences.AccountPreferences;
+import me.aribon.labywhere.backend.provider.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.provider.network.AuthNetworkProvider;
 import me.aribon.labywhere.backend.provider.network.response.AuthResponse;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
 import me.aribon.labywhere.base.AppBasePresenter;
+import me.aribon.labywhere.ui.screen.auth.AuthActivity;
 import me.aribon.labywhere.ui.screen.home.HomeActivity;
 
 /**
@@ -29,7 +29,8 @@ public class SplashPresenter extends AppBasePresenter<SplashActivity> {
     @Override
     public void onResume() {
         super.onResume();
-        loadAccountIfPossible();
+        loadAccount();
+//        loadAccountIfPossible();
     }
 
     public void prepareLogin() {
@@ -40,7 +41,7 @@ public class SplashPresenter extends AppBasePresenter<SplashActivity> {
 //        if (ProfileManager.getInstance().hasAccount()) {
 //            prepareLogin();
 //        } else {
-//            startAuthActivityWithDelay();
+            startAuthActivityWithDelay();
 //        }
     }
 
@@ -62,28 +63,28 @@ public class SplashPresenter extends AppBasePresenter<SplashActivity> {
     }
 
     private void loadAccount() {
-        subscribeTo(
-                ProfileManager.getInstance().loadAccount(),
-                new AutoPurgeSubscriber<User>() {
-                    @Override
-                    public void onNext(User user) {
-                        super.onNext(user);
-                        Log.d(TAG, "onNext: Logged");
-                        saveAccount(user);
-//                        startHomeActivityWithDelay();
-                    }
-                }
-        );
+//        subscribeTo(
+//                ProfileManager.getInstance().loadAccount(),
+//                new AutoPurgeSubscriber<User>() {
+//                    @Override
+//                    public void onNext(User user) {
+//                        super.onNext(user);
+//                        Log.d(TAG, "onNext: Logged");
+//                        saveAccount(user);
+                        startHomeActivityWithDelay();
+//                    }
+//                }
+//        );
     }
 
     private void saveAccount(User user) {
         AccountPreferences.setAccount(user);
     }
 
-//    private void startHomeActivityWithDelay() {
-//        Handler handler = new Handler();
-//        handler.postDelayed(this::startHomeActivity, SPLASH_MIN_TIME_DISPLAY);
-//    }
+    private void startHomeActivityWithDelay() {
+        Handler handler = new Handler();
+        handler.postDelayed(this::startHomeActivity, SPLASH_MIN_TIME_DISPLAY);
+    }
 
     private void startHomeActivity() {
         Intent intent = new Intent(getView(), HomeActivity.class);
@@ -91,5 +92,15 @@ public class SplashPresenter extends AppBasePresenter<SplashActivity> {
         getView().finish();
     }
 
+    private void startAuthActivityWithDelay() {
+        Handler handler = new Handler();
+        handler.postDelayed(this::startAuthActivity, SPLASH_MIN_TIME_DISPLAY);
+    }
+
+    private void startAuthActivity() {
+        Intent intent = new Intent(getView(), AuthActivity.class);
+        getView().startActivity(intent);
+        getView().finish();
+    }
 
 }

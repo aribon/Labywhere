@@ -1,8 +1,10 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.aribon.labywhere.views.LoginActivity"
+    android:orientation="vertical"
+    tools:context="me.aribon.labywhere.ui.screen.auth.AuthActivity"
     android:background="@color/primary">
 
     <Button
@@ -27,52 +29,57 @@
         android:background="#3b5998"
         android:visibility="gone"/>
 
-    <RelativeLayout
-        android:id="@+id/auth_button_container"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:padding="8dp">
-
-            <Button
-                android:id="@+id/btn_signin_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/button_bg_selector"
-                android:text="@string/login"
-                style="@style/CustomButton"/>
-
-            <Button
-                android:id="@+id/btn_signup_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="8dp"
-                android:text="@string/register"
-                android:background="@drawable/button_bg_selector"
-                style="@style/CustomButton"/>
-
-        </LinearLayout>
+        android:layout_alignParentBottom="true">
 
         <FrameLayout
-            android:id="@+id/auth_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone"
-            />
+            android:layout_gravity="bottom"
+            android:background="@color/flat_blue">
 
-    </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/auth_button_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <Button
+                    android:id="@+id/btn_signin_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/button_bg_selector"
+                    android:transitionName="@string/transition_button_to_bottom"
+                    android:text="@string/login"
+                    style="@style/CustomButton"/>
+
+                <Button
+                    android:id="@+id/btn_signup_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/register"
+                    android:background="@drawable/button_bg_selector"
+                    style="@style/CustomButton"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/auth_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
 </RelativeLayout>

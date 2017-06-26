@@ -8,8 +8,8 @@ import java.util.Map;
 
 import me.aribon.labywhere.backend.manager.ProfileManager;
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.preferences.AccountPreferences;
-import me.aribon.labywhere.backend.preferences.AuthPreferences;
+import me.aribon.labywhere.backend.provider.preferences.AccountPreferences;
+import me.aribon.labywhere.backend.provider.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.provider.network.AuthNetworkProvider;
 import me.aribon.labywhere.backend.provider.network.response.AuthResponse;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;

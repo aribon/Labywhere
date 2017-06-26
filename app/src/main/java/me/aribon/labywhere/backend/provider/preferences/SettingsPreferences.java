@@ -1,4 +1,4 @@
-package me.aribon.labywhere.backend.preferences;
+package me.aribon.labywhere.backend.provider.preferences;
 
 /**
  * Created on 19/05/2016

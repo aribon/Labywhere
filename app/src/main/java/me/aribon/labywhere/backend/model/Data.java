@@ -6,5 +6,5 @@ package me.aribon.labywhere.backend.model;
  */
 public interface Data {
 
-    abstract boolean isUpToDate();
+    boolean isUpToDate();
 }

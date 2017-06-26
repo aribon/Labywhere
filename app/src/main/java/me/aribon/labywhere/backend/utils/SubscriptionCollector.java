@@ -14,7 +14,7 @@ import rx.Subscription;
  */
 public class SubscriptionCollector {
 
-    private static final String TAG = SubscriptionManager.class.getSimpleName();
+    private static final String TAG = SubscriptionCollector.class.getSimpleName();
 
     private static SubscriptionCollector instance = new SubscriptionCollector();
 

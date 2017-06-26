@@ -7,7 +7,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
 import io.realm.Realm;
-import me.aribon.labywhere.backend.preferences.PreferencesManager;
+import me.aribon.labywhere.backend.provider.preferences.PreferencesManager;
 import me.aribon.labywhere.backend.utils.SubscriptionCollector;
 
 /**

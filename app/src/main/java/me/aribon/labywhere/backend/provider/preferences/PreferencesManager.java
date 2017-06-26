@@ -1,4 +1,4 @@
-package me.aribon.labywhere.backend.preferences;
+package me.aribon.labywhere.backend.provider.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;

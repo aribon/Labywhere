@@ -3,14 +3,15 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'realm-android'
 
 android {
-    signingConfigs {
-        debug {
+    /*signingConfigs {
+        dekeytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000bug {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
             storeFile file('/Users/aribon/.android/debug.keystore')
             storePassword 'android'
         }
-    }
+    }*/
+
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
@@ -27,7 +28,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            signingConfig signingConfigs.debug
+            //signingConfig signingConfigs.debug
         }
     }
 
@@ -49,7 +50,7 @@ dependencies {
 
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
-    compile 'com.google.android.gms:play-services-auth:9.8.0'
+    compile 'com.google.android.gms:play-services-auth:10.2.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.squareup.retrofit2:retrofit:2.0.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'

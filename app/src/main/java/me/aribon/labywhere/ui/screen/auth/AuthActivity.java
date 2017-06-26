@@ -3,6 +3,7 @@ package me.aribon.labywhere.ui.screen.auth;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 
@@ -23,8 +24,12 @@ public class AuthActivity extends AppBaseActivity<AuthPresenter> {
 
     private static final String TAG = AuthActivity.class.getSimpleName();
 
+    private static final boolean TRANSITION_WITH_ANIMATION = true;
+
     @Bind(R.id.auth_button_container) View authButtonContainer;
     @Bind(R.id.auth_fragment_container) View authFragmentContainer;
+    @Bind(R.id.btn_signin_login) View btnAuthLogin;
+    @Bind(R.id.btn_signup_login) View btnAuthRegister;
 
     private static AuthActivity activity;
 
@@ -53,6 +58,14 @@ public class AuthActivity extends AppBaseActivity<AuthPresenter> {
         activity = this;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (authFragmentContainer.getVisibility() == View.VISIBLE)
+            switchToAuthButtonContainer();
+        else
+            super.onBackPressed();
+    }
+
     @OnClick(R.id.btn_signin_login)
     public void signInClick() {
         switchToLoginFragment();
@@ -61,7 +74,7 @@ public class AuthActivity extends AppBaseActivity<AuthPresenter> {
 
     @OnClick(R.id.btn_signup_login)
     public void signUpClick() {
-        switchToRgisterFragment();
+        switchToRegisterFragment();
     }
 
     private void switchToLoginFragment() {
@@ -70,7 +83,7 @@ public class AuthActivity extends AppBaseActivity<AuthPresenter> {
         showFragmentContainer();
     }
 
-    private void switchToRgisterFragment() {
+    private void switchToRegisterFragment() {
         hideButtonContaine();
         showRegisterFragment();
         showFragmentContainer();
@@ -83,19 +96,40 @@ public class AuthActivity extends AppBaseActivity<AuthPresenter> {
     }
 
     private void showLoginFragment() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.auth_fragment_container, fragmentLogin)
-                .addToBackStack(null)
+        FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction();
+
+        if (TRANSITION_WITH_ANIMATION)
+            transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down);
+
+        if (hasAuthFragment())
+            transaction.replace(R.id.auth_fragment_container, fragmentLogin);
+        else
+            transaction.add(R.id.auth_fragment_container, fragmentLogin);
+
+        transaction.addToBackStack(null)
                 .commit();
     }
 
     private void showRegisterFragment() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.auth_fragment_container, fragmentRegister)
-                .addToBackStack(null)
+        FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction();
+
+        if (TRANSITION_WITH_ANIMATION)
+            transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_down);
+
+        if (hasAuthFragment())
+            transaction.replace(R.id.auth_fragment_container, fragmentRegister);
+        else
+            transaction.add(R.id.auth_fragment_container, fragmentRegister);
+
+        transaction.addToBackStack(null)
                 .commit();
+    }
+
+    private boolean hasAuthFragment() {
+        return getSupportFragmentManager() != null
+                && getSupportFragmentManager().findFragmentById(R.id.auth_fragment_container) != null;
     }
 
     private void removeAuthFragment() {
@@ -106,11 +140,17 @@ public class AuthActivity extends AppBaseActivity<AuthPresenter> {
     }
 
     private void showFragmentContainer() {
-        authFragmentContainer.setVisibility(View.VISIBLE);
+        if (TRANSITION_WITH_ANIMATION)
+            authFragmentContainer.animate().alpha(1.0f);
+        else
+            authFragmentContainer.setVisibility(View.VISIBLE);
     }
 
     private void hideFragmentContainer() {
-        authFragmentContainer.setVisibility(View.GONE);
+        if (TRANSITION_WITH_ANIMATION)
+            authFragmentContainer.animate().alpha(0.0f);
+        else
+            authFragmentContainer.setVisibility(View.GONE);
     }
 
     private void showButtonContainer() {
@@ -118,7 +158,7 @@ public class AuthActivity extends AppBaseActivity<AuthPresenter> {
     }
 
     private void hideButtonContaine() {
-        authButtonContainer.setVisibility(View.GONE);
+        authButtonContainer.setVisibility(View.INVISIBLE);
     }
 
     @Override
