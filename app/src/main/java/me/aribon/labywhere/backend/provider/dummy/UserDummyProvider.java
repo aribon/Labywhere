@@ -45,20 +45,22 @@ public class UserDummyProvider extends AbsDummyProvider<User> {
   }
 
   @Override
-  public Observable<User> get(String id) {
+  public Observable<User> get(int id) {
     User user = null;
 
     Gson gson = new Gson();
 
-    String rawContent = loadDummyUsersFromAsset(context);
+    String rawContent = loadDummyFromAsset(context);
     Type listType = new TypeToken<ArrayList<User>>(){}.getType();
     List<User> users = gson.fromJson(rawContent, listType);
 
     if (users != null) {
       for (int i = 0; i < users.size(); i++) {
         User tmpUser = users.get(i);
-        if (tmpUser != null && id == tmpUser.getId())
+        if (tmpUser != null && id == tmpUser.getId()) {
           user = tmpUser;
+          break;
+        }
       }
     }
 
@@ -70,7 +72,7 @@ public class UserDummyProvider extends AbsDummyProvider<User> {
 
     Gson gson = new Gson();
 
-    String rawContent = loadDummyUsersFromAsset(context);
+    String rawContent = loadDummyFromAsset(context);
     Type listType = new TypeToken<ArrayList<User>>(){}.getType();
     List<User> users = gson.fromJson(rawContent, listType);
 
@@ -87,19 +89,8 @@ public class UserDummyProvider extends AbsDummyProvider<User> {
 
   }
 
-  public String loadDummyUsersFromAsset(Context context) {
-    String json = null;
-    try {
-      InputStream is = context.getAssets().open("users.json");
-      int size = is.available();
-      byte[] buffer = new byte[size];
-      is.read(buffer);
-      is.close();
-      json = new String(buffer, "UTF-8");
-    } catch (IOException ex) {
-      ex.printStackTrace();
-      return null;
-    }
-    return json;
+  @Override
+  String getFileName() {
+    return "users.json";
   }
 }

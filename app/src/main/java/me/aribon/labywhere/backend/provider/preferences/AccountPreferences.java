@@ -12,6 +12,7 @@ import me.aribon.labywhere.backend.model.User;
  */
 public class AccountPreferences {
 
+    private static final String KEY_TOKEN = "users.token";
     private static final String KEY_ID = "users.id";
     private static final String KEY_TYPE = "users.type";
     private static final String KEY_EMAIL = "users.email";
@@ -26,6 +27,16 @@ public class AccountPreferences {
     private static final String KEY_PROFILE_BIRTHDATE = "users.profile.birthdate";
     private static final String KEY_PROFILE_CREATED_AT = "users.profile.created_at";
     private static final String KEY_PROFILE_CHANGED_AT = "users.profile.changed_at";
+
+    public static void setUserToken(String token) {
+        PreferencesManager.getInstance().getSharedPreferences().edit()
+            .putString(KEY_TOKEN, token)
+            .apply();
+    }
+
+    public static String getUserToken() {
+        return PreferencesManager.getInstance().getSharedPreferences().getString(KEY_TOKEN, null);
+    }
 
     public static void setUserId(int userId) {
         PreferencesManager.getInstance().getSharedPreferences().edit()

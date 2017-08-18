@@ -1,4 +1,4 @@
-package me.aribon.labywhere.ui.screen.auth.register;
+package me.aribon.labywhere.ui.screen.register;
 
 import android.content.Intent;
 import android.text.TextUtils;
@@ -17,7 +17,6 @@ import me.aribon.labywhere.backend.provider.network.AuthNetworkProvider;
 import me.aribon.labywhere.backend.provider.network.response.AuthResponse;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
 import me.aribon.labywhere.base.AppBasePresenter;
-import me.aribon.labywhere.ui.module.RegisterModule;
 import rx.Subscription;
 
 /**
@@ -25,7 +24,8 @@ import rx.Subscription;
  *
  * @author Anthony
  */
-public class AuthRegisterPresenter extends AppBasePresenter<AuthRegisterFragment> implements RegisterModule.Presenter {
+public class AuthRegisterPresenter extends AppBasePresenter<AuthRegisterFragment>
+    implements RegisterContract.Presenter {
 
     public static final String TAG = AuthRegisterPresenter.class.getSimpleName();
 
@@ -49,7 +49,6 @@ public class AuthRegisterPresenter extends AppBasePresenter<AuthRegisterFragment
         super.onResume();
     }
 
-    @Override
     public void checkRegister() {
 
         Log.d(TAG, "login");

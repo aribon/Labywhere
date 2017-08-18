@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
  */
 public class InteractorResponse<T> {
 
-    enum From {CACHE, DATABASE, NETWORK};
+    enum From {CACHE, DATABASE, NETWORK, DUMMY};
 
     T object;
     From from;
@@ -24,6 +24,10 @@ public class InteractorResponse<T> {
 
     public static <T> InteractorResponse<T> createNetworkResponse(@Nullable T object) {
         return new InteractorResponse<>(object, InteractorResponse.From.NETWORK);
+    }
+
+    public static <T> InteractorResponse<T> createDummyResponse(@Nullable T object) {
+        return new InteractorResponse<>(object, InteractorResponse.From.DUMMY);
     }
 
     private InteractorResponse() {

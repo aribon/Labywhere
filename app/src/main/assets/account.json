@@ -1,0 +1,20 @@
+{
+  "id": 42,
+  "type": 1,
+  "email": "bobby.lamalice@gmail.com",
+  "password": "denis",
+  "profile": {
+    "id": 42,
+    "firstname": "Bobby",
+    "lastname": "LaMalice",
+    "gender": "male",
+    "birthdate": "1993-03-12T02:34:00 -01:00",
+    "country": "France",
+    "city": "Paris",
+    "about": "Sit ad consequat cillum quis nisi anim in. Qui pariatur laboris et non. Elit dolore mollit dolore ipsum non veniam nulla culpa esse labore Lorem ut do ut. Labore ad culpa ut id est ut. Labore nisi culpa ex exercitation ullamco veniam duis.\r\n",
+    "createdAt": "2017-06-03T07:29:40 -02:00",
+    "changeAt": "2000-01-01T00:00:00 +01:00"
+  },
+  "createdAt": "2017-06-03T07:29:40 -02:00",
+  "changeAt": "2000-01-01T00:00:00 +01:00"
+}

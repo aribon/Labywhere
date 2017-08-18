@@ -58,7 +58,12 @@ public class UserDatabaseProvider extends AbsDatabaseProvider<User> {
 //                        realm.commitTransaction();
 
 //                        return Observable.just(userList);
-                        User user = new RealmRepository<User>(realmConfiguration).query(new UserByIdRealmSpecification(id)).get(0);
+                        User user = null;
+
+                        List <User> users = new RealmRepository<User>(realmConfiguration).query(new UserByIdRealmSpecification(id));
+                        if (users != null && users.size() > 0)
+                            user = users.get(0);
+
                         return Observable.just(user);
                     }
                 }

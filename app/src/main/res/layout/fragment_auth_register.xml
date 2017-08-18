@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/flat_blue"
-    tools:context="me.aribon.labywhere.ui.screen.auth.register.AuthRegisterFragment">
+    tools:context=".ui.screen.register.AuthRegisterFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

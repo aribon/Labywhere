@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/flat_blue"
-    tools:context="me.aribon.labywhere.ui.screen.auth.login.AuthLoginFragment">
+    tools:context=".ui.screen.login.LoginFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/auth_login_btn_login"
+        android:id="@+id/auth_login_valid_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/login"

@@ -7,6 +7,8 @@ import java.util.List;
 
 import me.aribon.labywhere.backend.model.Data;
 import rx.Observable;
+import rx.functions.Action0;
+import rx.functions.Action1;
 
 /**
  * Created by aribon
@@ -26,22 +28,57 @@ abstract class AbsInteractor<V> {
 
     public abstract void remove(int id);
 
+    //***********
+    //TRANSFORMER
+    //***********
     <T extends Data> Observable.Transformer<T, T> logSource(final String source) {
-        return new Observable.Transformer<T, T>() {
-            @Override
-            public Observable<T> call(Observable<T> observable) {
-                return observable.doOnNext(
-                        t -> {
-                            if (t == null) {
-                                Log.e(TAG, "logSource: " + source + " does not have any data.");
-                            } else if (!t.isUpToDate()) {
-                                Log.e(TAG, "logSource: " + source + " has stale data.");
-                            } else {
-                                Log.e(TAG, "logSource: " + source + " has the data you are looking for!");
-                            }
-                        });
+        return observable -> observable
+            .doOnNext(AbsInteractor.this.logSourceNextAction(source))
+            .doOnError(AbsInteractor.this.logSourceErrorAction(source));
+//            .doOnCompleted(AbsInteractor.this.logCompletedAction());
+    }
+
+    <T extends Data> Observable.Transformer<T, T> logCompleted() {
+        return observable -> observable.doOnCompleted(logCompletedAction());
+    }
+
+    <T extends Data> Observable.Transformer<T, T> logNext() {
+        return observable -> observable.doOnNext(logNextAction());
+    }
+
+    <T extends Data> Observable.Transformer<T, T> logError() {
+        return observable -> observable.doOnError(logErrorAction());
+    }
+
+    //******************
+    //TRANSFORMER ACTION
+    //******************
+    private Action0 logCompletedAction() {
+        return () -> Log.i(TAG, "Work was COMPLETED");
+    }
+
+    private <T extends Data> Action1<T> logNextAction() {
+        return t -> Log.i(TAG, "NEXT result was provided");
+    }
+
+    private Action1<Throwable> logErrorAction() {
+        return throwable -> Log.e(TAG, "Work generated ERROR");
+    }
+
+    private <T extends Data> Action1<T> logSourceNextAction(final String source) {
+        return t -> {
+            if (t == null) {
+                Log.i(TAG, source + " does not have any data.");
+            } else if (!t.isUpToDate()) {
+                Log.i(TAG, source + " has stale data.");
+            } else {
+                Log.i(TAG, source + " has the data you are looking for!");
             }
         };
+    }
+
+    private Action1<Throwable> logSourceErrorAction(final String source) {
+        return throwable -> Log.e(TAG , source + " generate an error -> " + throwable.getMessage());
     }
 
     <T extends Data> boolean ifStale(InteractorResponse<T> response) {

@@ -6,12 +6,11 @@ import java.util.List;
 
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.backend.provider.dummy.UserDummyProvider;
-import me.aribon.labywhere.backend.provider.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.provider.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.provider.cache.UserCacheProvider;
 import me.aribon.labywhere.backend.provider.database.UserDatabaseProvider;
 import me.aribon.labywhere.backend.provider.network.UserNetworkProvider;
-import me.aribon.labywhere.base.LabywhereApplication;
+import me.aribon.labywhere.LabywhereApplication;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -42,9 +41,9 @@ public class UserInteractor extends AbsInteractor<User> {
 
     @Override
     public Observable<InteractorResponse<User>> retrieve(int id) {
-        if (AccountPreferences.getAccount() == null) {
-            return Observable.error(new Exception("No Account logged, please log you and try again"));
-        }
+//        if (AccountPreferences.getAccount() == null) {
+//            return Observable.error(new Exception("No Account logged, please log you and try again"));
+//        }
 
         Observable<InteractorResponse<User>> cacheObservable = /*Observable.empty();*/
                 UserCacheProvider.getInstance().get(id)
@@ -59,7 +58,7 @@ public class UserInteractor extends AbsInteractor<User> {
                             }
                         );
 
-        Observable<InteractorResponse<User>> databaseObservable =
+        Observable<InteractorResponse<User>> databaseObservable = /*Observable.empty();*/
                 UserDatabaseProvider.getInstance().get(id)
                 .compose(logSource("DATABASE"))
                 .flatMap(
@@ -72,27 +71,43 @@ public class UserInteractor extends AbsInteractor<User> {
                 );
 
         Observable<InteractorResponse<User>> networkObservable =
-//                UserNetworkProvider.getInstance(AuthPreferences.getAuthToken()).get(id)
-      UserDummyProvider.getInstance(LabywhereApplication.getContext()).get(id)
-//                        .compose(logSource("NETWORK"))
-                        .compose(logSource("DUMMY"))
-                        .doOnNext((user) -> {
-                            if (user != null) {
-                                UserDatabaseProvider.getInstance().put(user);
-                                UserCacheProvider.getInstance().put(user);
-                            }
-                        })
-                        .flatMap(
-                                new Func1<User, Observable<InteractorResponse<User>>>() {
-                                    @Override
-                                    public Observable<InteractorResponse<User>> call(User user) {
-                                        return Observable.just(InteractorResponse.createNetworkResponse(user));
-                                    }
-                                }
-                        );
+          UserNetworkProvider.getInstance(AuthPreferences.getAuthToken()).get(id)
+              .compose(logSource("NETWORK"))
+              .doOnNext(user -> {
+                if (user != null) {
+                  UserDatabaseProvider.getInstance().put(user);
+                  UserCacheProvider.getInstance().put(user);
+                }
+              })
+              .flatMap(
+                      new Func1<User, Observable<InteractorResponse<User>>>() {
+                          @Override
+                          public Observable<InteractorResponse<User>> call(User user) {
+                              return Observable.just(InteractorResponse.createNetworkResponse(user));
+                          }
+                      }
+              );
+
+      Observable<InteractorResponse<User>> dummyObservable =
+          UserDummyProvider.getInstance(LabywhereApplication.getContext()).get(id)
+              .compose(logSource("DUMMY"))
+              .doOnNext(user -> {
+                if (user != null) {
+                  UserDatabaseProvider.getInstance().put(user);
+                  UserCacheProvider.getInstance().put(user);
+                }
+              })
+              .flatMap(
+                  new Func1<User, Observable<InteractorResponse<User>>>() {
+                    @Override
+                    public Observable<InteractorResponse<User>> call(User user) {
+                      return Observable.just(InteractorResponse.createDummyResponse(user));
+                    }
+                  }
+              );
 
         return Observable
-                .concat(cacheObservable, databaseObservable, networkObservable)
+                .concat(cacheObservable, databaseObservable, dummyObservable)
                 .takeFirst(UserInteractor.this::ifStale);
     }
 

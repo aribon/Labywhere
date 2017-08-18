@@ -19,6 +19,7 @@ public class User extends RealmObject implements Data {
     public final static String KEY_ID = "id";
     public final static String KEY_TYPE = "type";
     public final static String KEY_EMAIL = "email";
+    public final static String KEY_LOGIN = "login";
     public final static String KEY_PROFILE = "profile";
     public final static String KEY_CREATED_AT = "createdAt";
     public final static String KEY_CHANGED_AT = "changedAt";
@@ -28,6 +29,7 @@ public class User extends RealmObject implements Data {
     private int id;
     private int type;
     private String email;
+    private String login;
     private Profile profile;
     private String createdAt;
     private String changedAt;
@@ -46,15 +48,17 @@ public class User extends RealmObject implements Data {
      *
      * @param id
      * @param email
+     * @param login
      * @param createdAt
      * @param type
      * @param changedAt
      * @param profile
      */
-    public User(int id, int type, String email, Profile profile, String createdAt, String changedAt) {
+    public User(int id, int type, String email, String login, Profile profile, String createdAt, String changedAt) {
         this.id = id;
         this.type = type;
         this.email = email;
+        this.login = login;
         this.profile = profile;
         this.createdAt = createdAt;
         this.changedAt = changedAt;
@@ -66,7 +70,7 @@ public class User extends RealmObject implements Data {
      * @param user
      */
     public User(User user) {
-        this(user.id, user.type, user.email, user.profile, user.createdAt, user.changedAt);
+        this(user.id, user.type, user.email, user.getLogin(), user.profile, user.createdAt, user.changedAt);
     }
 
     /**
@@ -135,6 +139,29 @@ public class User extends RealmObject implements Data {
 
     public User withEmail(String email) {
         this.email = email;
+        return this;
+    }
+
+    /**
+     *
+     * @return
+     * The login
+     */
+    public String getLogin() {
+        return login;
+    }
+
+    /**
+     *
+     * @param login
+     * The login
+     */
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public User withLogin(String login) {
+        this.login = login;
         return this;
     }
 

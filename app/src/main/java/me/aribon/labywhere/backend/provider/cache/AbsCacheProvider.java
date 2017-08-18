@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.io.File;
 
-import me.aribon.labywhere.base.LabywhereApplication;
+import me.aribon.labywhere.LabywhereApplication;
 import me.aribon.labywhere.backend.model.Data;
 import me.aribon.labywhere.backend.provider.AbsStorage;
 import me.aribon.labywhere.utils.FileUtils;

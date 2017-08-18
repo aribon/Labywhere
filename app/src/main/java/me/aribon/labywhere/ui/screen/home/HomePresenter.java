@@ -1,7 +1,5 @@
 package me.aribon.labywhere.ui.screen.home;
 
-import android.util.Log;
-
 import me.aribon.labywhere.base.AppBasePresenter;
 import me.aribon.labywhere.backend.interactor.InteractorResponse;
 import me.aribon.labywhere.backend.interactor.UserInteractor;
@@ -31,25 +29,11 @@ public class HomePresenter extends AppBasePresenter<HomeActivity> {
                 UserInteractor.getInstance().retrieve(userIdThatIwant)
                         .observeOn(AndroidSchedulers.mainThread()),
                 new AutoPurgeSubscriber<InteractorResponse<User>>() {
-
-                    @Override
-                    public void onCompleted() {
-                        super.onCompleted();
-                        Log.d(TAG, "loadData -> onCompleted");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        Log.e(TAG, "loadData -> onError: " + e.getMessage());
-                    }
-
                     @Override
                     public void onNext(InteractorResponse<User> response) {
                         super.onNext(response);
                         if (response != null) {
                             User user = response.getObject();
-                            Log.i(TAG, "loadData -> onNext: " + user.toString());
                             getView().setResultText(user.toString());
                         }
                     }

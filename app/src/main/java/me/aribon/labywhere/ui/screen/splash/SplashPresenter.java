@@ -2,83 +2,100 @@ package me.aribon.labywhere.ui.screen.splash;
 
 import android.content.Intent;
 import android.os.Handler;
-
-import java.util.Map;
-
-import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.provider.preferences.AccountPreferences;
-import me.aribon.labywhere.backend.provider.preferences.AuthPreferences;
-import me.aribon.labywhere.backend.provider.network.AuthNetworkProvider;
-import me.aribon.labywhere.backend.provider.network.response.AuthResponse;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
-import me.aribon.labywhere.base.AppBasePresenter;
+import me.aribon.labywhere.business.interactor.AccountInteractor;
+import me.aribon.labywhere.ui.base.BaseActivity;
+import me.aribon.labywhere.ui.base.BasePresenter;
 import me.aribon.labywhere.ui.screen.auth.AuthActivity;
 import me.aribon.labywhere.ui.screen.home.HomeActivity;
+import me.aribon.labywhere.ui.screen.splash.SplashContract.View;
 
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
-public class SplashPresenter extends AppBasePresenter<SplashActivity> {
+public class SplashPresenter extends BasePresenter<SplashContract.View>
+    implements SplashContract.Presenter {
 
     public static final String TAG = SplashPresenter.class.getSimpleName();
 
     private static final int SPLASH_MIN_TIME_DISPLAY = 2000; //in milliseconds
 
+    private BaseActivity activity;
+
+    public SplashPresenter(BaseActivity activity, View view) {
+        super(view);
+        this.activity = activity;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        loadAccount();
-//        loadAccountIfPossible();
+        tryToLogin();
     }
 
-    public void prepareLogin() {
 
-    }
-
-    private void loadAccountIfPossible() {
-//        if (ProfileManager.getInstance().hasAccount()) {
-//            prepareLogin();
-//        } else {
-            startAuthActivityWithDelay();
-//        }
-    }
-
-    private void login(Map<String, String> credentials) {
+    public void tryToLogin() {
         subscribeTo(
-                AuthNetworkProvider.getInstance().login(credentials),
-                new AutoPurgeSubscriber<AuthResponse>() {
+            AccountInteractor.getInstance().checkToken(),
+            new AutoPurgeSubscriber<Boolean>() {
+                @Override
+                public void onNext(Boolean isValid) {
+                    super.onNext(isValid);
+                    if (isValid) {
+                        launchLogin();
+                    } else {
+                        navigateToAuth();
+                    }
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    super.onError(e);
+                    // TODO: 15/08/2017 show error and close app
+                }
+            }
+        );
+    }
+
+    private void launchLogin() {
+        subscribeTo(
+                AccountInteractor.getInstance().doLoginByToken(),
+                new AutoPurgeSubscriber<Boolean>() {
                     @Override
-                    public void onNext(AuthResponse authResponse) {
-                        if (authResponse.isError()) {
-                            //TODO set error
+                    public void onNext(Boolean success) {
+                        super.onNext(success);
+                        if (success) {
+                            launchRefreshDataService();
+                            navigateToHome();
                         } else {
-                            AuthPreferences.setAuthToken(authResponse.getToken()); //Save token in preference
-                            loadAccount(); //Load user data
+                            navigateToAuth();
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        // TODO: 15/08/2017 show error and navigate to Auth
+                        navigateToAuth();
                     }
                 }
         );
     }
 
-    private void loadAccount() {
-//        subscribeTo(
-//                ProfileManager.getInstance().loadAccount(),
-//                new AutoPurgeSubscriber<User>() {
-//                    @Override
-//                    public void onNext(User user) {
-//                        super.onNext(user);
-//                        Log.d(TAG, "onNext: Logged");
-//                        saveAccount(user);
-                        startHomeActivityWithDelay();
-//                    }
-//                }
-//        );
+    private void launchRefreshDataService() {
+        // TODO: 15/08/2017 call data refresh service
     }
 
-    private void saveAccount(User user) {
-        AccountPreferences.setAccount(user);
+    private void navigateToAuth() {
+        // TODO: 15/08/2017 call AuthRouter.start();
+        startAuthActivityWithDelay(); // TODO: 15/08/2017 remove this line
+    }
+
+    private void navigateToHome() {
+        // TODO: 15/08/2017 call HomeRouter.start();
+        startHomeActivityWithDelay(); // TODO: 15/08/2017 remove this line
     }
 
     private void startHomeActivityWithDelay() {
@@ -87,9 +104,9 @@ public class SplashPresenter extends AppBasePresenter<SplashActivity> {
     }
 
     private void startHomeActivity() {
-        Intent intent = new Intent(getView(), HomeActivity.class);
-        getView().startActivity(intent);
-        getView().finish();
+        Intent intent = new Intent(activity, HomeActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
     }
 
     private void startAuthActivityWithDelay() {
@@ -98,9 +115,9 @@ public class SplashPresenter extends AppBasePresenter<SplashActivity> {
     }
 
     private void startAuthActivity() {
-        Intent intent = new Intent(getView(), AuthActivity.class);
-        getView().startActivity(intent);
-        getView().finish();
+        Intent intent = new Intent(activity, AuthActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
     }
 
 }
