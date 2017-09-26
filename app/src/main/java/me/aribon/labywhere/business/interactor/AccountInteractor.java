@@ -1,6 +1,5 @@
 package me.aribon.labywhere.business.interactor;
 
-import android.support.annotation.NonNull;
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.backend.provider.dummy.AccountDummyProvider;
 import me.aribon.labywhere.backend.provider.preferences.AccountPreferences;
@@ -9,7 +8,6 @@ import me.aribon.labywhere.business.mapper.UserMapper;
 import me.aribon.labywhere.ui.model.UserParcelable;
 import me.aribon.labywhere.utils.exception.NoUserException;
 import rx.Observable;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 

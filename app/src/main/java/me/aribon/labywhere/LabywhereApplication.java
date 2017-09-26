@@ -9,13 +9,14 @@ import com.facebook.appevents.AppEventsLogger;
 import io.realm.Realm;
 import me.aribon.labywhere.backend.provider.preferences.PreferencesManager;
 import me.aribon.labywhere.backend.utils.SubscriptionCollector;
+import me.aribon.labywhere.ui.base.BaseApplication;
 
 /**
  * Created on 25/04/2016
  *
  * @author Anthony
  */
-public class LabywhereApplication extends Application {
+public class LabywhereApplication extends BaseApplication {
 
     private static Context context;
 

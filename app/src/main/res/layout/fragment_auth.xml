@@ -3,18 +3,14 @@
   android:orientation="vertical" android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
-    android:background="@color/flat_blue">
-
     <LinearLayout
       android:id="@+id/auth_button_container"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
-      android:padding="8dp">
+      android:layout_gravity="bottom"
+      android:padding="8dp"
+      android:background="@color/flat_blue">
 
       <Button
         android:id="@+id/auth_btn_login"
@@ -40,7 +36,5 @@
         style="@style/CustomButton"/>
 
     </LinearLayout>
-
-  </FrameLayout>
 
 </LinearLayout>

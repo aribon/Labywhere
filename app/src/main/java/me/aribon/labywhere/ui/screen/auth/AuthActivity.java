@@ -15,8 +15,7 @@ import me.aribon.labywhere.ui.base.BaseActivity;
  *
  * @author Anthony
  */
-public class AuthActivity extends BaseActivity
-    implements AuthContract.View {
+public class AuthActivity extends BaseActivity {
 
     private static final String TAG = AuthActivity.class.getSimpleName();
 

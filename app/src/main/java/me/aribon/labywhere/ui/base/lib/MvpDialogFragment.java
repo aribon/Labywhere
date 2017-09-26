@@ -1,20 +1,36 @@
 package me.aribon.labywhere.ui.base.lib;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 /**
  * Created by anthony.ribon
- * On 22/07/2017
+ * On 17/09/2017
  */
 
-public abstract class MvpFragment extends Fragment implements MvpView {
+public abstract class MvpDialogFragment extends DialogFragment implements MvpView {
+
+  MvpActivity activity;
+
+  @Override
+  public void onAttach(Context context) {
+    super.onAttach(context);
+    activity = (MvpActivity) context;
+  }
+
+  @Override
+  public void onDetach() {
+    activity = null;
+    super.onDetach();
+  }
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,22 +38,32 @@ public abstract class MvpFragment extends Fragment implements MvpView {
     initializePresenter();
   }
 
-  @Nullable
+  @NonNull
   @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
-    return inflater.inflate(getLayoutResource(), container, false);
-  }
+  public Dialog onCreateDialog(Bundle savedInstanceState) {
+    Dialog dialog;
+    if (getStyleResource() > 0) {
+      dialog = new Dialog(activity, getStyleResource());
+    } else {
+      dialog = new Dialog(activity);
+    }
 
-  @Override
-  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
+    final View view = activity.getLayoutInflater().inflate(getLayoutResource(), null);
+
+    dialog.setContentView(view);
+
+    addLayoutParams(dialog);
+
     findView(view);
     initializeData();
     initializeView();
+
+    return dialog;
   }
 
-  public abstract int getLayoutResource();
+  protected abstract int getLayoutResource();
+
+  protected abstract int getStyleResource();
 
   public void findView(View view) {
 
@@ -52,6 +78,10 @@ public abstract class MvpFragment extends Fragment implements MvpView {
   }
 
   public void initializeView() {
+
+  }
+
+  protected void addLayoutParams(Dialog dialog) {
 
   }
 
@@ -77,12 +107,12 @@ public abstract class MvpFragment extends Fragment implements MvpView {
 
   @Override
   public void showToastMessage(String message) {
-    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+
   }
 
   @Override
   public void showToastMessage(@StringRes int resId) {
-    Toast.makeText(getContext(), getString(resId), Toast.LENGTH_LONG).show();
+
   }
 
   @Override
