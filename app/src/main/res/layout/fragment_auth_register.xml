@@ -5,9 +5,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/flat_blue"
-    tools:context=".ui.screen.register.AuthRegisterFragment">
+    tools:context=".ui.screen.register.RegisterFragment">
 
     <LinearLayout
+        android:id="@+id/auth_register_form_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -57,7 +58,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/auth_register_btn_login"
+        android:id="@+id/auth_register_valid_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/register"

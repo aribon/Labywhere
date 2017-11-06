@@ -19,9 +19,8 @@
         android:layout_weight="0.5"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
-        android:background="@drawable/button_bg_selector"
-        android:transitionName="@string/transition_button_to_bottom"
         android:text="@string/login"
+        android:background="@drawable/button_bg_selector"
         style="@style/CustomButton"/>
 
       <Button

@@ -11,9 +11,6 @@ public interface LoginContact {
 
   interface View extends BaseMvpView {
 
-    String getEmailValue();
-    String getPasswordValue();
-
     void setEmailField(String email);
     void setPasswordField(String password);
 
@@ -23,6 +20,6 @@ public interface LoginContact {
 
   interface Presenter extends BaseMvpPresenter<View> {
 
-    void onValidateClick();
+    void onValidateClick(String email, String password);
   }
 }

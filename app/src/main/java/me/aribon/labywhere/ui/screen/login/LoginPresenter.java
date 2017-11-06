@@ -33,38 +33,40 @@ public class LoginPresenter extends BasePresenter<LoginContact.View>
   }
 
   @Override
-  public void onValidateClick() {
-    checkLogin();
+  public void onValidateClick(String email, String password) {
+    if (checkLogin(email, password)) {
+      //todo here login
+      getView().showToastMessage("Coming soon");
+    }
   }
 
-  private void checkLogin() {
+  private boolean checkLogin(String email, String password) {
 
     Log.d(TAG, "login");
 
     getView().showLoading();
 
-    String email = getView().getEmailValue();
-    String password = getView().getPasswordValue();
-
     if (TextUtils.isEmpty(email)) {
       //getView().setEmailError();
       getView().hideLoading();
       Log.e(TAG, "onNext: Email empty");
-      return;
+      return true;
     }
 
     if (TextUtils.isEmpty(password)) {
       //getView().setPasswordError();
       getView().hideLoading();
       Log.e(TAG, "onNext: Password empty");
-      return;
+      return true;
     }
 
-    UserParcelable userParcelable = new UserParcelable();
-    userParcelable.setEmail(email);
-    userParcelable.setPassword(password);
+//    UserParcelable userParcelable = new UserParcelable();
+//    userParcelable.setEmail(email);
+//    userParcelable.setPassword(password);
+//
+//    login(userParcelable);
 
-    login(userParcelable);
+    return false;
   }
 
   private void login(UserParcelable userParcelable) {

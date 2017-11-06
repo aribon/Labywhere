@@ -1,19 +1,13 @@
 package me.aribon.labywhere.ui.screen.auth;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.SharedElementCallback;
-import android.transition.Transition;
-import android.transition.Transition.TransitionListener;
-import android.transition.TransitionInflater;
 import android.view.View;
 import android.widget.Button;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import java.util.List;
 import me.aribon.labywhere.R;
 import me.aribon.labywhere.ui.base.BaseFragment;
+import me.aribon.labywhere.utils.ResUtils;
 
 /**
  * Created by anthony.ribon
@@ -21,14 +15,16 @@ import me.aribon.labywhere.ui.base.BaseFragment;
  */
 
 public class AuthFragment extends BaseFragment
-  implements AuthContract.View {
+    implements AuthContract.View {
 
   int AUTH_ALPHA_ANIMATION_TIME = 500;
 
   AuthContract.Presenter presenter;
 
-  @Bind(R.id.auth_btn_login) Button loginBtn;
-  @Bind(R.id.auth_btn_register) Button registerBtn;
+  @Bind(R.id.auth_btn_login)
+  Button loginBtn;
+  @Bind(R.id.auth_btn_register)
+  Button registerBtn;
 
   @Override
   public int getLayoutResource() {
@@ -55,12 +51,16 @@ public class AuthFragment extends BaseFragment
 
   @OnClick(R.id.auth_btn_login)
   public void onLoginClick(View view) {
+    loginBtn.setTransitionName(ResUtils.getString(R.string.transition_button_to_bottom));
+    registerBtn.setTransitionName(null);
     presenter.onLoginClick(view);
     hideButton(registerBtn, true);
   }
 
   @OnClick(R.id.auth_btn_register)
   public void onRegisterClick(View view) {
+    registerBtn.setTransitionName(ResUtils.getString(R.string.transition_button_to_bottom));
+    loginBtn.setTransitionName(null);
     presenter.onRegisterClick(view);
     hideButton(loginBtn, true);
   }

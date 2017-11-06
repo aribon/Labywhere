@@ -73,31 +73,15 @@ public class LoginFragment extends BaseFragment
   }
 
   @Override
-    public void findView(View view) {
-        super.findView(view);
-        ButterKnife.bind(this, view);
-    }
-
-  @Override
-  public void initializeView() {
-    super.initializeView();
-
+  public void findView(View view) {
+      super.findView(view);
+      ButterKnife.bind(this, view);
   }
 
   @Override
     public void initializePresenter() {
         super.initializePresenter();
         presenter = new LoginPresenter(getParentActivity(), this);
-    }
-
-    @Override
-    public String getEmailValue() {
-        return etLoginEmail.getText().toString();
-    }
-
-    @Override
-    public String getPasswordValue() {
-        return etLoginPassword.getText().toString();
     }
 
     @Override
@@ -122,7 +106,10 @@ public class LoginFragment extends BaseFragment
 
     @OnClick(R.id.auth_login_valid_btn)
     public void onValidateClick() {
-        presenter.onValidateClick();
+        presenter.onValidateClick(
+            etLoginEmail.getText().toString(),
+            etLoginPassword.getText().toString()
+        );
     }
 
     private void showForm(boolean withAnim) {

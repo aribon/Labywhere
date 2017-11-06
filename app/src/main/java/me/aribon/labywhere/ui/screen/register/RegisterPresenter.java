@@ -1,14 +1,10 @@
 package me.aribon.labywhere.ui.screen.register;
 
-import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import me.aribon.labywhere.backend.manager.FacebookManager;
-import me.aribon.labywhere.backend.manager.GoogleManager;
 import me.aribon.labywhere.backend.manager.ProfileManager;
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.backend.provider.preferences.AccountPreferences;
@@ -16,85 +12,60 @@ import me.aribon.labywhere.backend.provider.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.provider.network.AuthNetworkProvider;
 import me.aribon.labywhere.backend.provider.network.response.AuthResponse;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
-import me.aribon.labywhere.base.AppBasePresenter;
-import rx.Subscription;
+import me.aribon.labywhere.ui.base.BaseActivity;
+import me.aribon.labywhere.ui.base.BasePresenter;
+import me.aribon.labywhere.ui.screen.register.RegisterContract.View;
 
 /**
  * Created on 24/04/2016
  *
  * @author Anthony
  */
-public class AuthRegisterPresenter extends AppBasePresenter<AuthRegisterFragment>
+public class RegisterPresenter extends BasePresenter<RegisterContract.View>
     implements RegisterContract.Presenter {
 
-    public static final String TAG = AuthRegisterPresenter.class.getSimpleName();
+    public static final String TAG = RegisterPresenter.class.getSimpleName();
 
-    private Subscription subscription;
+    private BaseActivity activity;
 
-    private Map<String, String> credentials; //TODO ???????
-
-    GoogleManager googleManager;
-    FacebookManager facebookManager;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-//        googleManager = new GoogleManager(getView(), onGoogleManagerListenerAdapter);
-//        facebookManager = new FacebookManager(getView(), onFacebookManagerListenerAdapter);
+    public RegisterPresenter(BaseActivity activity,View mvpView) {
+        super(mvpView);
+        this.activity = activity;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    public void checkRegister() {
+    private boolean checkRegister(String email, String password, String firstname, String lastname) {
 
         Log.d(TAG, "login");
-
-        String email = getView().getEmail();
-        String password = getView().getPassword();
-        String firstname = getView().getFirstname();
-        String lastname = getView().getLastname();
 
         if (TextUtils.isEmpty(email)) {
             getView().setEmailError(""); //TODO
             Log.e(TAG, "onNext: email empty");
-            return;
+            return true;
         }
 
         if (TextUtils.isEmpty(password)) {
             getView().setPasswordError(""); //TODO
             Log.e(TAG, "onNext: password empty");
-            return;
+            return true;
         }
 
         if (TextUtils.isEmpty(firstname)) {
             getView().setFirstnameError(""); //TODO
             Log.e(TAG, "onNext: firstname empty");
-            return;
+            return true;
         }
 
         if (TextUtils.isEmpty(lastname)) {
             getView().setLastnameError(""); //TODO
             Log.e(TAG, "onNext: lastname empty");
-            return;
+            return true;
         }
 
-        credentials = new HashMap<>();
-        credentials.put("email", email);
-        credentials.put("password", password);
-
-        Map<String, String> body = new HashMap<>();
-        body.putAll(credentials);
-        body.put("firstname", firstname);
-        body.put("lastname", lastname);
-
-        register(body);
+        return false;
     }
 
     public void register(Map<String, String> body) {
+
         subscribeTo(
                 AuthNetworkProvider.getInstance().register(body),
                 new AutoPurgeSubscriber<AuthResponse>() {
@@ -104,7 +75,7 @@ public class AuthRegisterPresenter extends AppBasePresenter<AuthRegisterFragment
                         if (authResponse.isError()) {
                             //TODO set error
                         } else {
-                            login(credentials);
+                            //login(credentials);
                         }
                     }
                 }
@@ -127,14 +98,6 @@ public class AuthRegisterPresenter extends AppBasePresenter<AuthRegisterFragment
                     }
                 }
         );
-    }
-
-    public void facebookRegisterClick() {
-        facebookManager.login();
-    }
-
-    public void googleRegisterClick() {
-        googleManager.login();
     }
 
     private void loadAccount() {
@@ -169,58 +132,10 @@ public class AuthRegisterPresenter extends AppBasePresenter<AuthRegisterFragment
     }
 
     @Override
-    public void onDestroy() {
-        googleManager.logout();
-        facebookManager.logout();
-        super.onDestroy();
+    public void onValidateClick(String email, String password, String firstname, String lastname) {
+        if (checkRegister(email, password, firstname, lastname)) {
+            getView().showToastMessage("Coming soon !");
+            //todo register here !
+        }
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == GoogleManager.RC_SIGN_IN) {
-            googleManager.onActivityResult(requestCode, resultCode, data);
-        } else {
-            facebookManager.onActivityResult(requestCode, resultCode, data);
-        }
-
-    }
-
-    FacebookManager.OnFacebookManagerListenerAdapter onFacebookManagerListenerAdapter = new FacebookManager.OnFacebookManagerListenerAdapter() {
-        @Override
-        public void onFacebookLoginSuccess(FacebookManager.FacebookUser facebookUser) {
-            Log.d(TAG, "onSuccess: " + facebookUser.toString());
-        }
-    };
-
-    GoogleManager.OnGoogleManagerListenerAdapter onGoogleManagerListenerAdapter = new GoogleManager.OnGoogleManagerListenerAdapter() {
-        @Override
-        public void onGoogleLoginSuccess(GoogleManager.GoogleUser googleUser) {
-            Log.d(TAG, "onSuccess: " + googleUser.toString());
-        }
-
-        @Override
-        public void onGoogleLoginSuccess(String token, GoogleManager.GoogleUser googleUser) {
-            super.onGoogleLoginSuccess(token, googleUser);
-            Log.d(TAG, "onSuccess: " + "apiToken:" + token + ", user:" + googleUser.toString());
-        }
-
-        @Override
-        public void onGoogleLoginFailed(String message) {
-            super.onGoogleLoginFailed(message);
-            Log.e(TAG, "onGoogleLoginFailed: " + message);
-        }
-
-        @Override
-        public void onGoogleLoginFailed() {
-            super.onGoogleLoginFailed();
-            Log.e(TAG, "onGoogleLoginFailed");
-        }
-    };
 }
