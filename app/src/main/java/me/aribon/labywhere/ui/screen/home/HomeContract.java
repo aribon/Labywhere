@@ -12,7 +12,6 @@ public interface HomeContract {
 
   interface View extends BaseMvpView {
 
-    void showTestHomeDialogFragment();
   }
 
   interface Presenter extends BaseMvpPresenter<View> {

@@ -16,14 +16,14 @@ public abstract class MvpActivity extends AppCompatActivity implements MvpView {
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(getLayoutRessource());
+    setContentView(getLayoutResource());
     findView();
     initializePresenter();
     initializeData();
     initializeView();
   }
 
-  public abstract int getLayoutRessource();
+  public abstract int getLayoutResource();
 
   public void findView() {
 

@@ -60,11 +60,11 @@ public class LoginPresenter extends BasePresenter<LoginContact.View>
       return true;
     }
 
-//    UserParcelable userParcelable = new UserParcelable();
-//    userParcelable.setEmail(email);
-//    userParcelable.setPassword(password);
-//
-//    login(userParcelable);
+    UserParcelable userParcelable = new UserParcelable();
+    userParcelable.setEmail(email);
+    userParcelable.setPassword(password);
+
+    login(userParcelable);
 
     return false;
   }

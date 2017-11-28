@@ -43,7 +43,7 @@ public class AuthActivity extends BaseActivity {
     }
 
     @Override
-    public int getLayoutRessource() {
+    public int getLayoutResource() {
         return R.layout.activity_auth;
     }
 

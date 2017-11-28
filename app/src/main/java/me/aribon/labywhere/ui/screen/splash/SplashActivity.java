@@ -9,7 +9,7 @@ public class SplashActivity extends BaseActivity
     SplashContract.Presenter presenter;
 
     @Override
-    public int getLayoutRessource() {
+    public int getLayoutResource() {
         return R.layout.activity_splash;
     }
 

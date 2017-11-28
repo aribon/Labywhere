@@ -16,6 +16,6 @@ class HomePresenter extends BasePresenter<HomeContract.View>
   }
 
   public void startClick() {
-    getView().showTestHomeDialogFragment();
+    //getView().showTestHomeDialogFragment();
   }
 }
