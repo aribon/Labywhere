@@ -9,13 +9,13 @@ import me.aribon.labywhere.ui.screen.home.HomeContract.View;
  * @author Anthony
  */
 class HomePresenter extends BasePresenter<HomeContract.View>
-    implements HomeContract.Presenter {
+        implements HomeContract.Presenter {
 
-  public HomePresenter(View mvpView) {
-    super(mvpView);
-  }
+    public HomePresenter(View mvpView) {
+        super(mvpView);
+    }
 
-  public void startClick() {
-    //getView().showTestHomeDialogFragment();
-  }
+    public void startClick() {
+        //getView().showTestHomeDialogFragment();
+    }
 }

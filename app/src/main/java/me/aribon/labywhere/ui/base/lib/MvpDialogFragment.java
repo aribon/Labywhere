@@ -7,9 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 /**
  * Created by anthony.ribon
@@ -18,110 +16,110 @@ import android.view.ViewGroup;
 
 public abstract class MvpDialogFragment extends DialogFragment implements MvpView {
 
-  MvpActivity activity;
+    MvpActivity activity;
 
-  @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
-    activity = (MvpActivity) context;
-  }
-
-  @Override
-  public void onDetach() {
-    activity = null;
-    super.onDetach();
-  }
-
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    initializePresenter();
-  }
-
-  @NonNull
-  @Override
-  public Dialog onCreateDialog(Bundle savedInstanceState) {
-    Dialog dialog;
-    if (getStyleResource() > 0) {
-      dialog = new Dialog(activity, getStyleResource());
-    } else {
-      dialog = new Dialog(activity);
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (MvpActivity) context;
     }
 
-    final View view = activity.getLayoutInflater().inflate(getLayoutResource(), null);
+    @Override
+    public void onDetach() {
+        activity = null;
+        super.onDetach();
+    }
 
-    dialog.setContentView(view);
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initializePresenter();
+    }
 
-    addLayoutParams(dialog);
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog;
+        if (getStyleResource() > 0) {
+            dialog = new Dialog(activity, getStyleResource());
+        } else {
+            dialog = new Dialog(activity);
+        }
 
-    findView(view);
-    initializeData();
-    initializeView();
+        final View view = activity.getLayoutInflater().inflate(getLayoutResource(), null);
 
-    return dialog;
-  }
+        dialog.setContentView(view);
 
-  protected abstract int getLayoutResource();
+        addLayoutParams(dialog);
 
-  protected abstract int getStyleResource();
+        findView(view);
+        initializeData();
+        initializeView();
 
-  public void findView(View view) {
+        return dialog;
+    }
 
-  }
+    protected abstract int getLayoutResource();
 
-  public void initializePresenter() {
+    protected abstract int getStyleResource();
 
-  }
+    public void findView(View view) {
 
-  public void initializeData() {
+    }
 
-  }
+    public void initializePresenter() {
 
-  public void initializeView() {
+    }
 
-  }
+    public void initializeData() {
 
-  protected void addLayoutParams(Dialog dialog) {
+    }
 
-  }
+    public void initializeView() {
 
-  @Override
-  public void showLoading() {
+    }
 
-  }
+    protected void addLayoutParams(Dialog dialog) {
 
-  @Override
-  public void hideLoading() {
+    }
 
-  }
+    @Override
+    public void showLoading() {
 
-  @Override
-  public void showMessage(String message) {
+    }
 
-  }
+    @Override
+    public void hideLoading() {
 
-  @Override
-  public void showMessage(@StringRes int resId) {
+    }
 
-  }
+    @Override
+    public void showMessage(String message) {
 
-  @Override
-  public void showToastMessage(String message) {
+    }
 
-  }
+    @Override
+    public void showMessage(@StringRes int resId) {
 
-  @Override
-  public void showToastMessage(@StringRes int resId) {
+    }
 
-  }
+    @Override
+    public void showToastMessage(String message) {
 
-  @Override
-  public void showKeyboard() {
+    }
 
-  }
+    @Override
+    public void showToastMessage(@StringRes int resId) {
 
-  @Override
-  public void hideKeyboard() {
+    }
 
-  }
+    @Override
+    public void showKeyboard() {
+
+    }
+
+    @Override
+    public void hideKeyboard() {
+
+    }
 }

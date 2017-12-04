@@ -1,5 +1,7 @@
 package me.aribon.labywhere.ui.screen.profile;
 
+import android.support.annotation.NonNull;
+
 import me.aribon.labywhere.ui.base.BaseMvpPresenter;
 import me.aribon.labywhere.ui.base.BaseMvpView;
 
@@ -9,23 +11,22 @@ import me.aribon.labywhere.ui.base.BaseMvpView;
  */
 public interface ProfileContract {
 
-  interface View extends BaseMvpView {
+    interface View extends BaseMvpView {
 
-    // TODO: 13/08/2017 set[any_data]Field
-    // TODO: 13/08/2017 ...
-  }
+        void setUserNameField(@NonNull String userName);
 
-  interface Presenter extends BaseMvpPresenter {
+        void setUserInfoField(@NonNull String userInfos);
 
-    // TODO: 13/08/2017 check connectivity
+        void navigateToEditProfile();
+    }
 
-    // TODO: 13/08/2017 load user data
+    interface Presenter extends BaseMvpPresenter<View> {
 
-    // TODO: 13/08/2017 set fields with user data
+        void onEditProfileClick();
 
-    // TODO: 13/08/2017 onProfileEditClick
+        void onAccountParametersClick();
 
-    // TODO: 13/08/2017 on[any_settings]Click
+        void onAppOptionsClick();
 
-  }
+    }
 }

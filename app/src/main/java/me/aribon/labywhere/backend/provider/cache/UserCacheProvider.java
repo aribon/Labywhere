@@ -10,6 +10,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.utils.FileUtils;
 import rx.Observable;
@@ -44,7 +46,7 @@ public class UserCacheProvider extends AbsCacheProvider<User> {
     }
 
         @Override
-    public Observable<User> get(int id) {
+    public Single<User> get(int id) {
         if (isExpired()) {
             deleteAll();
             return Observable.empty();
@@ -71,7 +73,7 @@ public class UserCacheProvider extends AbsCacheProvider<User> {
     }
 
     @Override
-    public Observable<List<User>> getAll() {
+    public Flowable<List<User>> getAll() {
         if (isExpired()) {
             deleteAll();
             return Observable.empty();

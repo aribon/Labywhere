@@ -1,6 +1,7 @@
 package me.aribon.labywhere.ui.base;
 
 import android.content.Context;
+
 import me.aribon.labywhere.ui.base.lib.MvpFragment;
 
 /**
@@ -9,23 +10,23 @@ import me.aribon.labywhere.ui.base.lib.MvpFragment;
  */
 
 public abstract class BaseFragment extends MvpFragment
-    implements BaseMvpView {
+        implements BaseMvpView {
 
-  BaseActivity activity;
+    BaseActivity activity;
 
-  @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
-    activity = (BaseActivity) context;
-  }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        activity = (BaseActivity) context;
+    }
 
-  @Override
-  public void onDetach() {
-    activity = null;
-    super.onDetach();
-  }
+    @Override
+    public void onDetach() {
+        activity = null;
+        super.onDetach();
+    }
 
-  public BaseActivity getParentActivity() {
-    return activity;
-  }
+    public BaseActivity getParentActivity() {
+        return activity;
+    }
 }

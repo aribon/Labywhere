@@ -13,71 +13,71 @@ import android.widget.Toast;
 
 public abstract class MvpActivity extends AppCompatActivity implements MvpView {
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(getLayoutResource());
-    findView();
-    initializePresenter();
-    initializeData();
-    initializeView();
-  }
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(getLayoutResource());
+        findView();
+        initializePresenter();
+        initializeData();
+        initializeView();
+    }
 
-  public abstract int getLayoutResource();
+    public abstract int getLayoutResource();
 
-  public void findView() {
+    public void findView() {
 
-  }
+    }
 
-  public void initializePresenter() {
+    public void initializePresenter() {
 
-  }
+    }
 
-  public void initializeData() {
+    public void initializeData() {
 
-  }
+    }
 
-  public void initializeView() {
+    public void initializeView() {
 
-  }
+    }
 
-  @Override
-  public void showLoading() {
+    @Override
+    public void showLoading() {
 
-  }
+    }
 
-  @Override
-  public void hideLoading() {
+    @Override
+    public void hideLoading() {
 
-  }
+    }
 
-  @Override
-  public void showMessage(String message) {
+    @Override
+    public void showMessage(String message) {
 
-  }
+    }
 
-  @Override
-  public void showMessage(@StringRes int resId) {
+    @Override
+    public void showMessage(@StringRes int resId) {
 
-  }
+    }
 
-  @Override
-  public void showToastMessage(String message) {
-    Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-  }
+    @Override
+    public void showToastMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
 
-  @Override
-  public void showToastMessage(@StringRes int resId) {
-    Toast.makeText(this, getString(resId), Toast.LENGTH_LONG).show();
-  }
+    @Override
+    public void showToastMessage(@StringRes int resId) {
+        Toast.makeText(this, getString(resId), Toast.LENGTH_LONG).show();
+    }
 
-  @Override
-  public void showKeyboard() {
+    @Override
+    public void showKeyboard() {
 
-  }
+    }
 
-  @Override
-  public void hideKeyboard() {
+    @Override
+    public void hideKeyboard() {
 
-  }
+    }
 }

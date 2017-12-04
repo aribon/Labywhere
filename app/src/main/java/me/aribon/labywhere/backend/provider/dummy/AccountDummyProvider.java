@@ -3,10 +3,13 @@ package me.aribon.labywhere.backend.provider.dummy;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import com.google.gson.Gson;
+
 import java.util.List;
+
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.utils.exception.WrongCoupleLoginPassword;
-import rx.Observable;
 
 /**
  * Created by anthony.ribon
@@ -42,12 +45,12 @@ public class AccountDummyProvider extends AbsDummyProvider<User> {
   }
 
   @Override
-  public Observable<User> get(int id) {
+  public Single<User> get(int id) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public Observable<List<User>> getAll() {
+  public Flowable<List<User>> getAll() {
     throw new UnsupportedOperationException();
   }
 
@@ -61,16 +64,15 @@ public class AccountDummyProvider extends AbsDummyProvider<User> {
     throw new UnsupportedOperationException();
   }
 
-  public Observable<User> login(@NonNull String email, @NonNull String password) {
+  public Flowable<User> login(@NonNull String email, @NonNull String password) {
     if (email.equals(EMAIL) && password.equals(PASSWORD)) {
-      return Observable.defer(() -> {
+      return Flowable.defer(() -> {
         Gson gson = new Gson();
-        String rawContent = loadDummyFromAsset(context);
-        return Observable
-            .just(gson.fromJson(rawContent, User.class));
+        String rawContent = AccountDummyProvider.this.loadDummyFromAsset(context);
+        return Flowable.just(gson.fromJson(rawContent, User.class));
       });
     } else {
-      return Observable.error(new WrongCoupleLoginPassword());
+      return Flowable.error(new WrongCoupleLoginPassword());
     }
   }
 

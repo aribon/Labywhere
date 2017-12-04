@@ -11,62 +11,42 @@ import rx.Subscription;
  */
 
 public class BasePresenter<V extends BaseMvpView>
-    implements BaseMvpPresenter<V> {
+        implements BaseMvpPresenter<V> {
 
-  private V mvpView;
+    private V mvpView;
 
-  //fixme remove: view must attach from the view
-  public BasePresenter(V mvpView) {
-    onAttach(mvpView); //fixme call from View
-  }
+    //fixme remove: view must attach from the view
+    public BasePresenter(V mvpView) {
+        onAttach(mvpView); //fixme call from View
+    }
 
-  @Override
-  public V getView() {
-    return mvpView;
-  }
+    @Override
+    public V getView() {
+        return mvpView;
+    }
 
-  @Override
-  public void onAttach(V mvpView) {
-    this.mvpView = mvpView;
-  }
+    @Override
+    public void onAttach(V mvpView) {
+        this.mvpView = mvpView;
+    }
 
-  @Override
-  public void onDetach() {
-    mvpView = null;
-  }
+    @Override
+    public void onDetach() {
+        mvpView = null;
+    }
 
-  public <T> long subscribeTo(Observable<T> observable, Subscriber<T> subscriber) {
-    Subscription subscription = observable.subscribe(subscriber);
-    return SubscriptionCollector.getInstance().addSubscription(subscription);
-  }
+    public <T> long subscribeTo(Observable<T> observable, Subscriber<T> subscriber) {
+        Subscription subscription = observable.subscribe(subscriber);
+        return SubscriptionCollector.getInstance().addSubscription(subscription);
+    }
 
-  @Override
-  public void onCreate() {
+    @Override
+    public void onStart() {
 
-  }
+    }
 
-  @Override
-  public void onStart() {
+    @Override
+    public void onStop() {
 
-  }
-
-  @Override
-  public void onResume() {
-
-  }
-
-  @Override
-  public void onPause() {
-
-  }
-
-  @Override
-  public void onStop() {
-
-  }
-
-  @Override
-  public void onDestroy() {
-    onDetach();
-  }
+    }
 }

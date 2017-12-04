@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
 import butterknife.ButterKnife;
-
 import me.aribon.labywhere.R;
 import me.aribon.labywhere.ui.base.BaseActivity;
 
@@ -60,7 +59,7 @@ public class AuthActivity extends BaseActivity {
 
         AuthFragment authFragment = new AuthFragment();
         FragmentTransaction transaction = getSupportFragmentManager()
-            .beginTransaction();
+                .beginTransaction();
 
         transaction.add(R.id.auth_fragment_container, authFragment);
         transaction.addToBackStack(null);

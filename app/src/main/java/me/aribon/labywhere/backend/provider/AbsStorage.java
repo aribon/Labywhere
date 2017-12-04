@@ -4,7 +4,9 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+import me.aribon.labywhere.backend.model.User;
 
 /**
  * Created by aribon
@@ -14,9 +16,9 @@ public abstract class AbsStorage<V> {
 
     public abstract void post(@NonNull V value);
 
-    public abstract Observable<V> get(int id);
+    public abstract Single<User> get(int id);
 
-    public abstract Observable<List<V>> getAll();
+    public abstract Flowable<List<User>> getAll();
 
     public abstract void put(@NonNull V value);
 

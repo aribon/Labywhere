@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomEditText" parent="AppTheme.Base">
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColorHighlight">@color/secondary</item>
+        <item name="android:textColor">@color/text_primary_light</item>
+        <item name="android:textColorHint">@color/text_hint_light</item>
+        <item name="android:textSize">@dimen/edit_text_size</item>
+        <item name="android:background">@drawable/edit_bg_selector</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
+</resources>

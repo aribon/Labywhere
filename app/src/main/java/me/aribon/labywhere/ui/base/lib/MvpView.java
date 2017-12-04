@@ -9,27 +9,27 @@ import android.support.annotation.StringRes;
 
 public interface MvpView {
 
-  //Activity getViewActivity();
+    //Activity getViewActivity();
 
-  //P getPresenter();
+    //P getPresenter();
 
-  void showLoading();
+    void showLoading();
 
-  void hideLoading();
+    void hideLoading();
 
-  //void onError(@StringRes int resId);
+    //void onError(@StringRes int resId);
 
-  //void onError(String message);
+    //void onError(String message);
 
-  void showMessage(String message);
+    void showMessage(String message);
 
-  void showMessage(@StringRes int resId);
+    void showMessage(@StringRes int resId);
 
-  void showToastMessage(String message);
+    void showToastMessage(String message);
 
-  void showToastMessage(@StringRes int resId);
+    void showToastMessage(@StringRes int resId);
 
-  void showKeyboard();
+    void showKeyboard();
 
-  void hideKeyboard();
+    void hideKeyboard();
 }

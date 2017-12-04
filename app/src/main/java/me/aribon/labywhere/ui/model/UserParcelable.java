@@ -7,40 +7,40 @@ package me.aribon.labywhere.ui.model;
 
 public class UserParcelable {
 
-  private String email;
-  private String login;
-  private String password;
+    private String email;
+    private String login;
+    private String password;
 
-  public UserParcelable() {
-  }
+    public UserParcelable() {
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-  public String getLogin() {
-    return login;
-  }
+    public String getLogin() {
+        return login;
+    }
 
-  public void setLogin(String login) {
-    this.login = login;
-  }
+    public void setLogin(String login) {
+        this.login = login;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public boolean isEmpty() {
-    return email == null
-        && login == null
-        && password == null;
-  }
+    public boolean isEmpty() {
+        return email == null
+                && login == null
+                && password == null;
+    }
 }

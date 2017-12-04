@@ -7,16 +7,16 @@ package me.aribon.labywhere.ui.screen.friend;
 
 public interface FriendActionContract {
 
-  interface View {
+    interface View {
 
-  }
+    }
 
-  interface Presenter {
+    interface Presenter {
 
-    // TODO: 14/08/2017 send location request
+        // TODO: 14/08/2017 send location request
 
-    // TODO: 14/08/2017 send message
+        // TODO: 14/08/2017 send message
 
-    // TODO: 14/08/2017 delete friend
-  }
+        // TODO: 14/08/2017 delete friend
+    }
 }

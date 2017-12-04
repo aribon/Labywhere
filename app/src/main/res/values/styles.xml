@@ -8,30 +8,10 @@
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primary_dark</item>
         <item name="android:colorAccent">@color/secondary</item>
-        <item name="android:textColorPrimary">@color/text</item>
-        <item name="android:windowBackground">@color/third_dark</item>
+        <item name="android:textColorPrimary">@color/text_primary_light</item>
+        <item name="android:textColorSecondary">@color/text_secondary_light</item>
+        <item name="android:windowBackground">@color/white</item>
         <item name="android:windowContentTransitions">true</item>
-    </style>
-
-    <style name="CustomButton" parent="AppTheme.Base">
-        <item name="android:gravity">center</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:textSize">@dimen/button_text_size</item>
-        <item name="android:textColor">@color/button_text_selector</item>
-        <item name="android:background">@drawable/button_bg_selector</item>
-    </style>
-
-    <style name="CustomEditText" parent="AppTheme.Base">
-        <item name="android:padding">10dp</item>
-        <item name="android:layout_margin">5dp</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:textColorHighlight">@color/secondary</item>
-        <item name="android:textColor">@color/text</item>
-        <item name="android:textColorHint">@color/text_hint</item>
-        <item name="android:textSize">@dimen/edit_text_size</item>
-        <item name="android:background">@drawable/edit_bg_selector</item>
-        <item name="android:drawablePadding">10dp</item>
-        <item name="android:minHeight">48dp</item>
     </style>
 
 </resources>

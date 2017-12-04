@@ -7,13 +7,13 @@ package me.aribon.labywhere.ui.screen.friend;
 
 public interface FriendItemContract {
 
-  interface View {
+    interface View {
 
-    // TODO: 14/08/2017 show action dialog
-  }
+        // TODO: 14/08/2017 show action dialog
+    }
 
-  interface Presenter {
+    interface Presenter {
 
-    // TODO: 14/08/2017 on view click
-  }
+        // TODO: 14/08/2017 on view click
+    }
 }

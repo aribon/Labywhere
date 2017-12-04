@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 import io.realm.RealmConfiguration;
 import me.aribon.labywhere.backend.model.Profile;
 import me.aribon.labywhere.backend.model.User;
@@ -44,7 +46,7 @@ public class UserDatabaseProvider extends AbsDatabaseProvider<User> {
     }
 
     @Override
-    public Observable<User> get(int id) {
+    public Single<User> get(int id) {
 
         return Observable.defer(
                 new Func0<Observable<User>>() {
@@ -117,7 +119,7 @@ public class UserDatabaseProvider extends AbsDatabaseProvider<User> {
     }
 
     @Override
-    public Observable<List<User>> getAll() {
+    public Flowable<List<User>> getAll() {
 
         return Observable.defer(
                 new Func0<Observable<List<User>>>() {

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomTextView" parent="AppTheme.Base">
+        <item name="android:textSize">@dimen/text_size_subhead</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">@dimen/sizing_1</item>
+        <item name="android:paddingEnd">@dimen/sizing_1</item>
+    </style>
+
+    <style name="CustomTextView.Light" parent="CustomTextView">
+        <item name="android:textColor">@color/text_primary_light</item>
+    </style>
+
+    <style name="CustomTextView.Light.Title" parent="CustomTextView.Light">
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:paddingTop">@dimen/sizing_2</item>
+        <item name="android:paddingBottom">@dimen/sizing_1</item>
+    </style>
+
+    <style name="CustomTextView.Light.SubTitle" parent="CustomTextView.Light">
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+        <item name="android:textColor">@color/text_secondary_light</item>
+        <item name="android:paddingBottom">@dimen/sizing_1</item>
+    </style>
+
+    <style name="CustomTextView.Dark" parent="CustomTextView">
+        <item name="android:textColor">@color/text_primary_dark</item>
+    </style>
+
+    <style name="CustomTextView.Dark.Title" parent="CustomTextView.Dark">
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:paddingTop">@dimen/sizing_2</item>
+        <item name="android:paddingBottom">@dimen/sizing_1</item>
+    </style>
+
+    <style name="CustomTextView.Dark.SubTitle" parent="CustomTextView.Dark">
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+        <item name="android:textColor">@color/text_secondary_dark</item>
+        <item name="android:paddingBottom">@dimen/sizing_1</item>
+    </style>
+
+</resources>

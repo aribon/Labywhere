@@ -7,11 +7,11 @@ package me.aribon.labywhere.ui.screen.friend;
 
 public interface FriendDetailsContract {
 
-  interface View {
+    interface View {
 
-  }
+    }
 
-  interface Presenter {
+    interface Presenter {
 
-  }
+    }
 }

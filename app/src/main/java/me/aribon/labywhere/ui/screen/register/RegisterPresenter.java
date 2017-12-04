@@ -7,10 +7,10 @@ import java.util.Map;
 
 import me.aribon.labywhere.backend.manager.ProfileManager;
 import me.aribon.labywhere.backend.model.User;
-import me.aribon.labywhere.backend.provider.preferences.AccountPreferences;
-import me.aribon.labywhere.backend.provider.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.provider.network.AuthNetworkProvider;
 import me.aribon.labywhere.backend.provider.network.response.AuthResponse;
+import me.aribon.labywhere.backend.provider.preferences.AccountPreferences;
+import me.aribon.labywhere.backend.provider.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
 import me.aribon.labywhere.ui.base.BaseActivity;
 import me.aribon.labywhere.ui.base.BasePresenter;
@@ -22,13 +22,13 @@ import me.aribon.labywhere.ui.screen.register.RegisterContract.View;
  * @author Anthony
  */
 public class RegisterPresenter extends BasePresenter<RegisterContract.View>
-    implements RegisterContract.Presenter {
+        implements RegisterContract.Presenter {
 
     public static final String TAG = RegisterPresenter.class.getSimpleName();
 
     private BaseActivity activity;
 
-    public RegisterPresenter(BaseActivity activity,View mvpView) {
+    public RegisterPresenter(BaseActivity activity, View mvpView) {
         super(mvpView);
         this.activity = activity;
     }

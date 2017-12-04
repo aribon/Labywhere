@@ -14,30 +14,30 @@ import rx.android.schedulers.AndroidSchedulers;
  */
 
 class TestHomeDialogFragmentPresenter
-    extends BasePresenter<TestHomeDialogFragmentContract.View>
-    implements TestHomeDialogFragmentContract.Presenter {
+        extends BasePresenter<TestHomeDialogFragmentContract.View>
+        implements TestHomeDialogFragmentContract.Presenter {
 
-  public TestHomeDialogFragmentPresenter(View mvpView) {
-    super(mvpView);
-  }
+    public TestHomeDialogFragmentPresenter(View mvpView) {
+        super(mvpView);
+    }
 
-  public void loadData() {
+    public void loadData() {
 
-    int userIdThatIwant = 12;
+        int userIdThatIwant = 12;
 
-    subscribeTo(
-        UserInteractor.getInstance().retrieve(userIdThatIwant)
-            .observeOn(AndroidSchedulers.mainThread()),
-        new AutoPurgeSubscriber<InteractorResponse<User>>() {
-          @Override
-          public void onNext(InteractorResponse<User> response) {
-            super.onNext(response);
-            if (response != null) {
-              User user = response.getObject();
-              getView().showDataResult(user.toString());
-            }
-          }
-        }
-    );
-  }
+        subscribeTo(
+                UserInteractor.getInstance().retrieve(userIdThatIwant)
+                        .observeOn(AndroidSchedulers.mainThread()),
+                new AutoPurgeSubscriber<InteractorResponse<User>>() {
+                    @Override
+                    public void onNext(InteractorResponse<User> response) {
+                        super.onNext(response);
+                        if (response != null) {
+                            User user = response.getObject();
+                            getView().showDataResult(user.toString());
+                        }
+                    }
+                }
+        );
+    }
 }

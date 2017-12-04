@@ -1,6 +1,5 @@
 package me.aribon.labywhere.ui.base;
 
-import me.aribon.labywhere.ui.base.lib.AndroidLifecycle;
 import me.aribon.labywhere.ui.base.lib.MvpPresenter;
 import rx.Observable;
 import rx.Subscriber;
@@ -11,8 +10,7 @@ import rx.Subscriber;
  */
 
 public interface BaseMvpPresenter<V extends BaseMvpView>
-    extends MvpPresenter<V>, AndroidLifecycle {
+        extends MvpPresenter<V> {
 
-  <T> long subscribeTo(Observable<T> observable, Subscriber<T> subscriber);
-
+    <T> long subscribeTo(Observable<T> observable, Subscriber<T> subscriber);
 }

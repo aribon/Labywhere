@@ -4,6 +4,7 @@ import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.backend.provider.preferences.AccountPreferences;
 import me.aribon.labywhere.backend.provider.preferences.AuthPreferences;
 import me.aribon.labywhere.backend.provider.network.UserNetworkProvider;
+import me.aribon.labywhere.ui.model.UserParcelable;
 import rx.Observable;
 
 /**
@@ -15,6 +16,8 @@ public class ProfileManager {
     private static final String TAG = ProfileManager.class.getSimpleName();
 
     private static ProfileManager instance;
+
+    private UserParcelable userParcelable;
 
     public static ProfileManager getInstance() {
         if (instance == null)
@@ -29,6 +32,14 @@ public class ProfileManager {
     public Observable<User> loadAccount() {
         String token = AuthPreferences.getAuthToken();
         return UserNetworkProvider.getInstance(token).getAccount();
+    }
+
+    public void setUser(UserParcelable userParcelable) {
+        this.userParcelable = userParcelable;
+    }
+
+    public UserParcelable getUser() {
+        return userParcelable;
     }
 
     public boolean hasAccount() {

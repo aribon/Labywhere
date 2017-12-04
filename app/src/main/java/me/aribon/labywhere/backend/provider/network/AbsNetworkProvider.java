@@ -5,6 +5,9 @@ import android.util.Log;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
+import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.backend.provider.AbsStorage;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -12,7 +15,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
 
 /**
  * Created on 24/04/2016
@@ -68,12 +70,12 @@ public abstract class AbsNetworkProvider<V> extends AbsStorage<V> {
     }
 
     @Override
-    public Observable<V> get(int id) {
+    public Single<User> get(int id) {
         return null;
     }
 
     @Override
-    public Observable<List<V>> getAll() {
+    public Flowable<List<User>> getAll() {
         return null;
     }
 

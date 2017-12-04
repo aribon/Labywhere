@@ -9,17 +9,19 @@ import me.aribon.labywhere.ui.base.BaseMvpView;
  */
 public interface LoginContact {
 
-  interface View extends BaseMvpView {
+    interface View extends BaseMvpView {
 
-    void setEmailField(String email);
-    void setPasswordField(String password);
+        void setEmailField(String email);
 
-    void setEmailError(String msg);
-    void setPasswordError(String msg);
-  }
+        void setPasswordField(String password);
 
-  interface Presenter extends BaseMvpPresenter<View> {
+        void setEmailError(String msg);
 
-    void onValidateClick(String email, String password);
-  }
+        void setPasswordError(String msg);
+    }
+
+    interface Presenter extends BaseMvpPresenter<View> {
+
+        void onValidateClick(String email, String password);
+    }
 }

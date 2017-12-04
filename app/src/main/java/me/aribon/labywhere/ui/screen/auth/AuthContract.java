@@ -1,6 +1,5 @@
 package me.aribon.labywhere.ui.screen.auth;
 
-import android.view.View;
 import me.aribon.labywhere.ui.base.BaseMvpPresenter;
 import me.aribon.labywhere.ui.base.BaseMvpView;
 
@@ -11,21 +10,21 @@ import me.aribon.labywhere.ui.base.BaseMvpView;
 
 public interface AuthContract {
 
-  interface View extends BaseMvpView {
+    interface View extends BaseMvpView {
 
-    void showLoginButton(boolean withAnim);
+        void showLoginButton(boolean withAnim);
 
-    void showRegisterButton(boolean withAnim);
+        void showRegisterButton(boolean withAnim);
 
-    void hideLoginButton(boolean withAnim);
+        void hideLoginButton(boolean withAnim);
 
-    void hideRegisterButton(boolean withAnim);
-  }
+        void hideRegisterButton(boolean withAnim);
+    }
 
-  interface Presenter extends BaseMvpPresenter<View> {
+    interface Presenter extends BaseMvpPresenter<View> {
 
-    void onLoginClick(android.view.View view);
+        void onLoginClick(android.view.View view);
 
-    void onRegisterClick(android.view.View view);
-  }
+        void onRegisterClick(android.view.View view);
+    }
 }

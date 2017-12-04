@@ -1,12 +1,11 @@
 package me.aribon.labywhere.backend.provider.network;
 
-import android.content.Context;
 import android.util.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 import me.aribon.labywhere.backend.model.User;
 import me.aribon.labywhere.backend.provider.network.response.UserListResponse;
 import me.aribon.labywhere.backend.provider.network.response.UserResponse;
@@ -52,7 +51,7 @@ public class UserNetworkProvider extends AbsNetworkProvider<User> {
     }
 
     @Override
-    public Observable<User> get(int id) {
+    public Single<User> get(int id) {
         return createService(UserService.class, sToken).getUser(id)
                 .subscribeOn(Schedulers.io())
                 .flatMap(
@@ -66,7 +65,7 @@ public class UserNetworkProvider extends AbsNetworkProvider<User> {
     }
 
     @Override
-    public Observable<List<User>> getAll() {
+    public Flowable<List<User>> getAll() {
         return createService(UserService.class, sToken).getAllUsers()
                 .subscribeOn(Schedulers.io())
                 .flatMap(

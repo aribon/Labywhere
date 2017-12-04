@@ -2,6 +2,9 @@ package me.aribon.labywhere.ui.screen.splash;
 
 import android.content.Intent;
 import android.os.Handler;
+
+import io.reactivex.CompletableObserver;
+import io.reactivex.disposables.Disposable;
 import me.aribon.labywhere.backend.utils.AutoPurgeSubscriber;
 import me.aribon.labywhere.business.interactor.AccountInteractor;
 import me.aribon.labywhere.ui.base.BaseActivity;
@@ -16,7 +19,7 @@ import me.aribon.labywhere.ui.screen.splash.SplashContract.View;
  * @author Anthony
  */
 public class SplashPresenter extends BasePresenter<SplashContract.View>
-    implements SplashContract.Presenter {
+        implements SplashContract.Presenter {
 
     public static final String TAG = SplashPresenter.class.getSimpleName();
 
@@ -30,58 +33,55 @@ public class SplashPresenter extends BasePresenter<SplashContract.View>
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         tryToLogin();
     }
 
 
     public void tryToLogin() {
-        subscribeTo(
-            AccountInteractor.getInstance().checkToken(),
-            new AutoPurgeSubscriber<Boolean>() {
-                @Override
-                public void onNext(Boolean isValid) {
-                    super.onNext(isValid);
-                    if (isValid) {
-                        launchLogin();
-                    } else {
-                        navigateToAuth();
-                    }
-                }
+        AccountInteractor.getInstance()
+                .checkToken()
+                .subscribe(
+                        new CompletableObserver() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
 
-                @Override
-                public void onError(Throwable e) {
-                    super.onError(e);
-                    // TODO: 15/08/2017 show error and close app
-                }
-            }
-        );
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                launchLogin();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                navigateToAuth();
+                            }
+                        });
     }
 
     private void launchLogin() {
-        subscribeTo(
-                AccountInteractor.getInstance().doLoginByToken(),
-                new AutoPurgeSubscriber<Boolean>() {
-                    @Override
-                    public void onNext(Boolean success) {
-                        super.onNext(success);
-                        if (success) {
-                            launchRefreshDataService();
-                            navigateToHome();
-                        } else {
-                            navigateToAuth();
-                        }
-                    }
+        AccountInteractor.getInstance()
+                .doLoginByToken()
+                .subscribe(
+                        new CompletableObserver() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-                        // TODO: 15/08/2017 show error and navigate to Auth
-                        navigateToAuth();
-                    }
-                }
-        );
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                launchRefreshDataService();
+                                navigateToHome();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                navigateToAuth();
+                            }
+                        });
     }
 
     private void launchRefreshDataService() {

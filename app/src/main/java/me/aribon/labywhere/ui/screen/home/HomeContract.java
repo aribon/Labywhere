@@ -10,12 +10,12 @@ import me.aribon.labywhere.ui.base.BaseMvpView;
 
 public interface HomeContract {
 
-  interface View extends BaseMvpView {
+    interface View extends BaseMvpView {
 
-  }
+    }
 
-  interface Presenter extends BaseMvpPresenter<View> {
+    interface Presenter extends BaseMvpPresenter<View> {
 
-    void startClick();
-  }
+        void startClick();
+    }
 }

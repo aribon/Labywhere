@@ -7,9 +7,13 @@ package me.aribon.labywhere.ui.base.lib;
 
 public interface MvpPresenter<V extends MvpView> {
 
-  V getView();
+    V getView();
 
-  void onAttach(V mvpView);
+    void onAttach(V mvpView);
 
-  void onDetach();
+    void onDetach();
+
+    void onStart();
+
+    void onStop();
 }

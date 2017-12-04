@@ -10,13 +10,13 @@ import me.aribon.labywhere.ui.base.BaseMvpView;
 
 interface TestHomeDialogFragmentContract {
 
-  interface View extends BaseMvpView {
+    interface View extends BaseMvpView {
 
-    void showDataResult(String data);
-  }
+        void showDataResult(String data);
+    }
 
-  interface Presenter extends BaseMvpPresenter<View> {
+    interface Presenter extends BaseMvpPresenter<View> {
 
-    void loadData();
-  }
+        void loadData();
+    }
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomInputEdit" parent="AppTheme.Base">
+        <item name="colorControlActivated">@color/primary</item>
+    </style>
+
+    <style name="CustomInputEdit.Light" parent="CustomInputEdit">
+        <item name="colorControlNormal">@color/text_hint_light</item>
+    </style>
+
+    <style name="CustomInputEdit.Dark" parent="CustomInputEdit">
+        <item name="colorControlNormal">@color/text_hint_dark</item>
+    </style>
+
+    <style name="CustomInputHint" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/primary</item>
+    </style>
+
+    <style name="CustomInputError" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/flat_red</item>
+    </style>
+
+    <style name="CustomInputText" parent="AppTheme.Base">
+    </style>
+
+    <style name="CustomInputText.Light" parent="CustomInputText">
+        <item name="android:textColor">@color/text_primary_light</item>
+        <item name="android:textColorHint">@color/text_hint_light</item>
+    </style>
+
+    <style name="CustomInputText.Dark" parent="CustomInputText">
+        <item name="android:textColor">@color/text_primary_dark</item>
+        <item name="android:textColorHint">@color/text_hint_dark</item>
+    </style>
+
+</resources>

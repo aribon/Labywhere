@@ -2,7 +2,6 @@ package me.aribon.labywhere.ui.screen.home;
 
 import android.content.Intent;
 
-import me.aribon.labywhere.base.AppBaseActivity;
 import me.aribon.labywhere.ui.base.BaseActivity;
 import me.aribon.labywhere.ui.screen.auth.AuthActivity;
 

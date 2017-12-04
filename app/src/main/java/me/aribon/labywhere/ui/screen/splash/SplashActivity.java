@@ -4,7 +4,7 @@ import me.aribon.labywhere.R;
 import me.aribon.labywhere.ui.base.BaseActivity;
 
 public class SplashActivity extends BaseActivity
-    implements SplashContract.View {
+        implements SplashContract.View {
 
     SplashContract.Presenter presenter;
 
@@ -20,8 +20,8 @@ public class SplashActivity extends BaseActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.onResume();
+    protected void onStart() {
+        super.onStart();
+        presenter.onStart();
     }
 }

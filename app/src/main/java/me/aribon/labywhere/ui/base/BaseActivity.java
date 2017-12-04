@@ -8,6 +8,6 @@ import me.aribon.labywhere.ui.base.lib.MvpActivity;
  */
 
 public abstract class BaseActivity extends MvpActivity
-    implements BaseMvpView {
+        implements BaseMvpView {
 
 }

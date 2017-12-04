@@ -7,15 +7,15 @@ package me.aribon.labywhere.ui.base.lib;
 
 public interface AndroidLifecycle {
 
-  void onCreate();
+    void onCreate();
 
-  void onStart();
+    void onStart();
 
-  void onResume();
+    void onResume();
 
-  void onPause();
+    void onPause();
 
-  void onStop();
+    void onStop();
 
-  void onDestroy();
+    void onDestroy();
 }

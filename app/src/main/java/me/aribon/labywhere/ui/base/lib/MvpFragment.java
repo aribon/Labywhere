@@ -16,82 +16,82 @@ import android.widget.Toast;
 
 public abstract class MvpFragment extends Fragment implements MvpView {
 
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    initializePresenter();
-  }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initializePresenter();
+    }
 
-  @Nullable
-  @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
-    return inflater.inflate(getLayoutResource(), container, false);
-  }
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(getLayoutResource(), container, false);
+    }
 
-  @Override
-  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    findView(view);
-    initializeData();
-    initializeView();
-  }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        findView(view);
+        initializeData();
+        initializeView();
+    }
 
-  public abstract int getLayoutResource();
+    public abstract int getLayoutResource();
 
-  public void findView(View view) {
+    public void findView(View view) {
 
-  }
+    }
 
-  public void initializePresenter() {
+    public void initializePresenter() {
 
-  }
+    }
 
-  public void initializeData() {
+    public void initializeData() {
 
-  }
+    }
 
-  public void initializeView() {
+    public void initializeView() {
 
-  }
+    }
 
-  @Override
-  public void showLoading() {
+    @Override
+    public void showLoading() {
 
-  }
+    }
 
-  @Override
-  public void hideLoading() {
+    @Override
+    public void hideLoading() {
 
-  }
+    }
 
-  @Override
-  public void showMessage(String message) {
+    @Override
+    public void showMessage(String message) {
 
-  }
+    }
 
-  @Override
-  public void showMessage(@StringRes int resId) {
+    @Override
+    public void showMessage(@StringRes int resId) {
 
-  }
+    }
 
-  @Override
-  public void showToastMessage(String message) {
-    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-  }
+    @Override
+    public void showToastMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
 
-  @Override
-  public void showToastMessage(@StringRes int resId) {
-    Toast.makeText(getContext(), getString(resId), Toast.LENGTH_LONG).show();
-  }
+    @Override
+    public void showToastMessage(@StringRes int resId) {
+        Toast.makeText(getContext(), getString(resId), Toast.LENGTH_LONG).show();
+    }
 
-  @Override
-  public void showKeyboard() {
+    @Override
+    public void showKeyboard() {
 
-  }
+    }
 
-  @Override
-  public void hideKeyboard() {
+    @Override
+    public void hideKeyboard() {
 
-  }
+    }
 }

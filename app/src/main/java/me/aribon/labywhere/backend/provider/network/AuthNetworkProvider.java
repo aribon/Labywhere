@@ -2,10 +2,10 @@ package me.aribon.labywhere.backend.provider.network;
 
 import java.util.Map;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import me.aribon.labywhere.backend.provider.network.response.AuthResponse;
 import me.aribon.labywhere.backend.provider.network.service.AuthService;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
@@ -29,7 +29,7 @@ public class AuthNetworkProvider extends AbsNetworkProvider<AuthResponse> {
     private AuthNetworkProvider() {
     }
 
-    public Observable<AuthResponse> login(Map<String, String> credentials) {
+    /*public Observable<AuthResponse> login(Map<String, String> credentials) {
         return createService(AuthService.class).login(credentials)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -39,5 +39,5 @@ public class AuthNetworkProvider extends AbsNetworkProvider<AuthResponse> {
         return createService(AuthService.class).registration(body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-    }
+    }*/
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="generic_login">Login</string>
+    <string name="generic_register">Register</string>
+
+    <string name="generic_email">Email</string>
+    <string name="generic_password">Password</string>
+
+    <string name="generic_lastname">Lastname</string>
+    <string name="generic_firstname">Firstname</string>
+    <string name="generic_city">City</string>
+    <string name="generic_country">Country</string>
+
+    <string name="generic_ok">Ok</string>
+    <string name="generic_validate">Validate</string>
+</resources>

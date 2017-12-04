@@ -4,11 +4,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import java.io.IOException;
-import java.io.InputStream;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 import me.aribon.labywhere.backend.model.User;
 import rx.Observable;
 
@@ -45,7 +47,7 @@ public class UserDummyProvider extends AbsDummyProvider<User> {
   }
 
   @Override
-  public Observable<User> get(int id) {
+  public Single<User> get(int id) {
     User user = null;
 
     Gson gson = new Gson();
@@ -68,7 +70,7 @@ public class UserDummyProvider extends AbsDummyProvider<User> {
   }
 
   @Override
-  public Observable<List<User>> getAll() {
+  public Flowable<List<User>> getAll() {
 
     Gson gson = new Gson();
 
